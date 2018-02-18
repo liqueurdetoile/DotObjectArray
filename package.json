@@ -1,0 +1,76 @@
+{
+  "name": "ObjectArray",
+  "version": "1.0.0",
+  "description": "Implements array-like methods for Object with support to dotted notation keys",
+  "main": "dist/objectarray.js",
+  "scripts": {
+    "build": "webpack --env build",
+    "dev": "webpack --progress --colors --watch --env dev",
+    "test": "karma start --single-run --browsers PhantomJS",
+    "tests:dev": "karma start karma.dev.conf.js",
+    "tests:build": "karma start karma.build.conf.js",
+    "docs": "jsdoc ./src -c .jsdoc"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.1.2",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-preset-env": "^1.6.1",
+    "chai": "^4.1.2",
+    "clean-webpack-plugin": "^0.1.18",
+    "css-loader": "^0.28.9",
+    "docdash": "^0.4.0",
+    "eslint": "^4.18.0",
+    "eslint-loader": "^1.9.0",
+    "jsdoc": "^3.5.5",
+    "karma": "^2.0.0",
+    "karma-babel-preprocessor": "^7.0.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.1",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-mocha": "^1.3.0",
+    "karma-opera-launcher": "^1.0.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-safari-launcher": "^1.0.0",
+    "karma-webpack": "^2.0.9",
+    "mocha": "^4.1.0",
+    "phantomjs-prebuilt": "^2.1.16",
+    "postcss-cssnext": "^3.1.0",
+    "postcss-loader": "^2.1.0",
+    "postcss-reporter": "^5.0.0",
+    "style-loader": "^0.20.2",
+    "webpack": "^3.11.0",
+    "webpack-bundle-analyzer": "^2.10.0",
+    "yargs": "7.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liqueurdetoile/Elementify.git"
+  },
+  "keywords": [
+    "library",
+    "html",
+    "node",
+    "element",
+    "cross-browser",
+    "umd",
+    "commonjs",
+    "jquery"
+  ],
+  "author": "Liqueur de Toile",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/liqueurdetoile/Elementify/issues"
+  },
+  "homepage": "https://github.com/liqueurdetoile/Elementify",
+  "dependencies": {
+    "element-dataset": "^2.2.6",
+    "es6-promise": "^4.2.4",
+    "handjs": "^1.3.11",
+    "polyfill-function-prototype-bind": "0.0.1"
+  }
+}
