@@ -5,6 +5,34 @@
 
 # DotObjectArray, a.k.a. DOA a.k.a. ObjectArray
 
+- [Why DOA ?](#why-doa--)
+- [Features](#features)
+- [Install](#install)
+  * [NPM Module](#npm-module)
+  * [Browser](#browser)
+- [Usage](#usage)
+  * [Api details](#api-details)
+  * [Create an instance](#create-an-instance)
+  * [Data managemement](#data-managemement)
+    + [Raw data getter and setter](#raw-data-getter-and-setter)
+    + [Fetch dataset](#fetch-dataset)
+    + [Push data](#push-data)
+    + [Import data](#import-data)
+    + [Push and import in dataset](#push-and-import-in-dataset)
+    + [Delete dataset](#delete-dataset)
+  * [Utility methods](#utility-methods)
+    + [Check key existence](#check-key-existence)
+    + [get length of a dataset](#get-length-of-a-dataset)
+    + [Get array of keys or array of values of a dataset](#get-array-of-keys-or-array-of-values-of-a-dataset)
+  * [Iterations](#iterations)
+    + [forEach](#foreach)
+    + [reduce](#reduce)
+  * [Serializers](#serializers)
+    + [styleString](#stylestring)
+    + [urlEncode](#urlencode)
+    + [formUrlEncode](#formurlencode)
+- [Want to help ?](#want-to-help--)
+
 ## Why DOA ?
 For three reasons :
 - No support for associative arrays in vanilla JS
@@ -155,7 +183,7 @@ var doa = new ObjectArray({
 doa.has('dat.long.path'); // returns true
 doa.has('dat.short.path'); // returns false
 ```
-### get length of a dataset
+#### get length of a dataset
 Use the `length` method with the key of the dataset. Providing no key means to be the top-level of the data object.
 ```javascript
 var doa = new ObjectArray({
@@ -172,7 +200,7 @@ doa.length('data.long'); // returns 2 (two keys in the dataset : path and dream
 ```
 The method will return `undefined` if the key doesn't exist.
 
-### Get array of keys or array of values of a dataset
+#### Get array of keys or array of values of a dataset
 Use the `keys` or `values` method with the key of the dataset. Providing no key means to be the top-level of the data object.
 ```javascript
 var doa = new ObjectArray({
@@ -191,8 +219,8 @@ doa.values('dat.long'); // returns ['fixture1','fixture2']
 ```
 The methods will return `undefined` if the key doesn't exist.
 
-## Iterations
-### forEach
+### Iterations
+#### forEach
 The `forEach` method works exactly the same way than in the vanilla `array` object. The callback can take as much as three arguments quite self-explanatory. A forEach call can be done only on a dataset with a second parameter.
 ```javascript
 var doa = new ObjectArray({
@@ -212,14 +240,14 @@ doa.forEach(function(value, key, index) {
   console.log(value);
 }, 'dat.long'); // will output 'fixture1', 'fixture2'
 ```
-### [reduce](https://github.com/liqueurdetoile/DotObjectArray/blob/master/docs/api.md#ObjectArray..reduce)
+#### [reduce](https://github.com/liqueurdetoile/DotObjectArray/blob/master/docs/api.md#ObjectArray..reduce)
 The `reduce` method works exactly the same way than in the [vanilla `array` object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array/reduce) except that the key is provided to the callback function as a third parameter.
 
 As forEach, reduce can be easily run on a subset instead at top-level with providing the key of the subset as second parameter. [See API for details](https://github.com/liqueurdetoile/DotObjectArray/blob/master/docs/api.md)
 
-## Serializers
+### Serializers
 Embedded Serializers are provided for common cases. Each can be run on a dataset with providing the dotted key of the dataset as parameter.
-### [styleString](https://github.com/liqueurdetoile/DotObjectArray/blob/master/docs/api.md#ObjectArray..styleString)
+#### [styleString](https://github.com/liqueurdetoile/DotObjectArray/blob/master/docs/api.md#ObjectArray..styleString)
 styleString will convert the dataset to a string suitable to a `style` attribute
 ```javascript
 let doa = new ObjectArray({
@@ -229,7 +257,7 @@ let doa = new ObjectArray({
 
 doa.styleString(): // returns 'position:absolute;display:flex'
 ```
-### [urlEncode](https://github.com/liqueurdetoile/DotObjectArray/blob/master/docs/api.md#ObjectArray..urlEncode)
+#### [urlEncode](https://github.com/liqueurdetoile/DotObjectArray/blob/master/docs/api.md#ObjectArray..urlEncode)
 urlEncode will convert the dataset to a string suitable to a query part of an URI
 ```javascript
 let doa = new ObjectArray({
@@ -240,7 +268,7 @@ let doa = new ObjectArray({
 
 doa.urlEncode(): // returns 'input=test&glob=**%2F*&alias=test%20fixture'
 ```
-### [formUrlEncode](https://github.com/liqueurdetoile/DotObjectArray/blob/master/docs/api.md#ObjectArray..formUrlEncode)
+#### [formUrlEncode](https://github.com/liqueurdetoile/DotObjectArray/blob/master/docs/api.md#ObjectArray..formUrlEncode)
 formUrlEncode will convert the dataset to a string suitable for sending as a `form-url-encoded` data
 ```javascript
 let doa = new ObjectArray({
