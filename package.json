@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --config webpack.conf/build.js",
     "dev": "webpack --progress --colors --watch --config webpack.conf/dev.js",
-    "test": "karma start --single-run --browsers PhantomJS",
+    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS",
     "test:dev": "karma start",
     "docs": "jsdoc ./src -c .jsdoc && jsdoc2md ./src/*.js  > docs/api.md"
   },
