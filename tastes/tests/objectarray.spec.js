@@ -4,7 +4,6 @@ var expect = chai.expect;
 var should = chai.should();
 var assert = chai.assert;
 
-console.log(ObjectArray);
 describe('ObjectArray Class', function () {
   describe('ObjectArray Instance creation', function () {
     it('should create a void instance of ObjectArray', function () {
@@ -26,32 +25,32 @@ describe('ObjectArray Class', function () {
   });
 
   describe('ObjectArray getters', function () {
-    it('should returns correct length', function () {
+    it('should returns length', function () {
       let i = new ObjectArray();
 
-      i.length.should.equal(0);
+      i.length().should.equal(0);
       i.push('test', 'fixture');
-      i.length.should.equal(1);
+      i.length().should.equal(1);
       i.push('test2', 'fixture2');
-      i.length.should.equal(2);
+      i.length().should.equal(2);
     });
     it('should returns keys', function () {
       let i = new ObjectArray();
 
-      i.keys.should.eql([]);
+      i.keys().should.eql([]);
       i.push('test', 'fixture');
-      i.keys.should.eql(['test']);
+      i.keys().should.eql(['test']);
       i.push('test2', 'fixture2');
-      i.keys.should.eql(['test', 'test2']);
+      i.keys().should.eql(['test', 'test2']);
     });
     it('should returns values', function () {
       let i = new ObjectArray();
 
-      i.values.should.eql([]);
+      i.values().should.eql([]);
       i.push('test', 'fixture');
-      i.values.should.eql(['fixture']);
+      i.values().should.eql(['fixture']);
       i.push('test2', 'fixture2');
-      i.values.should.eql(['fixture', 'fixture2']);
+      i.values().should.eql(['fixture', 'fixture2']);
     });
   });
 
