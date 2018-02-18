@@ -30,3 +30,6 @@ node_modules
 .idea
 .vscode
 .editorconfig
+
+#dev output dir
+dev
