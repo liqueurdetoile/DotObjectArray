@@ -1,6 +1,45 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>index.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ObjectArray.html">ObjectArray</a><ul class='methods'><li data-type='method'><a href="ObjectArray.html#~dataset">dataset</a></li><li data-type='method'><a href="ObjectArray.html#~forEach">forEach</a></li><li data-type='method'><a href="ObjectArray.html#~formUrlEncode">formUrlEncode</a></li><li data-type='method'><a href="ObjectArray.html#~has">has</a></li><li data-type='method'><a href="ObjectArray.html#~import">import</a></li><li data-type='method'><a href="ObjectArray.html#~keys">keys</a></li><li data-type='method'><a href="ObjectArray.html#~length">length</a></li><li data-type='method'><a href="ObjectArray.html#~parentKey">parentKey</a></li><li data-type='method'><a href="ObjectArray.html#~push">push</a></li><li data-type='method'><a href="ObjectArray.html#~reduce">reduce</a></li><li data-type='method'><a href="ObjectArray.html#~remove">remove</a></li><li data-type='method'><a href="ObjectArray.html#~styleString">styleString</a></li><li data-type='method'><a href="ObjectArray.html#~urlEncode">urlEncode</a></li><li data-type='method'><a href="ObjectArray.html#~values">values</a></li></ul></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
 *  @file ObjectArray class declaration
-*  @author  Liqueur de Toile <contact@liqueurdetoile.com>
+*  @author  Liqueur de Toile &lt;contact@liqueurdetoile.com>
 *  @license Apache-2.0 {@link https://www.apache.org/licenses/LICENSE-2.0}
 *  @see [Github]{@link https://github.com/liqueurdetoile/objectarray}
 *  @see [Author website]{@link https://liqueurdetoile.com}
@@ -17,7 +56,7 @@
 *  @class ObjectArray
 *  @since 1.0.0
 *  @version 1.0.0
-*  @author Liqueur de Toile <contact@liqueurdetoile.com>
+*  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
 *  @license Apache-2.0 {@link https://www.apache.org/licenses/LICENSE-2.0}
 *  @see [Github]{@link https://github.com/liqueurdetoile/objectarray}
 *  @see [Author website]{@link https://liqueurdetoile.com}
@@ -50,7 +89,7 @@ class ObjectArray {
   *  @type  Object
   *  @since 1.0.0
   *  @version 1.0.0
-  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   */
   get data() {
     return this._data;
@@ -68,7 +107,7 @@ class ObjectArray {
   *  @method ObjectArray~length  
   *  @since 1.0.0
   *  @version 1.0.0
-  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *  
   *  @param {dottedKey} pKey  Parent key
   *  @returns  {Number} Length of the dataset
@@ -85,7 +124,7 @@ class ObjectArray {
   *  @method ObjectArray~keys  
   *  @since 1.0.0
   *  @version 1.0.0
-  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *  
   *  @param {dottedKey} pKey  Parent key
   *  @returns  {Number} Length of the dataset
@@ -105,7 +144,7 @@ class ObjectArray {
   *  @method ObjectArray~values  
   *  @since 1.0.0
   *  @version 1.0.0
-  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *  
   *  @param {dottedKey} pKey  Parent key
   *  @returns  {Number} Length of the dataset
@@ -124,7 +163,7 @@ class ObjectArray {
   *  @type Array
   *  @since 1.0.0
   *  @version 1.0.0
-  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  key Key
   *  @returns {Array} Array of ObjectArray values
@@ -133,7 +172,7 @@ class ObjectArray {
     let i, k, data = this.data;
 
     key = key.split('.');
-    for (i = 0; i < key.length; i++) {
+    for (i = 0; i &lt; key.length; i++) {
       k = key[i];
       /* istanbul ignore else  */
       if (typeof data[k] === 'undefined') return false;
@@ -150,7 +189,7 @@ class ObjectArray {
   *  @type Object
   *  @since 1.0.0
   *  @version 1.0.0
-  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  [key=null] Key
   *  @returns {Object} Data object
@@ -161,7 +200,7 @@ class ObjectArray {
     /* istanbul ignore else  */
     if (key !== undefined) {
       key = key.split('.');
-      for (i = 0; i < key.length; i++) {
+      for (i = 0; i &lt; key.length; i++) {
         k = key[i];
         /* istanbul ignore else  */
         if (typeof data[k] === 'undefined') return undefined;
@@ -178,7 +217,7 @@ class ObjectArray {
   *  @type Array
   *  @since 1.0.0
   *  @version 1.0.0
-  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  key Key
   *  @returns {String} Parent key
@@ -202,7 +241,7 @@ class ObjectArray {
   *  @method ObjectArray~push
   *  @since 1.0.0
   *  @version 1.0.0
-  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {dottedKey} key Key of the added item
   *  @param {Number|String|Array|Object} val Value of the added item
@@ -229,7 +268,7 @@ class ObjectArray {
   *  @method ObjectArray~remove
   *  @since 1.0.0
   *  @version 1.0.0
-  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {dottedKey} key Key of the added item
   *  @returns {ObjectArray} Return self for chaining
@@ -252,7 +291,7 @@ class ObjectArray {
   *  @method ObjectArray~import
   *  @since 1.0.0
   *  @version 1.0.0
-  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {Object} Data Object to import
   *  @param {dottedKey}  [pKey]  Dotted parent key to import into
@@ -269,7 +308,7 @@ class ObjectArray {
   *  @method ObjectArray~forEach
   *  @since 1.0.0
   *  @version 1.0.0
-  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {forEachCallback} cb Callback to be run
   *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
@@ -289,7 +328,7 @@ class ObjectArray {
   *  @method ObjectArray~reduce
   *  @since 1.0.0
   *  @version 1.0.0
-  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param   {Callback}  reducer   Callback to apply to each key/value (from left)
   *  @param   {Mixed}     [start]   Initial value for iteration
@@ -305,12 +344,12 @@ class ObjectArray {
   }
 
   /**
-  *  Returns a string suitable for a <tt>style</tt> attribute.
+  *  Returns a string suitable for a &lt;tt>style&lt;/tt> attribute.
   *
   *  @method ObjectArray~styleString
   *  @since 1.0.0
   *  @version 1.0.0
-  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
@@ -331,7 +370,7 @@ class ObjectArray {
   *  @method ObjectArray~urlEncode
   *  @since 1.0.0
   *  @version 1.0.0
-  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
@@ -339,7 +378,7 @@ class ObjectArray {
   */
   urlEncode(key) {
     let ret = this.reduce(function (str, value, key) {
-      str += key + '=' + encodeURIComponent(value) + '&';
+      str += key + '=' + encodeURIComponent(value) + '&amp;';
       return str;
     }, '', key);
 
@@ -347,12 +386,12 @@ class ObjectArray {
   }
 
   /**
-  *  Returns a string suitable for a <tt>form-url-encoded</tt> query string
+  *  Returns a string suitable for a &lt;tt>form-url-encoded&lt;/tt> query string
   *
   *  @method ObjectArray~formUrlEncode
   *  @since 1.0.0
   *  @version 1.0.0
-  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
@@ -373,7 +412,7 @@ export default ObjectArray;
 *  @description
 *  A dotted key is useful to quicly access sub-properties of
 *  the data stored into the ObjectArray as if it was still a
-*  vanilla <tt>Object</tt>.
+*  vanilla &lt;tt>Object&lt;/tt>.
 *  @example
 *  // Create an ObjectArray with subdata
 *  var oa = new ObjectArray({
@@ -389,3 +428,22 @@ export default ObjectArray;
 *  // 'set1.subset1.subsub2' will yield to 'baz'
 *  
 */
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 18 2018 14:53:30 GMT+0100 (Paris, Madrid) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
