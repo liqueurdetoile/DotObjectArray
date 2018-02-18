@@ -29,6 +29,9 @@ module.exports = merge(base, {
   
   plugins: [
     new CleanWebpackPlugin(['coverage'], {root: path.resolve('./')}),
-    new UglifyJsPlugin({ output: {comments: false}})
+    new UglifyJsPlugin({
+      sourceMap: false,
+      compress: false
+    })
   ]
 });

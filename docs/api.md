@@ -13,8 +13,8 @@
 
 <dl>
 <dt><a href="#dottedKey">dottedKey</a> : <code>String</code></dt>
-<dd><p>A dotted key is useful to quicly access sub-properties of
- the data stored into the ObjectArray as if it was still a
+<dd><p>A dotted key is useful to quickly access a subset of data
+ stored into the ObjectArray as if it was still a
  vanilla <tt>Object</tt>.</p>
 </dd>
 </dl>
@@ -37,7 +37,7 @@ The ObjectArray class implements array-like properties and methods to
 **Since**: 1.0.0  
 **Version**: 1.0.0  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
-**License**: Apache-2.0 [https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)  
+**License**: MIT [https://choosealicense.com/licenses/mit/](https://choosealicense.com/licenses/mit/)  
 
 * [ObjectArray](#ObjectArray)
     * [new ObjectArray(data)](#new_ObjectArray_new)
@@ -60,7 +60,7 @@ The ObjectArray class implements array-like properties and methods to
 <a name="new_ObjectArray_new"></a>
 
 ### new ObjectArray(data)
-The constructor is pretty simple. It can be provided with an existent object
+The constructor is straight-forward. It can be provided with an existent object
 
 **Returns**: [<code>ObjectArray</code>](#ObjectArray) - ObjectArray object  
 
@@ -302,8 +302,8 @@ Returns a string suitable for a <tt>form-url-encoded</tt> query string
 <a name="dottedKey"></a>
 
 ## dottedKey : <code>String</code>
-A dotted key is useful to quicly access sub-properties of
- the data stored into the ObjectArray as if it was still a
+A dotted key is useful to quickly access a subset of data
+ stored into the ObjectArray as if it was still a
  vanilla <tt>Object</tt>.
 
 **Kind**: global typedef  

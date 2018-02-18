@@ -1,5 +1,5 @@
 {
-  "name": "DotObjectArray",
+  "name": "dot-object-array",
   "version": "1.0.0",
   "description": "Implements array-like methods for Object with support for dot notation keys",
   "main": "dist/objectarray.min.js",
@@ -39,6 +39,7 @@
     "karma-webpack": "^2.0.9",
     "mocha": "^4.1.0",
     "phantomjs-prebuilt": "^2.1.16",
+    "semantic-release": "^12.4.1",
     "webpack": "^3.11.0",
     "webpack-bundle-analyzer": "^2.10.0",
     "webpack-merge": "^4.1.1"

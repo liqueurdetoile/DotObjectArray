@@ -1,7 +1,7 @@
 /**
 *  @file ObjectArray class declaration
 *  @author  Liqueur de Toile <contact@liqueurdetoile.com>
-*  @license Apache-2.0 {@link https://www.apache.org/licenses/LICENSE-2.0}
+*  @license MIT {@link https://choosealicense.com/licenses/mit/}
 *  @see [Github]{@link https://github.com/liqueurdetoile/objectarray}
 *  @see [Author website]{@link https://liqueurdetoile.com}
 */
@@ -18,7 +18,7 @@
 *  @since 1.0.0
 *  @version 1.0.0
 *  @author Liqueur de Toile <contact@liqueurdetoile.com>
-*  @license Apache-2.0 {@link https://www.apache.org/licenses/LICENSE-2.0}
+*  @license MIT {@link https://choosealicense.com/licenses/mit/}
 *  @see [Github]{@link https://github.com/liqueurdetoile/objectarray}
 *  @see [Author website]{@link https://liqueurdetoile.com}
 *
@@ -29,7 +29,7 @@
 *  The constructor is straight-forward. It can be provided with an existent object
 */
 
-class ObjectArray {
+export default class ObjectArray {
   constructor(data = {}) {
     /**
     *  The inner data object
@@ -365,14 +365,14 @@ class ObjectArray {
   }
 }
 
-export default ObjectArray;
+if(window) window.ObjectArray = ObjectArray;
 
 /**
 *  @typedef dottedKey
 *  @type String
 *  @description
-*  A dotted key is useful to quicly access sub-properties of
-*  the data stored into the ObjectArray as if it was still a
+*  A dotted key is useful to quickly access a subset of data
+*  stored into the ObjectArray as if it was still a
 *  vanilla <tt>Object</tt>.
 *  @example
 *  // Create an ObjectArray with subdata

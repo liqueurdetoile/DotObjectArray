@@ -1,9 +1,5 @@
 import ObjectArray from 'index';
 
-var expect = chai.expect;
-var should = chai.should();
-var assert = chai.assert;
-
 describe('ObjectArray Class', function () {
   describe('ObjectArray Instance creation', function () {
     it('should create a void instance of ObjectArray', function () {
@@ -24,7 +20,7 @@ describe('ObjectArray Class', function () {
     });
   });
 
-  describe('ObjectArray getters', function () {
+  describe('ObjectArray length, keys and values', function () {
     it('should returns length', function () {
       let i = new ObjectArray();
 
@@ -105,6 +101,45 @@ describe('ObjectArray Class', function () {
   });
 
   describe('Push and delete data', function () {
+    it('should get and set data', function() {
+      let i = new ObjectArray();
+      i.data = {test: 'fixture'};
+      i.data.test.should.equal('fixture');
+    });
+    it('should create all needed keys', function() {
+      let i = new ObjectArray();
+      i.push('dat.really.long.path', 'fixture')
+      i.data.should.eql({
+        dat: {
+          really: {
+            long: {
+              path: 'fixture'
+            }
+          } 
+        }
+      });
+    });
+    it('should create all needed keys', function() {
+      let i = new ObjectArray();
+      i.import({
+        'dat.really.long.path': 'fixture1',
+        'dat.really.long.dream': 'fixture2',
+        'dat.shorter.path': 'fixture3'
+      });      
+      i.data.should.eql({
+        dat: {
+          really: {
+            long: {
+              path: 'fixture1',
+              dream: 'fixture2'
+            }           
+          },
+          shorter: {
+            path: 'fixture3'
+          }
+        }
+      });
+    });    
     it('should push simple data', function () {
       let i = new ObjectArray();
 
