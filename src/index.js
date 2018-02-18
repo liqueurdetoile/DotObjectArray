@@ -26,7 +26,7 @@
 *
 *  @returns {ObjectArray} ObjectArray object
 *  @description
-*  The constructor is pretty simple. It can be provided with an existent object
+*  The constructor is straight-forward. It can be provided with an existent object
 */
 
 class ObjectArray {

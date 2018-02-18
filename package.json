@@ -1,7 +1,7 @@
 {
-  "name": "ObjectArray",
+  "name": "DotObjectArray",
   "version": "1.0.0",
-  "description": "Implements array-like methods for Object with support to dotted notation keys",
+  "description": "Implements array-like methods for Object with support for dot notation keys",
   "main": "dist/objectarray.min.js",
   "scripts": {
     "build": "webpack --config webpack.conf/build.js",
@@ -45,7 +45,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/liqueurdetoile/objectarray.git"
+    "url": "https://github.com/liqueurdetoile/dotobjectarray.git"
   },
   "keywords": [
     "library",
@@ -56,8 +56,8 @@
   "author": "Liqueur de Toile",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/liqueurdetoile/objectarray/issues"
+    "url": "https://github.com/liqueurdetoile/dotobjectarray/issues"
   },
-  "homepage": "https://github.com/liqueurdetoile/objectarray",
+  "homepage": "https://github.com/liqueurdetoile/dotobjectarray",
   "dependencies": {}
 }
