@@ -5,12 +5,9 @@
 *  @see [Github]{@link https://github.com/liqueurdetoile/objectarray}
 *  @see [Author website]{@link https://liqueurdetoile.com}
 */
-
 /**
 *  @classDesc
-*  The ObjectArray class implements array-like properties and methods to
-*  a key/value javascript object.
-*  
+*  The ObjectArray class implements array-like properties and methods to a key/value javascript object.*  
 *  It can be viewed as a kind of associative array in JS but it also
 *  supports dot notation keys.
 *
@@ -42,7 +39,7 @@ export default class ObjectArray {
     this._data = {};
     this.import(data);
   }
-  
+
   /**
   *  Getter/setter for the root data of ObjectArray.
   *
@@ -55,7 +52,7 @@ export default class ObjectArray {
   get data() {
     return this._data;
   }
-  
+
   set data(data) {
     this.import(data);
   }
@@ -65,15 +62,19 @@ export default class ObjectArray {
   *  If no parent key is provided, it will output the length of
   *  the root data object
   *
-  *  @method ObjectArray~length  
+  *  @method ObjectArray~length
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
-  *  
+  *
   *  @param {dottedKey} pKey  Parent key
-  *  @returns  {Number} Length of the dataset
+  *  @returns  {Number|undefined} Length of the dataset or undefined if key doesn't exist
   */
   length(pKey) {
+    let data = this.keys(pKey);
+
+    /* istanbul ignore else  */
+    if(!data) return undefined;
     return this.keys(pKey).length;
   }
 
@@ -82,18 +83,21 @@ export default class ObjectArray {
   *  If no parent key is provided, it will output the keys of
   *  the root data object
   *
-  *  @method ObjectArray~keys  
+  *  @method ObjectArray~keys
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
-  *  
+  *
   *  @param {dottedKey} pKey  Parent key
-  *  @returns  {Number} Length of the dataset
+  *  @returns  {Array|undefined} Array of keys for the dataset
+  *  or undefined if key doesn't exist
   */
   keys(pKey) {
-    let keys = [];
+    let keys = [], data = this.dataset(pKey);;
 
-    for (let key in this.dataset(pKey)) keys.push(key);
+    /* istanbul ignore else  */
+    if(!data) return undefined;
+    for (let key in data) keys.push(key);
     return keys;
   }
 
@@ -102,17 +106,20 @@ export default class ObjectArray {
   *  If no parent key is provided, it will output the keys of
   *  the root data object
   *
-  *  @method ObjectArray~values  
+  *  @method ObjectArray~values
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
-  *  
+  *
   *  @param {dottedKey} pKey  Parent key
-  *  @returns  {Number} Length of the dataset
+  *  @returns  {Array|undefined} Array of values for the dataset
+  *  or undefined if key doesn't exist
   */
   values(pKey) {
     let values = [], data = this.dataset(pKey);
 
+    /* istanbul ignore else  */
+    if(!data) return undefined;
     for (let key in data) values.push(data[key]);
     return values;
   }
@@ -127,7 +134,7 @@ export default class ObjectArray {
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  key Key
-  *  @returns {Array} Array of ObjectArray values
+  *  @returns {Boolean}  true if key exists, false otherwise
   */
   has(key) {
     let i, k, data = this.data;
@@ -153,7 +160,7 @@ export default class ObjectArray {
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  [key=null] Key
-  *  @returns {Object} Data object
+  *  @returns {Object|undefined} Data object or undefined if key doesn't exist
   */
   dataset(key) {
     let i, k, data = this.data;
@@ -170,7 +177,7 @@ export default class ObjectArray {
     }
     return data;
   }
-  
+
   /**
   *  Returns the parent key for a given key
   *
@@ -234,7 +241,7 @@ export default class ObjectArray {
   *  @param {dottedKey} key Key of the added item
   *  @returns {ObjectArray} Return self for chaining
   */
-  remove(key) {    
+  remove(key) {
     let pKey = this.parentKey(key);
     let data = this.dataset(pKey);
 
@@ -282,7 +289,7 @@ export default class ObjectArray {
 
     for (let key in data) cb.call(this, data[key], key, index++);
   }
-  
+
   /**
   *  Reduce the ObjectArray data given a callback
   *
@@ -387,5 +394,5 @@ if(window) window.ObjectArray = ObjectArray;
 *  });
 *  // 'set1.subset1' will yield to 'foo'
 *  // 'set1.subset1.subsub2' will yield to 'baz'
-*  
+*
 */

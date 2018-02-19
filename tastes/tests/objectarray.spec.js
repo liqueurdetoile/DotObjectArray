@@ -48,6 +48,23 @@ describe('ObjectArray Class', function () {
       i.push('test2', 'fixture2');
       i.values().should.eql(['fixture', 'fixture2']);
     });
+    it('should returns right keys and values for dotted object', function() {
+      var i = new ObjectArray({
+        dat: {
+          long: {
+            path: 'fixture1',
+            dream: 'fixture2'
+          }
+        }
+      });
+
+      i.keys().should.eql(['dat']);
+      i.values().should.eql([{long:{path:'fixture1', dream:'fixture2'}}]);
+      i.keys('dat.long').should.eql(['path','dream']);
+      i.values('dat.long').should.eql(['fixture1','fixture2']);
+      expect(i.keys('dat.short')).to.equal(undefined);
+      expect(i.values('dat.short')).to.equal(undefined);
+    });
   });
 
   describe('Has key, data fetch and parent data fetch', function () {
@@ -86,7 +103,7 @@ describe('ObjectArray Class', function () {
       expect(i.dataset('test3')).to.equal(undefined);
       expect(i.dataset('test2.test23')).to.equal(undefined);
     });
-    
+
     it('should find parent key', function () {
       let i = new ObjectArray({
         test: 'fixture',
@@ -115,7 +132,7 @@ describe('ObjectArray Class', function () {
             long: {
               path: 'fixture'
             }
-          } 
+          }
         }
       });
     });
@@ -125,7 +142,28 @@ describe('ObjectArray Class', function () {
         'dat.really.long.path': 'fixture1',
         'dat.really.long.dream': 'fixture2',
         'dat.shorter.path': 'fixture3'
-      });      
+      });
+      i.data.should.eql({
+        dat: {
+          really: {
+            long: {
+              path: 'fixture1',
+              dream: 'fixture2'
+            }
+          },
+          shorter: {
+            path: 'fixture3'
+          }
+        }
+      });
+    });
+    it('should create all needed keys', function() {
+      let i = new ObjectArray();
+      i.push('dat.really.long.path', 'fixture1');
+      i.push('dream', 'fixture2', 'dat.really.long');
+      i.import({
+        'shorter.path': 'fixture3'
+      }, 'dat');
       i.data.should.eql({
         dat: {
           really: {
@@ -139,7 +177,7 @@ describe('ObjectArray Class', function () {
           }
         }
       });
-    });    
+    });
     it('should push simple data', function () {
       let i = new ObjectArray();
 
