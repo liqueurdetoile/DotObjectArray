@@ -8,7 +8,7 @@
 
 /**
 *  @classDesc
-*  The ObjectArray class implements array-like properties and methods to a key/value javascript object.*  
+*  The ObjectArray class implements array-like properties and methods to a key/value javascript object.*
 *  It can be viewed as a kind of associative array in JS but it also
 *  supports dot notation keys.
 *
@@ -73,8 +73,8 @@ export default class ObjectArray {
   */
   length(pKey) {
     let data = this.keys(pKey);
-    
-    if(!data) return undefined;
+
+    if (!data) return undefined;
     return this.keys(pKey).length;
   }
 
@@ -94,8 +94,8 @@ export default class ObjectArray {
   */
   keys(pKey) {
     let keys = [], data = this.dataset(pKey);
-    
-    if(!data) return undefined;
+
+    if (!data) return undefined;
     for (let key in data) keys.push(key);
     return keys;
   }
@@ -116,8 +116,8 @@ export default class ObjectArray {
   */
   values(pKey) {
     let values = [], data = this.dataset(pKey);
-    
-    if(!data) return undefined;
+
+    if (!data) return undefined;
     for (let key in data) values.push(data[key]);
     return values;
   }
@@ -140,7 +140,7 @@ export default class ObjectArray {
     key = key.split('.');
     for (i = 0; i < key.length; i++) {
       k = key[i];
-      
+
       if (typeof data[k] === 'undefined') return false;
       data = data[k];
     }
@@ -162,12 +162,12 @@ export default class ObjectArray {
   */
   dataset(key) {
     let i, k, data = this.data;
-    
+
     if (key !== undefined) {
       key = key.split('.');
       for (i = 0; i < key.length; i++) {
         k = key[i];
-        
+
         if (typeof data[k] === 'undefined') return undefined;
         data = data[k];
       }
@@ -188,11 +188,11 @@ export default class ObjectArray {
   *  @returns {String} Parent key
   */
   parentKey(key) {
-    if(typeof key !== undefined) {
+    if (typeof key !== undefined) {
       key = key.split('.');
       key.pop();
-      
-      if(key.length) {
+
+      if (key.length) {
         key = key.join('.');
         return key;
       }
@@ -241,7 +241,7 @@ export default class ObjectArray {
     let pKey = this.parentKey(key);
     let data = this.dataset(pKey);
 
-    if(data) {
+    if (data) {
       key = key.replace(pKey + '.', '');
       delete data[key];
     }
@@ -367,7 +367,7 @@ export default class ObjectArray {
   }
 }
 
-if(window) window.ObjectArray = ObjectArray;
+if (window) window.ObjectArray = ObjectArray;
 
 /**
 *  @typedef dottedKey

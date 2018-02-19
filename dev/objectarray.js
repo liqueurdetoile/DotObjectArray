@@ -1,4 +1,14 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(typeof self !== 'undefined' ? self : this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -74,6 +84,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -81,24 +93,30 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
 *  @file ObjectArray class declaration
 *  @author  Liqueur de Toile <contact@liqueurdetoile.com>
-*  @license Apache-2.0 {@link https://www.apache.org/licenses/LICENSE-2.0}
+*  @license MIT {@link https://choosealicense.com/licenses/mit/}
+*  @see [Github]{@link https://github.com/liqueurdetoile/objectarray}
+*  @see [Author website]{@link https://liqueurdetoile.com}
 */
 
 /**
 *  @classDesc
-*  The ObjectArray class implements array-like properties and methods to
-*  a key/value javascript object.
-*  
-*  It can be viewed as a kind of associative array in JS.
+*  The ObjectArray class implements array-like properties and methods to a key/value javascript object.*
+*  It can be viewed as a kind of associative array in JS but it also
+*  supports dot notation keys.
 *
 *  @class ObjectArray
 *  @since 1.0.0
 *  @version 1.0.0
 *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+*  @license MIT {@link https://choosealicense.com/licenses/mit/}
+*  @see [Github]{@link https://github.com/liqueurdetoile/objectarray}
+*  @see [Author website]{@link https://liqueurdetoile.com}
 *
-*  @param   {Object}    data
+*  @param   {Object}    data  Initial data to push into the ObjectArray
 *
 *  @returns {ObjectArray} ObjectArray object
+*  @description
+*  The constructor is straight-forward. It can be provided with an existent object
 */
 
 var ObjectArray = function () {
@@ -120,21 +138,93 @@ var ObjectArray = function () {
   }
 
   /**
-  *  Returns length of the ObjectArray
+  *  Getter/setter for the root data of ObjectArray.
   *
-  *  @alias ObjectArray~length
-  *  @type  Number
+  *  @alias ObjectArray~data
+  *  @type  Object
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
-  *
-  *  @returns {Number} Length of the ObjectArray
   */
 
 
   _createClass(ObjectArray, [{
-    key: 'has',
+    key: 'length',
 
+
+    /**
+    *  Returns length of a given dataset in the ObjectArray
+    *  If no parent key is provided, it will output the length of
+    *  the root data object
+    *
+    *  @method ObjectArray~length
+    *  @since 1.0.0
+    *  @version 1.0.0
+    *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+    *
+    *  @param {dottedKey} pKey  Parent key
+    *  @returns  {Number|undefined} Length of the dataset or undefined if key doesn't exist
+    */
+    value: function length(pKey) {
+      var data = this.keys(pKey);
+
+      if (!data) return undefined;
+      return this.keys(pKey).length;
+    }
+
+    /**
+    *  Returns keys of a given dataset in the ObjectArray
+    *  If no parent key is provided, it will output the keys of
+    *  the root data object
+    *
+    *  @method ObjectArray~keys
+    *  @since 1.0.0
+    *  @version 1.0.0
+    *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+    *
+    *  @param {dottedKey} pKey  Parent key
+    *  @returns  {Array|undefined} Array of keys for the dataset
+    *  or undefined if key doesn't exist
+    */
+
+  }, {
+    key: 'keys',
+    value: function keys(pKey) {
+      var keys = [],
+          data = this.dataset(pKey);
+
+      if (!data) return undefined;
+      for (var key in data) {
+        keys.push(key);
+      }return keys;
+    }
+
+    /**
+    *  Returns values of a given dataset in the ObjectArray
+    *  If no parent key is provided, it will output the keys of
+    *  the root data object
+    *
+    *  @method ObjectArray~values
+    *  @since 1.0.0
+    *  @version 1.0.0
+    *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+    *
+    *  @param {dottedKey} pKey  Parent key
+    *  @returns  {Array|undefined} Array of values for the dataset
+    *  or undefined if key doesn't exist
+    */
+
+  }, {
+    key: 'values',
+    value: function values(pKey) {
+      var values = [],
+          data = this.dataset(pKey);
+
+      if (!data) return undefined;
+      for (var key in data) {
+        values.push(data[key]);
+      }return values;
+    }
 
     /**
     *  Check if a given key exists in the ObjectArray
@@ -145,17 +235,21 @@ var ObjectArray = function () {
     *  @version 1.0.0
     *  @author Liqueur de Toile <contact@liqueurdetoile.com>
     *
-    *  @param {String}  key Key
-    *  @returns {Array} Array of ObjectArray values
+    *  @param {dottedKey}  key Key
+    *  @returns {Boolean}  true if key exists, false otherwise
     */
+
+  }, {
+    key: 'has',
     value: function has(key) {
       var i = void 0,
           k = void 0,
-          data = this._data;
+          data = this.data;
 
       key = key.split('.');
       for (i = 0; i < key.length; i++) {
         k = key[i];
+
         if (typeof data[k] === 'undefined') return false;
         data = data[k];
       }
@@ -166,29 +260,28 @@ var ObjectArray = function () {
     *  Returns dataset for the key. If no key is provided,
     *  the whole data is returned
     *
-    *  @alias ObjectArray~data
-    *  @type Array
+    *  @alias ObjectArray~dataset
+    *  @type Object
     *  @since 1.0.0
     *  @version 1.0.0
     *  @author Liqueur de Toile <contact@liqueurdetoile.com>
     *
-    *  @param {String}  [key=null] Key
-    *  @returns {Array} Array of ObjectArray values
+    *  @param {dottedKey}  [key=null] Key
+    *  @returns {Object|undefined} Data object or undefined if key doesn't exist
     */
 
   }, {
-    key: 'data',
-    value: function data() {
-      var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
+    key: 'dataset',
+    value: function dataset(key) {
       var i = void 0,
           k = void 0,
-          data = this._data;
+          data = this.data;
 
-      if (key !== null) {
+      if (key !== undefined) {
         key = key.split('.');
         for (i = 0; i < key.length; i++) {
           k = key[i];
+
           if (typeof data[k] === 'undefined') return undefined;
           data = data[k];
         }
@@ -197,56 +290,60 @@ var ObjectArray = function () {
     }
 
     /**
-    *  Runs a callback on each ObjectArray entry
+    *  Returns the parent key for a given key
     *
-    *  @method ObjectArray~forEach
+    *  @alias ObjectArray~parentKey
+    *  @type Array
     *  @since 1.0.0
     *  @version 1.0.0
     *  @author Liqueur de Toile <contact@liqueurdetoile.com>
     *
-    *  @param {forEachCallback} cb Callback to be run
-    *  @param {String}  [key=null]  Dotted key to limit iterations through its subset
-    *  @returns {void}
+    *  @param {dottedKey}  key Key
+    *  @returns {String} Parent key
     */
 
   }, {
-    key: 'forEach',
-    value: function forEach(cb) {
-      var key = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    key: 'parentKey',
+    value: function parentKey(key) {
+      if ((typeof key === 'undefined' ? 'undefined' : _typeof(key)) !== undefined) {
+        key = key.split('.');
+        key.pop();
 
-      var data = this.data(key);
-      var index = 0;
-
-      for (var _key in data) {
-        cb.call(this, data[_key], _key, index++);
+        if (key.length) {
+          key = key.join('.');
+          return key;
+        }
       }
+      return undefined;
     }
 
     /**
-    *  Push a new key/value pair at the end of the ObjectArray
+    *  Push a new key/value pair
     *
     *  @method ObjectArray~push
     *  @since 1.0.0
     *  @version 1.0.0
     *  @author Liqueur de Toile <contact@liqueurdetoile.com>
     *
-    *  @param {String} key Key of the added item
+    *  @param {dottedKey} key Key of the added item
     *  @param {Number|String|Array|Object} val Value of the added item
+    *  @param {dottedKey}  [pKey]  Parent key to push into
     *  @returns {ObjectArray} Return self for chaining
     */
 
   }, {
     key: 'push',
-    value: function push(key, val) {
-      var path = this._data;
+    value: function push(key, val, pKey) {
+      var k = void 0,
+          data = this.dataset(pKey);
 
       key = key.split('.');
+      k = key.pop();
       key.forEach(function (k, i) {
-        if (i < key.length - 1) {
-          if (!path[k]) path[k] = {};
-          path = path[k];
-        } else path[k] = val;
+        if (typeof data[k] === 'undefined') data[k] = {};
+        data = data[k];
       });
+      data[k] = val;
       return this;
     }
 
@@ -258,22 +355,20 @@ var ObjectArray = function () {
     *  @version 1.0.0
     *  @author Liqueur de Toile <contact@liqueurdetoile.com>
     *
-    *  @param {String} key Key of the added item
+    *  @param {dottedKey} key Key of the added item
     *  @returns {ObjectArray} Return self for chaining
     */
 
   }, {
     key: 'remove',
     value: function remove(key) {
-      var path = this._data;
+      var pKey = this.parentKey(key);
+      var data = this.dataset(pKey);
 
-      key = key.split('.');
-      key.forEach(function (k, i) {
-        if (i < key.length - 1) {
-          if (!path[k]) path[k] = {};
-          path = path[k];
-        } else delete path[k];
-      });
+      if (data) {
+        key = key.replace(pKey + '.', '');
+        delete data[key];
+      }
       return this;
     }
 
@@ -286,15 +381,41 @@ var ObjectArray = function () {
     *  @author Liqueur de Toile <contact@liqueurdetoile.com>
     *
     *  @param {Object} Data Object to import
+    *  @param {dottedKey}  [pKey]  Dotted parent key to import into
     *  @returns {ObjectArray} Return self for chaining
     */
 
   }, {
     key: 'import',
-    value: function _import(data) {
+    value: function _import(data, pKey) {
       for (var key in data) {
-        this.push(key, data[key]);
+        this.push(key, data[key], pKey);
       }return this;
+    }
+
+    /**
+    *  Runs a callback on each ObjectArray entry
+    *
+    *  @method ObjectArray~forEach
+    *  @since 1.0.0
+    *  @version 1.0.0
+    *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+    *
+    *  @param {forEachCallback} cb Callback to be run
+    *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
+    *  if empty, the global data object will be used
+    *  @returns {void}
+    */
+
+  }, {
+    key: 'forEach',
+    value: function forEach(cb, key) {
+      var data = this.dataset(key);
+      var index = 0;
+
+      for (var _key in data) {
+        cb.call(this, data[_key], _key, index++);
+      }
     }
 
     /**
@@ -307,17 +428,19 @@ var ObjectArray = function () {
     *
     *  @param   {Callback}  reducer   Callback to apply to each key/value (from left)
     *  @param   {Mixed}     [start]   Initial value for iteration
+    *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
+    *  if empty, the global data object will be used
     *  @returns {Mixed}               Callback returns value
     */
 
   }, {
     key: 'reduce',
-    value: function reduce(reducer, start) {
+    value: function reduce(reducer, start, key) {
       var acc = start;
 
-      this.forEach(function (value, key) {
-        acc = reducer(acc, value, key);
-      });
+      this.forEach(function (value, k) {
+        acc = reducer(acc, value, k);
+      }, key);
       return acc;
     }
 
@@ -329,84 +452,73 @@ var ObjectArray = function () {
     *  @version 1.0.0
     *  @author Liqueur de Toile <contact@liqueurdetoile.com>
     *
+    *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
+    *  if empty, the global data object will be used
     *  @returns {String}  style string
     */
 
   }, {
     key: 'styleString',
-    value: function styleString() {
-      var ret = this.reduce(function (str, value, key) {
-        str += key + ':' + value + ';';
+    value: function styleString(key) {
+      var ret = this.reduce(function (str, value, k) {
+        str += k + ':' + value + ';';
         return str;
-      }, '');
+      }, '', key);
 
       return ret.substr(0, ret.length - 1);
     }
+
+    /**
+    *  Returns a string suitable for a URI query string
+    *
+    *  @method ObjectArray~urlEncode
+    *  @since 1.0.0
+    *  @version 1.0.0
+    *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+    *
+    *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
+    *  if empty, the global data object will be used
+    *  @returns {String}  style string
+    */
+
   }, {
     key: 'urlEncode',
-    value: function urlEncode() {
+    value: function urlEncode(key) {
       var ret = this.reduce(function (str, value, key) {
         str += key + '=' + encodeURIComponent(value) + '&';
         return str;
-      }, '');
+      }, '', key);
 
       return ret.substr(0, ret.length - 1);
     }
+
+    /**
+    *  Returns a string suitable for a <tt>form-url-encoded</tt> query string
+    *
+    *  @method ObjectArray~formUrlEncode
+    *  @since 1.0.0
+    *  @version 1.0.0
+    *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+    *
+    *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
+    *  if empty, the global data object will be used
+    *  @returns {String}  style string
+    */
+
   }, {
     key: 'formUrlEncode',
-    value: function formUrlEncode() {
-      var ret = this.urlEncode();
+    value: function formUrlEncode(key) {
+      var ret = this.urlEncode(key);
 
       return ret.replace('%20', '+');
     }
   }, {
-    key: 'length',
+    key: 'data',
     get: function get() {
-      return this.keys.length;
-    }
-
-    /**
-    *  Returns keys of the ObjectArray
-    *
-    *  @alias ObjectArray~keys
-    *  @type Array
-    *  @since 1.0.0
-    *  @version 1.0.0
-    *  @author Liqueur de Toile <contact@liqueurdetoile.com>
-    *
-    *  @returns {Array} Array of ObjectArray keys
-    */
-
-  }, {
-    key: 'keys',
-    get: function get() {
-      var keys = [];
-
-      for (var key in this._data) {
-        keys.push(key);
-      }return keys;
-    }
-
-    /**
-    *  Returns values of the ObjectArray
-    *
-    *  @alias ObjectArray~values
-    *  @type Array
-    *  @since 1.0.0
-    *  @version 1.0.0
-    *  @author Liqueur de Toile <contact@liqueurdetoile.com>
-    *
-    *  @returns {Array} Array of ObjectArray values
-    */
-
-  }, {
-    key: 'values',
-    get: function get() {
-      var values = [];
-
-      for (var key in this._data) {
-        values.push(this._data[key]);
-      }return values;
+      return this._data;
+    },
+    set: function set(data) {
+      this.import(data);
     }
   }]);
 
@@ -415,6 +527,33 @@ var ObjectArray = function () {
 
 exports.default = ObjectArray;
 
+
+if (window) window.ObjectArray = ObjectArray;
+
+/**
+*  @typedef dottedKey
+*  @type String
+*  @description
+*  A dotted key is useful to quickly access a subset of data
+*  stored into the ObjectArray as if it was still a
+*  vanilla <tt>Object</tt>.
+*  @example
+*  // Create an ObjectArray with subdata
+*  var oa = new ObjectArray({
+*    set1: {
+*      subset1: 'foo',
+*      subset2: {
+*        subsub1: 'bar',
+*        subsub2: 'baz'
+*      }
+*    }
+*  });
+*  // 'set1.subset1' will yield to 'foo'
+*  // 'set1.subset1.subsub2' will yield to 'baz'
+*
+*/
+
 /***/ })
 /******/ ]);
+});
 //# sourceMappingURL=objectarray.js.map
