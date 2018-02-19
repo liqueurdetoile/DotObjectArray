@@ -51,10 +51,10 @@
     "type": "git",
     "url": "https://github.com/liqueurdetoile/dotobjectarray.git"
   },
-  "keywords": [
-    "library",
+  "keywords": [    
     "object",
     "array",
+    "array-like",
     "dot notation"
   ],
   "author": "Liqueur de Toile",
