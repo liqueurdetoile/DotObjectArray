@@ -48,7 +48,7 @@ describe('ObjectArray Class', function () {
       i.push('test2', 'fixture2');
       i.values().should.eql(['fixture', 'fixture2']);
     });
-    it('should returns right keys and values for dotted object', function() {
+    it('should returns right keys and values for dotted object', function () {
       var i = new ObjectArray({
         dat: {
           long: {
@@ -59,9 +59,9 @@ describe('ObjectArray Class', function () {
       });
 
       i.keys().should.eql(['dat']);
-      i.values().should.eql([{long:{path:'fixture1', dream:'fixture2'}}]);
-      i.keys('dat.long').should.eql(['path','dream']);
-      i.values('dat.long').should.eql(['fixture1','fixture2']);
+      i.values().should.eql([{long: {path: 'fixture1', dream: 'fixture2'}}]);
+      i.keys('dat.long').should.eql(['path', 'dream']);
+      i.values('dat.long').should.eql(['fixture1', 'fixture2']);
       expect(i.keys('dat.short')).to.equal(undefined);
       expect(i.values('dat.short')).to.equal(undefined);
     });
@@ -112,20 +112,23 @@ describe('ObjectArray Class', function () {
           test22: 'fixture22'
         }
       });
+
       expect(i.parentKey('test')).to.equal(undefined);
       i.parentKey('test2.test21').should.equal('test2');
     });
   });
 
   describe('Push and delete data', function () {
-    it('should get and set data', function() {
+    it('should get and set data', function () {
       let i = new ObjectArray();
+
       i.data = {test: 'fixture'};
       i.data.test.should.equal('fixture');
     });
-    it('should create all needed keys', function() {
+    it('should create all needed keys', function () {
       let i = new ObjectArray();
-      i.push('dat.really.long.path', 'fixture')
+
+      i.push('dat.really.long.path', 'fixture');
       i.data.should.eql({
         dat: {
           really: {
@@ -136,8 +139,9 @@ describe('ObjectArray Class', function () {
         }
       });
     });
-    it('should create all needed keys', function() {
+    it('should create all needed keys', function () {
       let i = new ObjectArray();
+
       i.import({
         'dat.really.long.path': 'fixture1',
         'dat.really.long.dream': 'fixture2',
@@ -157,8 +161,9 @@ describe('ObjectArray Class', function () {
         }
       });
     });
-    it('should create all needed keys', function() {
+    it('should create all needed keys', function () {
       let i = new ObjectArray();
+
       i.push('dat.really.long.path', 'fixture1');
       i.push('dream', 'fixture2', 'dat.really.long');
       i.import({
@@ -170,7 +175,7 @@ describe('ObjectArray Class', function () {
             long: {
               path: 'fixture1',
               dream: 'fixture2'
-            }           
+            }
           },
           shorter: {
             path: 'fixture3'
@@ -195,16 +200,16 @@ describe('ObjectArray Class', function () {
       let i = new ObjectArray();
 
       i.push('test.dot', 'fixture')
-       .push('test.dot2', 'fixture2')
+        .push('test.dot2', 'fixture2');
       i._data.should.eql({test: {dot: 'fixture', dot2: 'fixture2'}});
     });
     it('should remove dotted data', function () {
       let i = new ObjectArray();
 
       i.push('test.dot', 'fixture')
-       .push('test.dot2', 'fixture2')
-       .remove('test.dot2')
-       ._data.should.eql({test: {dot: 'fixture'}});
+        .push('test.dot2', 'fixture2')
+        .remove('test.dot2')
+        ._data.should.eql({test: {dot: 'fixture'}});
     });
   });
 
@@ -257,7 +262,8 @@ describe('ObjectArray Class', function () {
         display: 'flex'
       });
       let ret = i.reduce(function (str, value, key) {
-        return str += key + ':' + value + ';';
+        str += key + ':' + value + ';';
+        return str;
       }, '');
 
       ret.should.equal('position:absolute;display:flex;');
