@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/liqueurdetoile/DotObjectArray.svg?branch=master)](https://travis-ci.org/liqueurdetoile/DotObjectArray)
 [![Coverage Status](https://coveralls.io/repos/github/liqueurdetoile/DotObjectArray/badge.svg?branch=master)](https://coveralls.io/github/liqueurdetoile/DotObjectArray?branch=master)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 <p align="center"><a href="https://liqueurdetoile.com" target=_blank"><img src="http://hosting.liqueurdetoile.com/logo_lqdt.png" alt="Liqueur de Toile"></a></p>
 
@@ -8,7 +9,7 @@
 - [Why DOA ?](#why-doa--)
 - [Features](#features)
 - [Install](#install)
-  * [NPM Module](#npm-module)
+  * [Module](#npm-module)
   * [Browser](#browser)
 - [Usage](#usage)
   * [Api details](#api-details)
@@ -46,8 +47,8 @@ DOA is an object with a set of methods to :
 - Easy to use data serializers and parsers
 
 ## Install
-### NPM Module
-The ObjectArray class is provided as a NPM module
+### Module
+The ObjectArray class is provided as a UMD module available on NPM.
 ```
 npm install dot-object-array
 ```
