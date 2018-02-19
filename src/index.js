@@ -5,6 +5,7 @@
 *  @see [Github]{@link https://github.com/liqueurdetoile/objectarray}
 *  @see [Author website]{@link https://liqueurdetoile.com}
 */
+
 /**
 *  @classDesc
 *  The ObjectArray class implements array-like properties and methods to a key/value javascript object.*  
@@ -72,8 +73,7 @@ export default class ObjectArray {
   */
   length(pKey) {
     let data = this.keys(pKey);
-
-    /* istanbul ignore else  */
+    
     if(!data) return undefined;
     return this.keys(pKey).length;
   }
@@ -93,9 +93,8 @@ export default class ObjectArray {
   *  or undefined if key doesn't exist
   */
   keys(pKey) {
-    let keys = [], data = this.dataset(pKey);;
-
-    /* istanbul ignore else  */
+    let keys = [], data = this.dataset(pKey);
+    
     if(!data) return undefined;
     for (let key in data) keys.push(key);
     return keys;
@@ -117,8 +116,7 @@ export default class ObjectArray {
   */
   values(pKey) {
     let values = [], data = this.dataset(pKey);
-
-    /* istanbul ignore else  */
+    
     if(!data) return undefined;
     for (let key in data) values.push(data[key]);
     return values;
@@ -142,7 +140,7 @@ export default class ObjectArray {
     key = key.split('.');
     for (i = 0; i < key.length; i++) {
       k = key[i];
-      /* istanbul ignore else  */
+      
       if (typeof data[k] === 'undefined') return false;
       data = data[k];
     }
@@ -164,13 +162,12 @@ export default class ObjectArray {
   */
   dataset(key) {
     let i, k, data = this.data;
-
-    /* istanbul ignore else  */
+    
     if (key !== undefined) {
       key = key.split('.');
       for (i = 0; i < key.length; i++) {
         k = key[i];
-        /* istanbul ignore else  */
+        
         if (typeof data[k] === 'undefined') return undefined;
         data = data[k];
       }
@@ -194,7 +191,7 @@ export default class ObjectArray {
     if(typeof key !== undefined) {
       key = key.split('.');
       key.pop();
-      /* istanbul ignore else  */
+      
       if(key.length) {
         key = key.join('.');
         return key;
@@ -222,8 +219,7 @@ export default class ObjectArray {
     key = key.split('.');
     k = key.pop();
     key.forEach(function (k, i) {
-      /* istanbul ignore else  */
-      if (!data[k]) data[k] = {};
+      if (typeof data[k] === 'undefined') data[k] = {};
       data = data[k];
     });
     data[k] = val;
@@ -245,7 +241,6 @@ export default class ObjectArray {
     let pKey = this.parentKey(key);
     let data = this.dataset(pKey);
 
-    /* istanbul ignore else  */
     if(data) {
       key = key.replace(pKey + '.', '');
       delete data[key];
