@@ -2,7 +2,10 @@
   "name": "dot-object-array",
   "version": "1.0.0",
   "description": "Implements array-like methods for Object with support for dot notation keys",
-  "main": "dist/objectarray.min.js",
+  "main": "dist/objectarray.min.js", 
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "webpack --config webpack.conf/build.js",
     "dev": "webpack --progress --colors --watch --config webpack.conf/dev.js",
