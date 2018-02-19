@@ -22,7 +22,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ObjectArray.html">ObjectArray</a><ul class='methods'><li data-type='method'><a href="ObjectArray.html#~dataset">dataset</a></li><li data-type='method'><a href="ObjectArray.html#~forEach">forEach</a></li><li data-type='method'><a href="ObjectArray.html#~formUrlEncode">formUrlEncode</a></li><li data-type='method'><a href="ObjectArray.html#~has">has</a></li><li data-type='method'><a href="ObjectArray.html#~import">import</a></li><li data-type='method'><a href="ObjectArray.html#~keys">keys</a></li><li data-type='method'><a href="ObjectArray.html#~length">length</a></li><li data-type='method'><a href="ObjectArray.html#~parentKey">parentKey</a></li><li data-type='method'><a href="ObjectArray.html#~push">push</a></li><li data-type='method'><a href="ObjectArray.html#~reduce">reduce</a></li><li data-type='method'><a href="ObjectArray.html#~remove">remove</a></li><li data-type='method'><a href="ObjectArray.html#~styleString">styleString</a></li><li data-type='method'><a href="ObjectArray.html#~urlEncode">urlEncode</a></li><li data-type='method'><a href="ObjectArray.html#~values">values</a></li></ul></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ObjectArray.html">ObjectArray</a><ul class='methods'><li data-type='method'><a href="ObjectArray.html#~camelize">camelize</a></li><li data-type='method'><a href="ObjectArray.html#~camelize">camelize</a></li><li data-type='method'><a href="ObjectArray.html#~dataset">dataset</a></li><li data-type='method'><a href="ObjectArray.html#~empty">empty</a></li><li data-type='method'><a href="ObjectArray.html#~forEach">forEach</a></li><li data-type='method'><a href="ObjectArray.html#~formUrlEncode">formUrlEncode</a></li><li data-type='method'><a href="ObjectArray.html#~has">has</a></li><li data-type='method'><a href="ObjectArray.html#~import">import</a></li><li data-type='method'><a href="ObjectArray.html#~keys">keys</a></li><li data-type='method'><a href="ObjectArray.html#~length">length</a></li><li data-type='method'><a href="ObjectArray.html#~parentKey">parentKey</a></li><li data-type='method'><a href="ObjectArray.html#~push">push</a></li><li data-type='method'><a href="ObjectArray.html#~reduce">reduce</a></li><li data-type='method'><a href="ObjectArray.html#~remove">remove</a></li><li data-type='method'><a href="ObjectArray.html#~styleString">styleString</a></li><li data-type='method'><a href="ObjectArray.html#~styleString">styleString</a></li><li data-type='method'><a href="ObjectArray.html#~urlEncode">urlEncode</a></li><li data-type='method'><a href="ObjectArray.html#~values">values</a></li></ul></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <div id="main">
@@ -43,9 +43,9 @@
         ObjectArray
         </h2>
         
-            <div class="class-description"><p>The ObjectArray class implements array-like properties and methods to
- a key/value javascript object.</p>
-<p> It can be viewed as a kind of associative array in JS but it also
+            <div class="class-description"><p>The ObjectArray class implements array-like properties and
+ methods to a key/value javascript object.
+ It can be viewed as a kind of associative array in JS but it also
  supports dot notation keys.</p></div>
         
     
@@ -264,7 +264,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line55">line 55</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line54">line 54</a>
     </li></ul></dd>
     
 
@@ -348,7 +348,7 @@
 
     
 
-    <h4 class="name" id="~dataset"><span class="type-signature">(inner) </span>dataset<span class="signature">(key<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="~camelize"><span class="type-signature">(inner) </span>camelize<span class="signature">(s)</span><span class="type-signature"> &rarr; {String}</span></h4>
 
     
 
@@ -360,7 +360,357 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line158">line 158</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line429">line 429</a>
+    </li></ul></dd>
+    
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.2.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li><a href="mailto:contact@liqueurdetoile.com">Liqueur de Toile</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Returns a camelized string (without uppercase leading character)
+ Replace dashes and spaces</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>s</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>String to camelize</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Camelized string</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~camelize"><span class="type-signature">(inner) </span>camelize<span class="signature">(s<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line445">line 445</a>
+    </li></ul></dd>
+    
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.2.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li><a href="mailto:contact@liqueurdetoile.com">Liqueur de Toile</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Returns a dashed string
+ Replace Uppercases and spaces</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>s</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>String to dashize</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Dashed string</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~dataset"><span class="type-signature">(inner) </span>dataset<span class="signature">(key<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object|undefined}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line184">line 184</a>
     </li></ul></dd>
     
 
@@ -512,7 +862,7 @@
 
         
 <div class="param-desc">
-    <p>Data object</p>
+    <p>Data object or undefined if key doesn't exist</p>
 </div>
 
 
@@ -524,6 +874,178 @@
     <dd>
         
 <span class="param-type">Object</span>
+|
+
+<span class="param-type">undefined</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~empty"><span class="type-signature">(inner) </span>empty<span class="signature">(Key)</span><span class="type-signature"> &rarr; {<a href="ObjectArray.html">ObjectArray</a>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line62">line 62</a>
+    </li></ul></dd>
+    
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.2.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li><a href="mailto:contact@liqueurdetoile.com">Liqueur de Toile</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Empty the ObjectArray data. It can also be used as
+ an alias for <a href="ObjectArray.html#~remove"><code>remove method</code></a></p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>Key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#dottedKey">dottedKey</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Key to remove</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Return self for chaining</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="ObjectArray.html">ObjectArray</a></span>
 
 
     </dd>
@@ -549,7 +1071,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line266">line 266</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line299">line 299</a>
     </li></ul></dd>
     
 
@@ -757,7 +1279,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line349">line 349</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line411">line 411</a>
     </li></ul></dd>
     
 
@@ -926,7 +1448,7 @@
 
     
 
-    <h4 class="name" id="~has"><span class="type-signature">(inner) </span>has<span class="signature">(key)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id="~has"><span class="type-signature">(inner) </span>has<span class="signature">(key)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
@@ -938,7 +1460,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line132">line 132</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line156">line 156</a>
     </li></ul></dd>
     
 
@@ -1069,7 +1591,7 @@
 
         
 <div class="param-desc">
-    <p>Array of ObjectArray values</p>
+    <p>true if key exists, false otherwise</p>
 </div>
 
 
@@ -1080,7 +1602,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Array</span>
+<span class="param-type">Boolean</span>
 
 
     </dd>
@@ -1106,13 +1628,13 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line249">line 249</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line281">line 281</a>
     </li></ul></dd>
     
 
     
     <dt class="tag-version">Version:</dt>
-    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    <dd class="tag-version"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -1305,7 +1827,7 @@
 
     
 
-    <h4 class="name" id="~keys"><span class="type-signature">(inner) </span>keys<span class="signature">(pKey)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id="~keys"><span class="type-signature">(inner) </span>keys<span class="signature">(pKey)</span><span class="type-signature"> &rarr; {Array|undefined}</span></h4>
 
     
 
@@ -1317,7 +1839,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line80">line 80</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line100">line 100</a>
     </li></ul></dd>
     
 
@@ -1450,7 +1972,8 @@
 
         
 <div class="param-desc">
-    <p>Length of the dataset</p>
+    <p>Array of keys for the dataset
+ or undefined if key doesn't exist</p>
 </div>
 
 
@@ -1461,7 +1984,10 @@
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">undefined</span>
 
 
     </dd>
@@ -1475,7 +2001,7 @@
 
     
 
-    <h4 class="name" id="~length"><span class="type-signature">(inner) </span>length<span class="signature">(pKey)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id="~length"><span class="type-signature">(inner) </span>length<span class="signature">(pKey)</span><span class="type-signature"> &rarr; {Number|undefined}</span></h4>
 
     
 
@@ -1487,7 +2013,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line63">line 63</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line80">line 80</a>
     </li></ul></dd>
     
 
@@ -1620,7 +2146,7 @@
 
         
 <div class="param-desc">
-    <p>Length of the dataset</p>
+    <p>Length of the dataset or undefined if key doesn't exist</p>
 </div>
 
 
@@ -1632,6 +2158,9 @@
     <dd>
         
 <span class="param-type">Number</span>
+|
+
+<span class="param-type">undefined</span>
 
 
     </dd>
@@ -1657,7 +2186,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line186">line 186</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line211">line 211</a>
     </li></ul></dd>
     
 
@@ -1825,13 +2354,13 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line199">line 199</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line224">line 224</a>
     </li></ul></dd>
     
 
     
     <dt class="tag-version">Version:</dt>
-    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    <dd class="tag-version"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -2076,7 +2605,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line286">line 286</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line319">line 319</a>
     </li></ul></dd>
     
 
@@ -2321,7 +2850,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line226">line 226</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line259">line 259</a>
     </li></ul></dd>
     
 
@@ -2489,13 +3018,13 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line307">line 307</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line340">line 340</a>
     </li></ul></dd>
     
 
     
     <dt class="tag-version">Version:</dt>
-    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    <dd class="tag-version"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -2542,7 +3071,8 @@
 
 
 <div class="description">
-    <p>Returns a string suitable for a <tt>style</tt> attribute.</p>
+    <p>Returns a string suitable for a <tt>style</tt> attribute.
+ ObjectArray will convert camel-cased key to dashed key.</p>
 </div>
 
 
@@ -2658,6 +3188,219 @@
 
     
 
+    <h4 class="name" id="~styleString"><span class="type-signature">(inner) </span>styleString<span class="signature">(str, pkey<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="ObjectArray.html">ObjectArray</a>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line362">line 362</a>
+    </li></ul></dd>
+    
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.2.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li><a href="mailto:contact@liqueurdetoile.com">Liqueur de Toile</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Imports a string from a <tt>style</tt> attribute.
+ ObjectArray will camelize key from spaces and/or dashes</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>str</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>String to import</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pkey</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#dottedKey">dottedKey</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Dotted key to import styles into.
+ If omitted, the object will be available at top-level</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Returns self for chaining</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="ObjectArray.html">ObjectArray</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
     <h4 class="name" id="~urlEncode"><span class="type-signature">(inner) </span>urlEncode<span class="signature">(key<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {String}</span></h4>
 
     
@@ -2670,7 +3413,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line328">line 328</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line390">line 390</a>
     </li></ul></dd>
     
 
@@ -2839,7 +3582,7 @@
 
     
 
-    <h4 class="name" id="~values"><span class="type-signature">(inner) </span>values<span class="signature">(pKey)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id="~values"><span class="type-signature">(inner) </span>values<span class="signature">(pKey)</span><span class="type-signature"> &rarr; {Array|undefined}</span></h4>
 
     
 
@@ -2851,7 +3594,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line100">line 100</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line122">line 122</a>
     </li></ul></dd>
     
 
@@ -2984,7 +3727,8 @@
 
         
 <div class="param-desc">
-    <p>Length of the dataset</p>
+    <p>Array of values for the dataset
+ or undefined if key doesn't exist</p>
 </div>
 
 
@@ -2995,7 +3739,10 @@
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">undefined</span>
 
 
     </dd>
@@ -3022,7 +3769,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 18 2018 23:33:38 GMT+0100 (Paris, Madrid) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Feb 19 2018 23:59:56 GMT+0100 (Paris, Madrid) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

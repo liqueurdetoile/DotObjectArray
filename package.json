@@ -2,7 +2,7 @@
   "name": "dot-object-array",
   "version": "1.0.0",
   "description": "Implements array-like methods for Object with support for dot notation keys",
-  "main": "dist/objectarray.min.js", 
+  "main": "dist/objectarray.min.js",
   "publishConfig": {
     "access": "public"
   },
@@ -40,7 +40,7 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-safari-launcher": "^1.0.0",
     "karma-webpack": "^2.0.9",
-    "mocha": "^4.1.0",
+    "mocha": "^5.0.1",
     "phantomjs-prebuilt": "^2.1.16",
     "semantic-release": "^12.4.1",
     "webpack": "^3.11.0",
@@ -51,7 +51,7 @@
     "type": "git",
     "url": "https://github.com/liqueurdetoile/dotobjectarray.git"
   },
-  "keywords": [    
+  "keywords": [
     "object",
     "array",
     "array-like",

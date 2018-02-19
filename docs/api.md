@@ -2,9 +2,9 @@
 
 <dl>
 <dt><a href="#ObjectArray">ObjectArray</a></dt>
-<dd><p>The ObjectArray class implements array-like properties and methods to
- a key/value javascript object.</p>
-<p> It can be viewed as a kind of associative array in JS but it also
+<dd><p>The ObjectArray class implements array-like properties and
+ methods to a key/value javascript object.
+ It can be viewed as a kind of associative array in JS but it also
  supports dot notation keys.</p>
 </dd>
 </dl>
@@ -22,9 +22,8 @@
 <a name="ObjectArray"></a>
 
 ## ObjectArray
-The ObjectArray class implements array-like properties and methods to
- a key/value javascript object.
- 
+The ObjectArray class implements array-like properties and
+ methods to a key/value javascript object.
  It can be viewed as a kind of associative array in JS but it also
  supports dot notation keys.
 
@@ -42,11 +41,12 @@ The ObjectArray class implements array-like properties and methods to
 * [ObjectArray](#ObjectArray)
     * [new ObjectArray(data)](#new_ObjectArray_new)
     * [~data](#ObjectArray..data) : <code>Object</code>
-    * [~length(pKey)](#ObjectArray..length) ⇒ <code>Number</code>
-    * [~keys(pKey)](#ObjectArray..keys) ⇒ <code>Number</code>
-    * [~values(pKey)](#ObjectArray..values) ⇒ <code>Number</code>
-    * [~has(key)](#ObjectArray..has) ⇒ <code>Array</code>
-    * [~dataset([key])](#ObjectArray..dataset) ⇒ <code>Object</code>
+    * [~empty(Key)](#ObjectArray..empty) ⇒ [<code>ObjectArray</code>](#ObjectArray)
+    * [~length(pKey)](#ObjectArray..length) ⇒ <code>Number</code> \| <code>undefined</code>
+    * [~keys(pKey)](#ObjectArray..keys) ⇒ <code>Array</code> \| <code>undefined</code>
+    * [~values(pKey)](#ObjectArray..values) ⇒ <code>Array</code> \| <code>undefined</code>
+    * [~has(key)](#ObjectArray..has) ⇒ <code>Boolean</code>
+    * [~dataset([key])](#ObjectArray..dataset) ⇒ <code>Object</code> \| <code>undefined</code>
     * [~parentKey(key)](#ObjectArray..parentKey) ⇒ <code>String</code>
     * [~push(key, val, [pKey])](#ObjectArray..push) ⇒ [<code>ObjectArray</code>](#ObjectArray)
     * [~remove(key)](#ObjectArray..remove) ⇒ [<code>ObjectArray</code>](#ObjectArray)
@@ -54,8 +54,11 @@ The ObjectArray class implements array-like properties and methods to
     * [~forEach(cb, [key])](#ObjectArray..forEach) ⇒ <code>void</code>
     * [~reduce(reducer, [start], [key])](#ObjectArray..reduce) ⇒ <code>Mixed</code>
     * [~styleString([key])](#ObjectArray..styleString) ⇒ <code>String</code>
+    * [~styleString(str, [pkey])](#ObjectArray..styleString) ⇒ [<code>ObjectArray</code>](#ObjectArray)
     * [~urlEncode([key])](#ObjectArray..urlEncode) ⇒ <code>String</code>
     * [~formUrlEncode([key])](#ObjectArray..formUrlEncode) ⇒ <code>String</code>
+    * [~camelize(s)](#ObjectArray..camelize) ⇒ <code>String</code>
+    * [~camelize([s])](#ObjectArray..camelize) ⇒ <code>String</code>
 
 <a name="new_ObjectArray_new"></a>
 
@@ -77,15 +80,31 @@ Getter/setter for the root data of ObjectArray.
 **Since**: 1.0.0  
 **Version**: 1.0.0  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
+<a name="ObjectArray..empty"></a>
+
+### ObjectArray~empty(Key) ⇒ [<code>ObjectArray</code>](#ObjectArray)
+Empty the ObjectArray data. It can also be used as
+ an alias for [remove method](#ObjectArray..remove)
+
+**Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
+**Returns**: [<code>ObjectArray</code>](#ObjectArray) - Return self for chaining  
+**Since**: 1.2.0  
+**Version**: 1.0.0  
+**Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| Key | [<code>dottedKey</code>](#dottedKey) | Key to remove |
+
 <a name="ObjectArray..length"></a>
 
-### ObjectArray~length(pKey) ⇒ <code>Number</code>
+### ObjectArray~length(pKey) ⇒ <code>Number</code> \| <code>undefined</code>
 Returns length of a given dataset in the ObjectArray
  If no parent key is provided, it will output the length of
  the root data object
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
-**Returns**: <code>Number</code> - Length of the dataset  
+**Returns**: <code>Number</code> \| <code>undefined</code> - Length of the dataset or undefined if key doesn't exist  
 **Since**: 1.0.0  
 **Version**: 1.0.0  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
@@ -96,13 +115,14 @@ Returns length of a given dataset in the ObjectArray
 
 <a name="ObjectArray..keys"></a>
 
-### ObjectArray~keys(pKey) ⇒ <code>Number</code>
+### ObjectArray~keys(pKey) ⇒ <code>Array</code> \| <code>undefined</code>
 Returns keys of a given dataset in the ObjectArray
  If no parent key is provided, it will output the keys of
  the root data object
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
-**Returns**: <code>Number</code> - Length of the dataset  
+**Returns**: <code>Array</code> \| <code>undefined</code> - Array of keys for the dataset
+ or undefined if key doesn't exist  
 **Since**: 1.0.0  
 **Version**: 1.0.0  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
@@ -113,13 +133,14 @@ Returns keys of a given dataset in the ObjectArray
 
 <a name="ObjectArray..values"></a>
 
-### ObjectArray~values(pKey) ⇒ <code>Number</code>
+### ObjectArray~values(pKey) ⇒ <code>Array</code> \| <code>undefined</code>
 Returns values of a given dataset in the ObjectArray
  If no parent key is provided, it will output the keys of
  the root data object
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
-**Returns**: <code>Number</code> - Length of the dataset  
+**Returns**: <code>Array</code> \| <code>undefined</code> - Array of values for the dataset
+ or undefined if key doesn't exist  
 **Since**: 1.0.0  
 **Version**: 1.0.0  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
@@ -130,11 +151,11 @@ Returns values of a given dataset in the ObjectArray
 
 <a name="ObjectArray..has"></a>
 
-### ObjectArray~has(key) ⇒ <code>Array</code>
+### ObjectArray~has(key) ⇒ <code>Boolean</code>
 Check if a given key exists in the ObjectArray
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
-**Returns**: <code>Array</code> - Array of ObjectArray values  
+**Returns**: <code>Boolean</code> - true if key exists, false otherwise  
 **Since**: 1.0.0  
 **Version**: 1.0.0  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
@@ -145,12 +166,12 @@ Check if a given key exists in the ObjectArray
 
 <a name="ObjectArray..dataset"></a>
 
-### ObjectArray~dataset([key]) ⇒ <code>Object</code>
+### ObjectArray~dataset([key]) ⇒ <code>Object</code> \| <code>undefined</code>
 Returns dataset for the key. If no key is provided,
  the whole data is returned
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
-**Returns**: <code>Object</code> - Data object  
+**Returns**: <code>Object</code> \| <code>undefined</code> - Data object or undefined if key doesn't exist  
 **Since**: 1.0.0  
 **Version**: 1.0.0  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
@@ -182,7 +203,7 @@ Push a new key/value pair
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
 **Returns**: [<code>ObjectArray</code>](#ObjectArray) - Return self for chaining  
 **Since**: 1.0.0  
-**Version**: 1.0.0  
+**Version**: 1.1.0  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
 
 | Param | Type | Description |
@@ -214,7 +235,7 @@ Import an object as data into the ObjectArray
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
 **Returns**: [<code>ObjectArray</code>](#ObjectArray) - Return self for chaining  
 **Since**: 1.0.0  
-**Version**: 1.0.0  
+**Version**: 1.1.0  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
 
 | Param | Type | Description |
@@ -258,16 +279,34 @@ Reduce the ObjectArray data given a callback
 
 ### ObjectArray~styleString([key]) ⇒ <code>String</code>
 Returns a string suitable for a <tt>style</tt> attribute.
+ ObjectArray will convert camel-cased key to dashed key.
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
 **Returns**: <code>String</code> - style string  
 **Since**: 1.0.0  
-**Version**: 1.0.0  
+**Version**: 1.1.0  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | [key] | [<code>dottedKey</code>](#dottedKey) | Dotted key to limit iterations through its subset  if empty, the global data object will be used |
+
+<a name="ObjectArray..styleString"></a>
+
+### ObjectArray~styleString(str, [pkey]) ⇒ [<code>ObjectArray</code>](#ObjectArray)
+Imports a string from a <tt>style</tt> attribute.
+ ObjectArray will camelize key from spaces and/or dashes
+
+**Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
+**Returns**: [<code>ObjectArray</code>](#ObjectArray) - Returns self for chaining  
+**Since**: 1.2.0  
+**Version**: 1.0.0  
+**Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>String</code> | String to import |
+| [pkey] | [<code>dottedKey</code>](#dottedKey) | Dotted key to import styles into.  If omitted, the object will be available at top-level |
 
 <a name="ObjectArray..urlEncode"></a>
 
@@ -299,6 +338,38 @@ Returns a string suitable for a <tt>form-url-encoded</tt> query string
 | --- | --- | --- |
 | [key] | [<code>dottedKey</code>](#dottedKey) | Dotted key to limit iterations through its subset  if empty, the global data object will be used |
 
+<a name="ObjectArray..camelize"></a>
+
+### ObjectArray~camelize(s) ⇒ <code>String</code>
+Returns a camelized string (without uppercase leading character)
+ Replace dashes and spaces
+
+**Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
+**Returns**: <code>String</code> - Camelized string  
+**Since**: 1.2.0  
+**Version**: 1.0.0  
+**Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| s | <code>String</code> | String to camelize |
+
+<a name="ObjectArray..camelize"></a>
+
+### ObjectArray~camelize([s]) ⇒ <code>String</code>
+Returns a dashed string
+ Replace Uppercases and spaces
+
+**Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
+**Returns**: <code>String</code> - Dashed string  
+**Since**: 1.2.0  
+**Version**: 1.0.0  
+**Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [s] | <code>String</code> | String to dashize |
+
 <a name="dottedKey"></a>
 
 ## dottedKey : <code>String</code>
@@ -321,5 +392,4 @@ A dotted key is useful to quickly access a subset of data
  });
  // 'set1.subset1' will yield to 'foo'
  // 'set1.subset1.subsub2' will yield to 'baz'
- 
 ```

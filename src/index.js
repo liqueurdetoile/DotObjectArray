@@ -8,7 +8,8 @@
 
 /**
 *  @classDesc
-*  The ObjectArray class implements array-like properties and methods to a key/value javascript object.*
+*  The ObjectArray class implements array-like properties and
+*  methods to a key/value javascript object.
 *  It can be viewed as a kind of associative array in JS but it also
 *  supports dot notation keys.
 *
@@ -56,6 +57,24 @@ export default class ObjectArray {
 
   set data(data) {
     this.import(data);
+  }
+
+  /**
+  *  Empty the ObjectArray data. It can also be used as
+  *  an alias for [remove method]{@link ObjectArray~remove}
+  *
+  *  @method ObjectArray~empty
+  *  @since 1.2.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *
+  *  @param {dottedKey} Key  Key to remove
+  *  @returns {ObjectArray} Return self for chaining
+  */
+  empty(key) {
+    if (typeof key === 'undefined') this._data = {};
+    else this.remove(key);
+    return this;
   }
 
   /**
@@ -137,6 +156,8 @@ export default class ObjectArray {
   has(key) {
     let i, k, data = this.data;
 
+    if (typeof key === 'undefined') return false;
+
     key = key.split('.');
     for (i = 0; i < key.length; i++) {
       k = key[i];
@@ -205,7 +226,7 @@ export default class ObjectArray {
   *
   *  @method ObjectArray~push
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 1.1.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey} key Key of the added item
@@ -214,7 +235,15 @@ export default class ObjectArray {
   *  @returns {ObjectArray} Return self for chaining
   */
   push(key, val, pKey) {
-    let k, data = this.dataset(pKey);
+    let k, data;
+
+    // Check pKey existence
+    if (this.has(pKey) || typeof pKey === 'undefined') {
+      data = this.dataset(pKey);
+    } else {
+      key = pKey + '.' + key;
+      data = this.data;
+    }
 
     key = key.split('.');
     k = key.pop();
@@ -222,6 +251,7 @@ export default class ObjectArray {
       if (typeof data[k] === 'undefined') data[k] = {};
       data = data[k];
     });
+    if (val instanceof ObjectArray) val = val._data;
     data[k] = val;
     return this;
   }
@@ -253,7 +283,7 @@ export default class ObjectArray {
   *
   *  @method ObjectArray~import
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 1.1.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {Object} Data Object to import
@@ -261,6 +291,7 @@ export default class ObjectArray {
   *  @returns {ObjectArray} Return self for chaining
   */
   import(data, pKey) {
+    if (data instanceof ObjectArray) data = data._data;
     for (let key in data) this.push(key, data[key], pKey);
     return this;
   }
@@ -308,23 +339,52 @@ export default class ObjectArray {
 
   /**
   *  Returns a string suitable for a <tt>style</tt> attribute.
+  *  ObjectArray will convert camel-cased key to dashed key.
   *
   *  @method ObjectArray~styleString
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 1.1.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
   *  @returns {String}  style string
   */
-  styleString(key) {
+  stylesToString(key) {
     let ret = this.reduce(function (str, value, k) {
-      str += k + ':' + value + ';';
+      str += this.dashize(k) + ':' + value + ';';
       return str;
-    }, '', key);
+    }.bind(this), '', key);
 
     return ret.substr(0, ret.length - 1);
+  }
+
+  /**
+  *  Imports a string from a <tt>style</tt> attribute.
+  *  ObjectArray will camelize key from spaces and/or dashes
+  *
+  *  @method ObjectArray~styleString
+  *  @since 1.2.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *
+  *  @param {String}  str   String to import
+  *  @param {dottedKey}  [pkey]  Dotted key to import styles into.
+  *  If omitted, the object will be available at top-level
+  *  @returns {ObjectArray}  Returns self for chaining
+  */
+  stringToStyles(str, pKey) {
+    let styles = str.split(';');
+
+    styles.forEach(function (style) {
+      let parts = style.split(':');
+
+      try {
+        this.push(this.camelize(parts[0].trim()), parts[1].trim(), pKey);
+      } catch (e) {
+        throw new TypeError('Malformed string for stringToStyles');
+      }
+    }.bind(this));
   }
 
   /**
@@ -364,6 +424,40 @@ export default class ObjectArray {
     let ret = this.urlEncode(key);
 
     return ret.replace('%20', '+');
+  }
+
+  /**
+  *  Returns a camelized string (without uppercase leading character)
+  *  Replace dashes and spaces
+  *
+  *  @method ObjectArray~camelize
+  *  @since 1.2.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *
+  *  @param {String}  s  String to camelize
+  *  @returns {String}  Camelized string
+  */
+  camelize(s) {
+    return s.replace(/[- ]([A-Za-z])/g, m => m[1].toUpperCase());
+  }
+
+  /**
+  *  Returns a dashed string
+  *  Replace Uppercases and spaces
+  *
+  *  @method ObjectArray~camelize
+  *  @since 1.2.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *
+  *  @param {String}  [s]  String to dashize
+  *  @returns {String}  Dashed string
+  */
+  dashize(s) {
+    return s
+      .replace(/[A-Z]/g, (m, o) => (o > 0 ? '-' : '') + m.toLowerCase())
+      .replace(/ /g, (m, o, s) => s[o + 1] === '-' ? '' : '-');
   }
 }
 

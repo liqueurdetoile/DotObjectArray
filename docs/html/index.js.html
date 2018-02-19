@@ -22,7 +22,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ObjectArray.html">ObjectArray</a><ul class='methods'><li data-type='method'><a href="ObjectArray.html#~dataset">dataset</a></li><li data-type='method'><a href="ObjectArray.html#~forEach">forEach</a></li><li data-type='method'><a href="ObjectArray.html#~formUrlEncode">formUrlEncode</a></li><li data-type='method'><a href="ObjectArray.html#~has">has</a></li><li data-type='method'><a href="ObjectArray.html#~import">import</a></li><li data-type='method'><a href="ObjectArray.html#~keys">keys</a></li><li data-type='method'><a href="ObjectArray.html#~length">length</a></li><li data-type='method'><a href="ObjectArray.html#~parentKey">parentKey</a></li><li data-type='method'><a href="ObjectArray.html#~push">push</a></li><li data-type='method'><a href="ObjectArray.html#~reduce">reduce</a></li><li data-type='method'><a href="ObjectArray.html#~remove">remove</a></li><li data-type='method'><a href="ObjectArray.html#~styleString">styleString</a></li><li data-type='method'><a href="ObjectArray.html#~urlEncode">urlEncode</a></li><li data-type='method'><a href="ObjectArray.html#~values">values</a></li></ul></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ObjectArray.html">ObjectArray</a><ul class='methods'><li data-type='method'><a href="ObjectArray.html#~camelize">camelize</a></li><li data-type='method'><a href="ObjectArray.html#~camelize">camelize</a></li><li data-type='method'><a href="ObjectArray.html#~dataset">dataset</a></li><li data-type='method'><a href="ObjectArray.html#~empty">empty</a></li><li data-type='method'><a href="ObjectArray.html#~forEach">forEach</a></li><li data-type='method'><a href="ObjectArray.html#~formUrlEncode">formUrlEncode</a></li><li data-type='method'><a href="ObjectArray.html#~has">has</a></li><li data-type='method'><a href="ObjectArray.html#~import">import</a></li><li data-type='method'><a href="ObjectArray.html#~keys">keys</a></li><li data-type='method'><a href="ObjectArray.html#~length">length</a></li><li data-type='method'><a href="ObjectArray.html#~parentKey">parentKey</a></li><li data-type='method'><a href="ObjectArray.html#~push">push</a></li><li data-type='method'><a href="ObjectArray.html#~reduce">reduce</a></li><li data-type='method'><a href="ObjectArray.html#~remove">remove</a></li><li data-type='method'><a href="ObjectArray.html#~styleString">styleString</a></li><li data-type='method'><a href="ObjectArray.html#~styleString">styleString</a></li><li data-type='method'><a href="ObjectArray.html#~urlEncode">urlEncode</a></li><li data-type='method'><a href="ObjectArray.html#~values">values</a></li></ul></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <div id="main">
@@ -47,9 +47,8 @@
 
 /**
 *  @classDesc
-*  The ObjectArray class implements array-like properties and methods to
-*  a key/value javascript object.
-*  
+*  The ObjectArray class implements array-like properties and
+*  methods to a key/value javascript object.
 *  It can be viewed as a kind of associative array in JS but it also
 *  supports dot notation keys.
 *
@@ -81,7 +80,7 @@ export default class ObjectArray {
     this._data = {};
     this.import(data);
   }
-  
+
   /**
   *  Getter/setter for the root data of ObjectArray.
   *
@@ -94,9 +93,27 @@ export default class ObjectArray {
   get data() {
     return this._data;
   }
-  
+
   set data(data) {
     this.import(data);
+  }
+
+  /**
+  *  Empty the ObjectArray data. It can also be used as
+  *  an alias for [remove method]{@link ObjectArray~remove}
+  *
+  *  @method ObjectArray~empty
+  *  @since 1.2.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
+  *
+  *  @param {dottedKey} Key  Key to remove
+  *  @returns {ObjectArray} Return self for chaining
+  */
+  empty(key) {
+    if (typeof key === 'undefined') this._data = {};
+    else this.remove(key);
+    return this;
   }
 
   /**
@@ -104,15 +121,18 @@ export default class ObjectArray {
   *  If no parent key is provided, it will output the length of
   *  the root data object
   *
-  *  @method ObjectArray~length  
+  *  @method ObjectArray~length
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
-  *  
+  *
   *  @param {dottedKey} pKey  Parent key
-  *  @returns  {Number} Length of the dataset
+  *  @returns  {Number|undefined} Length of the dataset or undefined if key doesn't exist
   */
   length(pKey) {
+    let data = this.keys(pKey);
+
+    if (!data) return undefined;
     return this.keys(pKey).length;
   }
 
@@ -121,18 +141,20 @@ export default class ObjectArray {
   *  If no parent key is provided, it will output the keys of
   *  the root data object
   *
-  *  @method ObjectArray~keys  
+  *  @method ObjectArray~keys
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
-  *  
+  *
   *  @param {dottedKey} pKey  Parent key
-  *  @returns  {Number} Length of the dataset
+  *  @returns  {Array|undefined} Array of keys for the dataset
+  *  or undefined if key doesn't exist
   */
   keys(pKey) {
-    let keys = [];
+    let keys = [], data = this.dataset(pKey);
 
-    for (let key in this.dataset(pKey)) keys.push(key);
+    if (!data) return undefined;
+    for (let key in data) keys.push(key);
     return keys;
   }
 
@@ -141,17 +163,19 @@ export default class ObjectArray {
   *  If no parent key is provided, it will output the keys of
   *  the root data object
   *
-  *  @method ObjectArray~values  
+  *  @method ObjectArray~values
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
-  *  
+  *
   *  @param {dottedKey} pKey  Parent key
-  *  @returns  {Number} Length of the dataset
+  *  @returns  {Array|undefined} Array of values for the dataset
+  *  or undefined if key doesn't exist
   */
   values(pKey) {
     let values = [], data = this.dataset(pKey);
 
+    if (!data) return undefined;
     for (let key in data) values.push(data[key]);
     return values;
   }
@@ -166,15 +190,17 @@ export default class ObjectArray {
   *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  key Key
-  *  @returns {Array} Array of ObjectArray values
+  *  @returns {Boolean}  true if key exists, false otherwise
   */
   has(key) {
     let i, k, data = this.data;
 
+    if (typeof key === 'undefined') return false;
+
     key = key.split('.');
     for (i = 0; i &lt; key.length; i++) {
       k = key[i];
-      /* istanbul ignore else  */
+
       if (typeof data[k] === 'undefined') return false;
       data = data[k];
     }
@@ -192,24 +218,23 @@ export default class ObjectArray {
   *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  [key=null] Key
-  *  @returns {Object} Data object
+  *  @returns {Object|undefined} Data object or undefined if key doesn't exist
   */
   dataset(key) {
     let i, k, data = this.data;
 
-    /* istanbul ignore else  */
     if (key !== undefined) {
       key = key.split('.');
       for (i = 0; i &lt; key.length; i++) {
         k = key[i];
-        /* istanbul ignore else  */
+
         if (typeof data[k] === 'undefined') return undefined;
         data = data[k];
       }
     }
     return data;
   }
-  
+
   /**
   *  Returns the parent key for a given key
   *
@@ -223,11 +248,11 @@ export default class ObjectArray {
   *  @returns {String} Parent key
   */
   parentKey(key) {
-    if(typeof key !== undefined) {
+    if (typeof key !== undefined) {
       key = key.split('.');
       key.pop();
-      /* istanbul ignore else  */
-      if(key.length) {
+
+      if (key.length) {
         key = key.join('.');
         return key;
       }
@@ -240,7 +265,7 @@ export default class ObjectArray {
   *
   *  @method ObjectArray~push
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 1.1.0
   *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {dottedKey} key Key of the added item
@@ -249,15 +274,23 @@ export default class ObjectArray {
   *  @returns {ObjectArray} Return self for chaining
   */
   push(key, val, pKey) {
-    let k, data = this.dataset(pKey);
+    let k, data;
+
+    // Check pKey existence
+    if (this.has(pKey) || typeof pKey === 'undefined') {
+      data = this.dataset(pKey);
+    } else {
+      key = pKey + '.' + key;
+      data = this.data;
+    }
 
     key = key.split('.');
     k = key.pop();
     key.forEach(function (k, i) {
-      /* istanbul ignore else  */
-      if (!data[k]) data[k] = {};
+      if (typeof data[k] === 'undefined') data[k] = {};
       data = data[k];
     });
+    if (val instanceof ObjectArray) val = val._data;
     data[k] = val;
     return this;
   }
@@ -273,12 +306,11 @@ export default class ObjectArray {
   *  @param {dottedKey} key Key of the added item
   *  @returns {ObjectArray} Return self for chaining
   */
-  remove(key) {    
+  remove(key) {
     let pKey = this.parentKey(key);
     let data = this.dataset(pKey);
 
-    /* istanbul ignore else  */
-    if(data) {
+    if (data) {
       key = key.replace(pKey + '.', '');
       delete data[key];
     }
@@ -290,7 +322,7 @@ export default class ObjectArray {
   *
   *  @method ObjectArray~import
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 1.1.0
   *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {Object} Data Object to import
@@ -298,6 +330,7 @@ export default class ObjectArray {
   *  @returns {ObjectArray} Return self for chaining
   */
   import(data, pKey) {
+    if (data instanceof ObjectArray) data = data._data;
     for (let key in data) this.push(key, data[key], pKey);
     return this;
   }
@@ -321,7 +354,7 @@ export default class ObjectArray {
 
     for (let key in data) cb.call(this, data[key], key, index++);
   }
-  
+
   /**
   *  Reduce the ObjectArray data given a callback
   *
@@ -345,23 +378,52 @@ export default class ObjectArray {
 
   /**
   *  Returns a string suitable for a &lt;tt>style&lt;/tt> attribute.
+  *  ObjectArray will convert camel-cased key to dashed key.
   *
   *  @method ObjectArray~styleString
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 1.1.0
   *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
   *  @returns {String}  style string
   */
-  styleString(key) {
+  stylesToString(key) {
     let ret = this.reduce(function (str, value, k) {
-      str += k + ':' + value + ';';
+      str += this.dashize(k) + ':' + value + ';';
       return str;
-    }, '', key);
+    }.bind(this), '', key);
 
     return ret.substr(0, ret.length - 1);
+  }
+
+  /**
+  *  Imports a string from a &lt;tt>style&lt;/tt> attribute.
+  *  ObjectArray will camelize key from spaces and/or dashes
+  *
+  *  @method ObjectArray~styleString
+  *  @since 1.2.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
+  *
+  *  @param {String}  str   String to import
+  *  @param {dottedKey}  [pkey]  Dotted key to import styles into.
+  *  If omitted, the object will be available at top-level
+  *  @returns {ObjectArray}  Returns self for chaining
+  */
+  stringToStyles(str, pKey) {
+    let styles = str.split(';');
+
+    styles.forEach(function (style) {
+      let parts = style.split(':');
+
+      try {
+        this.push(this.camelize(parts[0].trim()), parts[1].trim(), pKey);
+      } catch (e) {
+        throw new TypeError('Malformed string for stringToStyles');
+      }
+    }.bind(this));
   }
 
   /**
@@ -402,9 +464,43 @@ export default class ObjectArray {
 
     return ret.replace('%20', '+');
   }
+
+  /**
+  *  Returns a camelized string (without uppercase leading character)
+  *  Replace dashes and spaces
+  *
+  *  @method ObjectArray~camelize
+  *  @since 1.2.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
+  *
+  *  @param {String}  s  String to camelize
+  *  @returns {String}  Camelized string
+  */
+  camelize(s) {
+    return s.replace(/[- ]([A-Za-z])/g, m => m[1].toUpperCase());
+  }
+
+  /**
+  *  Returns a dashed string
+  *  Replace Uppercases and spaces
+  *
+  *  @method ObjectArray~camelize
+  *  @since 1.2.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
+  *
+  *  @param {String}  [s]  String to dashize
+  *  @returns {String}  Dashed string
+  */
+  dashize(s) {
+    return s
+      .replace(/[A-Z]/g, (m, o) => (o > 0 ? '-' : '') + m.toLowerCase())
+      .replace(/ /g, (m, o, s) => s[o + 1] === '-' ? '' : '-');
+  }
 }
 
-if(window) window.ObjectArray = ObjectArray;
+if (window) window.ObjectArray = ObjectArray;
 
 /**
 *  @typedef dottedKey
@@ -426,7 +522,7 @@ if(window) window.ObjectArray = ObjectArray;
 *  });
 *  // 'set1.subset1' will yield to 'foo'
 *  // 'set1.subset1.subsub2' will yield to 'baz'
-*  
+*
 */
 </code></pre>
         </article>
@@ -440,7 +536,7 @@ if(window) window.ObjectArray = ObjectArray;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 18 2018 23:33:38 GMT+0100 (Paris, Madrid) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Feb 19 2018 23:59:56 GMT+0100 (Paris, Madrid) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

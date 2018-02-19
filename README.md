@@ -1,6 +1,11 @@
+[![GitHub release](https://img.shields.io/github/release/liqueurdetoile/objectarray.svg)](https://www.npmjs.com/package/dot-object-array)
 [![Build Status](https://travis-ci.org/liqueurdetoile/DotObjectArray.svg?branch=master)](https://travis-ci.org/liqueurdetoile/DotObjectArray)
 [![Coverage Status](https://coveralls.io/repos/github/liqueurdetoile/DotObjectArray/badge.svg?branch=master)](https://coveralls.io/github/liqueurdetoile/DotObjectArray?branch=master)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+
+[![bitHound](https://img.shields.io/bithound/code/github/liqueurdetoile/objectarray.svg)](https://www.bithound.io/github/liqueurdetoile/DotObjectArray)
+[![bitHound](https://img.shields.io/bithound/dependencies/github/liqueurdetoile/objectarray.svg)](https://www.bithound.io/github/liqueurdetoile/DotObjectArray)
+[![Known Vulnerabilities](https://snyk.io/test/github/liqueurdetoile/dotobjectarray/badge.svg?targetFile=package.json)](https://snyk.io/test/github/liqueurdetoile/dotobjectarray?targetFile=package.json)
 
 <p align="center"><a href="https://liqueurdetoile.com" target=_blank"><img src="http://hosting.liqueurdetoile.com/logo_lqdt.png" alt="Liqueur de Toile"></a></p>
 
@@ -9,7 +14,7 @@
 - [Why DOA ?](#why-doa--)
 - [Features](#features)
 - [Install](#install)
-  * [Module](#npm-module)
+  * [Module](#module)
   * [Browser](#browser)
 - [Usage](#usage)
   * [Api details](#api-details)
@@ -20,18 +25,23 @@
     + [Push data](#push-data)
     + [Import data](#import-data)
     + [Push and import in dataset](#push-and-import-in-dataset)
-    + [Delete dataset](#delete-dataset)
+    + [Empty data and remove dataset](#empty-data-and-remove-dataset)
   * [Utility methods](#utility-methods)
     + [Check key existence](#check-key-existence)
     + [get length of a dataset](#get-length-of-a-dataset)
     + [Get array of keys or array of values of a dataset](#get-array-of-keys-or-array-of-values-of-a-dataset)
+  * [Helpers](#helpers)
+    + [camelize](#camelize)
+    + [dashize](#dashize)
   * [Iterations](#iterations)
     + [forEach](#foreach)
     + [reduce](#reduce)
   * [Serializers](#serializers)
-    + [styleString](#stylestring)
+    + [stylesToString](#stylestostring)
     + [urlEncode](#urlencode)
     + [formUrlEncode](#formurlencode)
+  * [Parsers](#parsers)
+    + [stringToStyles](#stringtostyles)
 - [Want to help ?](#want-to-help--)
 
 ## Why DOA ?
@@ -124,7 +134,7 @@ doa.push('dat.really.long.path', 'fixture');
 console.log(doa.data);
 // will output {dat:{really:{long:{path:"fixture"}}}}
 ```
-
+You can safely [import](#import-data) or [push](#push-data) an ObjectArray into another ObjectArray at any level. The data will be safe.
 #### Import data
 If you want to import multiple keys at once, you can do only one call to `import` :
 ```javascript
@@ -137,7 +147,7 @@ doa.import({
 console.log(doa.data);
 // will output {dat:{really:{long:{path:"fixture1",dream:"fixture2"}},shorter:{path:"fixture3"}}}
 ```
-
+You can safely [import](#import-data) or [push](#push-data) an ObjectArray into another ObjectArray at any level. The data will be safe.
 #### Push and import in dataset
 You can easily push or import in dataset with an extra parameter.
 ```javascript
@@ -151,8 +161,9 @@ doa.import({
 console.log(doa.data);
 // will output {dat:{really:{long:{path:"fixture1",dream:"fixture2"}},shorter:{path:"fixture3"}}}
 ```
-#### Delete dataset
-Simply call `delete` method while providing the key to delete
+You can safely [import](#import-data) or [push](#push-data) an ObjectArray into another ObjectArray at any level. The data will be safe.
+#### Empty data and remove dataset
+To remove the data linked to a key, simply call `remove` method while providing the key to delete
 ```javascript
 var doa = new ObjectArray({
   dat: {
@@ -164,10 +175,11 @@ var doa = new ObjectArray({
 });
 
 // Delete dat.long.path
-doa.delete('dat.long.dream');
+doa.remove('dat.long.dream');
 
 console.log(doa.dataset('dat.long')) //Output {path: 'fixture1'}
 ```
+Wider, the `empty` method is an alias to `remove` method if a key is provided but completely empty ObjectArray data if called without parameter.
 ### Utility methods
 #### Check key existence
 Use the `has` method
@@ -220,6 +232,11 @@ doa.values('dat.long'); // returns ['fixture1','fixture2']
 ```
 The methods will return `undefined` if the key doesn't exist.
 
+### Helpers
+#### camelize
+camelize will convert a string to camel-case by removing spaces or dashes and uppercasing following letter.
+#### dashize
+camelize will convert a string to dash-case by replacing spaces with dashes and prepending dash to each capitalized first-letter and lowercase them/
 ### Iterations
 #### forEach
 The `forEach` method works exactly the same way than in the vanilla `array` object. The callback can take as much as three arguments quite self-explanatory. A forEach call can be done only on a dataset with a second parameter.
@@ -241,15 +258,15 @@ doa.forEach(function(value, key, index) {
   console.log(value);
 }, 'dat.long'); // will output 'fixture1', 'fixture2'
 ```
-#### [reduce](https://github.com/liqueurdetoile/DotObjectArray/blob/master/docs/api.md#ObjectArray..reduce)
+#### reduce
 The `reduce` method works exactly the same way than in the [vanilla `array` object](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array/reduce) except that the key is provided to the callback function as a third parameter.
 
 As forEach, reduce can be easily run on a subset instead at top-level with providing the key of the subset as second parameter. [See API for details](https://github.com/liqueurdetoile/DotObjectArray/blob/master/docs/api.md)
 
 ### Serializers
 Embedded Serializers are provided for common cases. Each can be run on a dataset with providing the dotted key of the dataset as parameter.
-#### [styleString](https://github.com/liqueurdetoile/DotObjectArray/blob/master/docs/api.md#ObjectArray..styleString)
-styleString will convert the dataset to a string suitable to a `style` attribute
+#### stylesToString
+stylesToString will convert the dataset to a string suitable to a `style` attribute. Keys will be converted from camel-case to dash-case if needed.
 ```javascript
 let doa = new ObjectArray({
   position: 'absolute',
@@ -258,7 +275,7 @@ let doa = new ObjectArray({
 
 doa.styleString(): // returns 'position:absolute;display:flex'
 ```
-#### [urlEncode](https://github.com/liqueurdetoile/DotObjectArray/blob/master/docs/api.md#ObjectArray..urlEncode)
+#### urlEncode
 urlEncode will convert the dataset to a string suitable to a query part of an URI
 ```javascript
 let doa = new ObjectArray({
@@ -269,7 +286,7 @@ let doa = new ObjectArray({
 
 doa.urlEncode(): // returns 'input=test&glob=**%2F*&alias=test%20fixture'
 ```
-#### [formUrlEncode](https://github.com/liqueurdetoile/DotObjectArray/blob/master/docs/api.md#ObjectArray..formUrlEncode)
+#### formUrlEncode
 formUrlEncode will convert the dataset to a string suitable for sending as a `form-url-encoded` data
 ```javascript
 let doa = new ObjectArray({
@@ -280,5 +297,16 @@ let doa = new ObjectArray({
 
 doa.urlEncode(): // returns 'input=test&glob=**%2F*&alias=test+fixture'
 ```
+### Parsers
+#### stringToStyles
+stringToStyles will import a style-like string, split it into keys/values data and stores then into data. Keys will be converted from dash-case to camel-case if needed.
+```javascript
+let doa = new ObjectArray();
+
+doa.stringToStyles('position:absolute;display:flex');
+
+console.log(doa.data): // outputs {position: 'absolute', display: 'flex'}
+```
+
 ## Want to help ?
 There is many more to do to implements othe features. Don't mind fork DOA, tweak it and submit a pull request :wink:

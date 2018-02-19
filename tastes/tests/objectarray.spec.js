@@ -18,6 +18,43 @@ describe('ObjectArray Class', function () {
         test2: 'fixture2'
       });
     });
+    it('should preserve ObjectArray data if ObjectArray is given in arguments', function () {
+      let i = new ObjectArray({
+        test: 'fixture',
+        test2: 'fixture2'
+      });
+
+      let j = new ObjectArray(i);
+
+      j.data.should.eql({
+        test: 'fixture',
+        test2: 'fixture2'
+      });
+    });
+  });
+
+  describe('Camel and dash', function () {
+    it('should camelize space and dashed strings', function () {
+      let e = new ObjectArray();
+
+      e.camelize('a long string').should.equal('aLongString');
+      e.camelize('a LonG string').should.equal('aLonGString');
+      e.camelize('a-long-string').should.equal('aLongString');
+      e.camelize('a long-string').should.equal('aLongString');
+      e.camelize('background-color').should.equal('backgroundColor');
+      e.camelize('padding-left').should.equal('paddingLeft');
+    });
+
+    it('should dashize space and uppercase letter', function () {
+      let e = new ObjectArray();
+
+      e.dashize('a long string').should.equal('a-long-string');
+      e.dashize('aLongString').should.equal('a-long-string');
+      e.dashize('a LongString').should.equal('a-long-string');
+      e.dashize('a longString').should.equal('a-long-string');
+      e.dashize('backgroundColor').should.equal('background-color');
+      e.dashize('paddingLeft').should.equal('padding-left');
+    });
   });
 
   describe('ObjectArray length, keys and values', function () {
@@ -29,6 +66,7 @@ describe('ObjectArray Class', function () {
       i.length().should.equal(1);
       i.push('test2', 'fixture2');
       i.length().should.equal(2);
+      expect(i.length('dat.wrong.path')).to.equal(undefined);
     });
     it('should returns keys', function () {
       let i = new ObjectArray();
@@ -38,6 +76,7 @@ describe('ObjectArray Class', function () {
       i.keys().should.eql(['test']);
       i.push('test2', 'fixture2');
       i.keys().should.eql(['test', 'test2']);
+      expect(i.keys('dat.wrong.path')).to.equal(undefined);
     });
     it('should returns values', function () {
       let i = new ObjectArray();
@@ -47,6 +86,7 @@ describe('ObjectArray Class', function () {
       i.values().should.eql(['fixture']);
       i.push('test2', 'fixture2');
       i.values().should.eql(['fixture', 'fixture2']);
+      expect(i.values('dat.wrong.path')).to.equal(undefined);
     });
     it('should returns right keys and values for dotted object', function () {
       var i = new ObjectArray({
@@ -139,6 +179,57 @@ describe('ObjectArray Class', function () {
         }
       });
     });
+
+    it('should push or import ObjectArray without losing data', function () {
+      let o = new ObjectArray({
+        test: 'fixture',
+        test2: {
+          test21: 'fixture21',
+          test22: 'fixture22'
+        }
+      });
+
+      let i = new ObjectArray().push('itest', o);
+
+      i.data.should.eql({itest: {
+        test: 'fixture',
+        test2: {
+          test21: 'fixture21',
+          test22: 'fixture22'
+        }
+      }});
+
+      i = new ObjectArray().push('itest', o, 'dat.path');
+
+      i.data.should.eql({dat: {path: {itest: {
+        test: 'fixture',
+        test2: {
+          test21: 'fixture21',
+          test22: 'fixture22'
+        }
+      }}}});
+
+      i = new ObjectArray().import(o);
+
+      i.data.should.eql({
+        test: 'fixture',
+        test2: {
+          test21: 'fixture21',
+          test22: 'fixture22'
+        }
+      });
+
+      i = new ObjectArray().import(o, 'dat.path');
+
+      i.data.should.eql({dat: {path: {
+        test: 'fixture',
+        test2: {
+          test21: 'fixture21',
+          test22: 'fixture22'
+        }
+      }}});
+    });
+
     it('should create all needed keys', function () {
       let i = new ObjectArray();
 
@@ -272,11 +363,40 @@ describe('ObjectArray Class', function () {
     it('should return a style type string', function () {
       let i = new ObjectArray({
         position: 'absolute',
-        display: 'flex'
+        display: 'flex',
+        paddingLeft: '1em'
       });
-      let ret = i.styleString();
 
-      ret.should.equal('position:absolute;display:flex');
+      i.stylesToString().should.equal('position:absolute;display:flex;padding-left:1em');
+    });
+
+    it('should import a style type string', function () {
+      let i = new ObjectArray();
+
+      i.stringToStyles('position:absolute;display:flex;padding-left:1em');
+
+      i.data.should.eql({
+        position: 'absolute',
+        display: 'flex',
+        paddingLeft: '1em'
+      });
+
+      i.empty();
+
+      i.stringToStyles('position:absolute;display:flex;padding-left:1em', 'dat.path.to.subkey');
+
+      i.dataset('dat.path.to.subkey').should.eql({
+        position: 'absolute',
+        display: 'flex',
+        paddingLeft: '1em'
+      });
+    });
+
+    it('should throw an exception if bad string provided', function () {
+      let i = new ObjectArray();
+
+      expect(i.stringToStyles.bind(i, 'databadword')).to.throw('Malformed string for stringToStyles');
+      expect(i.stringToStyles.bind(i, ':databadword;peanuts')).to.throw('Malformed string for stringToStyles');
     });
 
     it('should return a url encoded string', function () {
