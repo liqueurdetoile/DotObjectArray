@@ -13,8 +13,18 @@
 
 # DotObjectArray, a.k.a. DOA a.k.a. ObjectArray
 
-- [Why DOA ?](#why-doa--)
-- [Features](#features)
+## Why DOA ?
+For three reasons :
+- No support for associative arrays in vanilla JS
+- Creating deep levels keys in a vanilla JS <tt>Object</tt> can programmatically be a pain if none of parent keys exists
+- Bored of always using the same snippets everywhere and wants to have a less then 10KB NPM dependency ready to import
+
+## Features
+DOA is an object with a set of methods to :
+- Check, push, get and store data with ease regardless of its level
+- Brings some array-like behaviours for convenience (you know <tt>forEach</tt>, eh ?)
+- Easy to use data serializers and parsers
+
 - [Install](#install)
   * [Module](#module)
   * [Browser](#browser)
@@ -32,9 +42,8 @@
     + [Check key existence](#check-key-existence)
     + [get length of a dataset](#get-length-of-a-dataset)
     + [Get array of keys or array of values of a dataset](#get-array-of-keys-or-array-of-values-of-a-dataset)
-  * [Helpers](#helpers)
-    + [camelize](#camelize)
-    + [dashize](#dashize)
+    + [Flatten data and datasets](#flatten-data-and-datasets)
+    + [Clone](#clone)  
   * [Iterations](#iterations)
     + [forEach](#foreach)
     + [reduce](#reduce)
@@ -44,19 +53,10 @@
     + [formUrlEncode](#formurlencode)
   * [Parsers](#parsers)
     + [stringToStyles](#stringtostyles)
+  * [Helpers](#helpers)
+    + [camelize](#camelize)
+    + [dashize](#dashize)
 - [Want to help ?](#want-to-help--)
-
-## Why DOA ?
-For three reasons :
-- No support for associative arrays in vanilla JS
-- Creating deep levels keys in a vanilla JS <tt>Object</tt> can programmatically be a pain if none of parent keys exists
-- Bored of always using the same snippets everywhere and wants to have a NPM dependency ready to import
-
-## Features
-DOA is an object with a set of methods to :
-- Check, push, get and store data with ease regardless of its level
-- Brings some array-like behaviours for convenience (you know <tt>forEach</tt>, eh ?)
-- Easy to use data serializers and parsers
 
 ## Install
 ### Module
@@ -233,12 +233,28 @@ doa.keys('dat.long'); // returns ['path','dream']
 doa.values('dat.long'); // returns ['fixture1','fixture2']
 ```
 The methods will return `undefined` if the key doesn't exist.
+#### Flatten data and datasets
+You can use the `flatten` method to flatten all underlying data levels to the root or a given key dataset. __Warning : The data of the ObjectArray will be flattened and it couldn't be undone without the dotted parameters set to true__.
 
-### Helpers
-#### camelize
-camelize will convert a string to camel-case by removing spaces or dashes and uppercasing following letter.
-#### dashize
-camelize will convert a string to dash-case by replacing spaces with dashes and prepending dash to each capitalized first-letter and lowercase them/
+```javascript
+var doa = new ObjectArray({
+  dat: {
+    long: {
+      path: 'fixture1',
+      dream: 'fixture2'
+    }
+  }
+});
+
+// Flatten at root without path
+doa.flatten();
+console.log(doa.data); // Output {path: 'fixture1', dream: 'fixture2'}
+// Flatten at root without path
+doa.flatten(true);
+console.log(doa.data); // Output {dat.long.path: 'fixture1', dat.long.dream: 'fixture2'}
+```
+#### Clone
+The `clone` method returns a brand new clone of the current ObjectArray. If you have flattened dotted keys, you can provide `false`as parameter to unflatten the data and restore the object hierarchy.
 ### Iterations
 #### forEach
 The `forEach` method works exactly the same way than in the vanilla `array` object. The callback can take as much as three arguments quite self-explanatory. A forEach call can be done only on a dataset with a second parameter.
@@ -309,6 +325,11 @@ doa.stringToStyles('position:absolute;display:flex');
 
 console.log(doa.data): // outputs {position: 'absolute', display: 'flex'}
 ```
+### Helpers
+#### camelize
+camelize will convert a string to camel-case by removing spaces or dashes and uppercasing following letter.
+#### dashize
+camelize will convert a string to dash-case by replacing spaces with dashes and prepending dash to each capitalized first-letter and lowercase them/
 
 ## Want to help ?
 There is many more to do to implements othe features. Don't mind fork DOA, tweak it and submit a pull request :wink:
