@@ -26,6 +26,7 @@ DOA is an object with a set of methods to :
 - Easy to use data serializers and parsers
 - Work as well on a whole dataset or a key-based sub-selection of the dataset
 
+## Table of contents
 - [Install](#install)
   * [Module](#module)
   * [Browser](#browser)
