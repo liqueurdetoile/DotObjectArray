@@ -373,31 +373,28 @@ describe('ObjectArray Class', function () {
     it('should import a style type string', function () {
       let i = new ObjectArray();
 
-      i.stringToStyles('position:absolute;display:flex;padding-left:1em');
-
-      i.data.should.eql({
-        position: 'absolute',
-        display: 'flex',
-        paddingLeft: '1em'
-      });
+      i.stringToStyles('position:absolute;display:flex;padding-left:1em')
+        .data.should.eql({
+          position: 'absolute',
+          display: 'flex',
+          paddingLeft: '1em'
+        });
 
       i.empty();
 
-      i.stringToStyles('position:absolute;display:flex;padding-left:1em', 'dat.path.to.subkey');
+      i.stringToStyles('position:absolute;display:flex;padding-left:1em', 'dat.path.to.subkey')
+        .dataset('dat.path.to.subkey').should.eql({
+          position: 'absolute',
+          display: 'flex',
+          paddingLeft: '1em'
+        });
 
-      i.dataset('dat.path.to.subkey').should.eql({
-        position: 'absolute',
-        display: 'flex',
-        paddingLeft: '1em'
-      });
-
-      i.stringToStyles('position:absolute;display:flex;padding-left:1em;', 'dat.path.to.subkey');
-
-      i.dataset('dat.path.to.subkey').should.eql({
-        position: 'absolute',
-        display: 'flex',
-        paddingLeft: '1em'
-      });
+      i.stringToStyles('position:absolute;display:flex;padding-left:1em;', 'dat.path.to.subkey')
+        .dataset('dat.path.to.subkey').should.eql({
+          position: 'absolute',
+          display: 'flex',
+          paddingLeft: '1em'
+        });
     });
 
     it('should throw an exception if bad string provided', function () {
