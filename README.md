@@ -26,6 +26,49 @@ DOA is an object with a set of methods to :
 - Easy to use data serializers and parsers
 - Work as well on a whole dataset or a key-based sub-selection of the dataset
 
+## Quick examples
+```javascript
+// Import data at creation
+var doa = new ObjectArray({
+	item1: 3,
+ item2: 12,
+ item3: 5
+});
+
+//Add data
+doa.push('item4', 4); // Single item or dataset
+doa.import({
+  item5: 5,
+  item6: 6
+});
+
+//Add data with dotted notations
+doa.push('dat.long.darn.key','isntIt?'); // Will automatically create each keys
+
+//Iterate on keys at root level or in sub dataset
+doa.forEach(function(value, key, index) {
+ [...]
+});
+doa.forEach(function(value, key, index) {
+ [...]
+}, 'dat.path.to.data');
+
+// Sub dataset import
+doa.import({
+ subitem1: 1,
+ subitem2: 'astring',
+ subitem3: {obj: really}
+}, 'dat.long.and.far.away.key');
+
+sub dataset access
+doa.dataset('dat.long.and.far.away.key');
+
+//
+And many more !
+```
+## Playground
+If you want to go further and try a bit, you [can go to the playground](https://jsfiddle.net/dx03k9sL/19/).
+
 ## Table of contents
 - [Install](#install)
   * [Module](#module)
@@ -83,7 +126,9 @@ An ObjectArray constructor will be added to global (window) scope.
 
 ## Usage
 ### Api details
-[A full documentation for Api is available](https://liqueurdetoile.github.io/DotObjectArray/api)
+A full documentation for Api is available on two formats :
+- [browsable](https://liqueurdetoile.github.io/DotObjectArray/api/index.html)
+- [one big file](https://liqueurdetoile.github.io/DotObjectArray/api)
 
 ### Create an instance
 You can create an instance by calling `new ObjectArray()` or initialize it with data at creation :
