@@ -592,4 +592,14 @@ describe('ObjectArray Class', function () {
       ret.should.equal('input=test&glob=**%2F*&alias=test+fixture');
     });
   });
+
+  describe('Import JSON and change keys', function () {
+    it('should import JSON and change keys', function () {
+      var jstring = '{"dat": {"long": {"path": "foo", "dream": "baz"}}}';
+      var doa = new ObjectArray(JSON.parse(jstring));
+
+      doa.push('short', doa.dataset('dat.long')).remove('dat');
+      JSON.stringify(doa.data).should.equal('{"short":{"path":"foo","dream":"baz"}}');
+    });
+  });
 });
