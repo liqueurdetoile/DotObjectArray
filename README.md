@@ -58,6 +58,7 @@ DOA is an object with a set of methods to :
   * [Helpers](#helpers)
     + [camelize](#camelize)
     + [dashize](#dashize)
+- [JSON support](#json-support)
 - [Want to help ?](#want-to-help--)
 
 ## Install
@@ -332,6 +333,21 @@ console.log(doa.data): // outputs {position: 'absolute', display: 'flex'}
 camelize will convert a string to camel-case by removing spaces or dashes and uppercasing following letter.
 #### dashize
 camelize will convert a string to dash-case by replacing spaces with dashes and prepending dash to each capitalized first-letter and lowercase them/
+
+## JSON support
+You can easily use ObjectArrays to manipulate JSON data. Just rely on JSON native object to import your JSON structure, manipulate it with ObjectArray ease and get it back at the end :wink:
+```javascript
+var jstring = '{"dat": {"long": {"path": "foo", "dream": "baz"}}}';
+var doa = new ObjectArray(JSON.parse(jstring));
+
+// Let's say we want to move all dat.long stuff to a short thing
+doa.push('short', doa.dataset('dat.long')).remove('dat');
+      
+console.log(JSON.stringify(doa.data)); // outputs {"short":{"path":"foo","dream":"baz"}}
+```
+
+## Bugs and features requests
+ObjectArray is test-driven though it did not prevent all issues. Please report here any trouble or features request.
 
 ## Want to help ?
 There is many more to do to implements othe features. Don't mind fork DOA, tweak it and submit a pull request :wink:
