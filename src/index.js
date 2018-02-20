@@ -388,6 +388,7 @@ export default class ObjectArray {
         }
       }
     }.bind(this));
+    return this;
   }
 
   /**
