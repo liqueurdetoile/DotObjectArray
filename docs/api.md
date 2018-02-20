@@ -58,7 +58,7 @@ The ObjectArray class implements array-like properties and
     * [~urlEncode([key])](#ObjectArray..urlEncode) ⇒ <code>String</code>
     * [~formUrlEncode([key])](#ObjectArray..formUrlEncode) ⇒ <code>String</code>
     * [~camelize(s)](#ObjectArray..camelize) ⇒ <code>String</code>
-    * [~camelize([s])](#ObjectArray..camelize) ⇒ <code>String</code>
+    * [~dashize([s])](#ObjectArray..dashize) ⇒ <code>String</code>
 
 <a name="new_ObjectArray_new"></a>
 
@@ -354,9 +354,9 @@ Returns a camelized string (without uppercase leading character)
 | --- | --- | --- |
 | s | <code>String</code> | String to camelize |
 
-<a name="ObjectArray..camelize"></a>
+<a name="ObjectArray..dashize"></a>
 
-### ObjectArray~camelize([s]) ⇒ <code>String</code>
+### ObjectArray~dashize([s]) ⇒ <code>String</code>
 Returns a dashed string
  Replace Uppercases and spaces
 

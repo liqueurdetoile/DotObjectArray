@@ -446,7 +446,7 @@ export default class ObjectArray {
   *  Returns a dashed string
   *  Replace Uppercases and spaces
   *
-  *  @method ObjectArray~camelize
+  *  @method ObjectArray~dashize
   *  @since 1.2.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
