@@ -1,6 +1,6 @@
 {
   "name": "dot-object-array",
-  "version": "1.0.0",
+  "version": "1.2.3",
   "description": "Implements array-like methods for Object with support for dot notation keys",
   "main": "dist/objectarray.min.js",
   "publishConfig": {

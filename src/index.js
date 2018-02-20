@@ -60,6 +60,27 @@ export default class ObjectArray {
   }
 
   /**
+  *  Returns a clone with same data of the current ObjectArray
+  *
+  *  @method ObjectArray~clone
+  *  @since 1.3.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *
+  *  @param {Boolean} [keepFlattened=true]
+  *  If true, the flattened dotted keys will remains flattened
+  *  otherwise, the full hierarchy will be restored
+  *  @returns {ObjectArray} Return cloned ObjectArray
+  */
+  clone(keepFlattened = true) {
+    let o = new ObjectArray();
+
+    if (keepFlattened) o._data = this._data;
+    else o.import(this._data);
+    return o;
+  }
+
+  /**
   *  Empty the ObjectArray data. It can also be used as
   *  an alias for [remove method]{@link ObjectArray~remove}
   *
@@ -144,8 +165,7 @@ export default class ObjectArray {
   /**
   *  Check if a given key exists in the ObjectArray
   *
-  *  @alias ObjectArray~has
-  *  @type Array
+  *  @method ObjectArray~has
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -172,8 +192,7 @@ export default class ObjectArray {
   *  Returns dataset for the key. If no key is provided,
   *  the whole data is returned
   *
-  *  @alias ObjectArray~dataset
-  *  @type Object
+  *  @method ObjectArray~dataset
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -199,17 +218,16 @@ export default class ObjectArray {
   /**
   *  Returns the parent key for a given key
   *
-  *  @alias ObjectArray~parentKey
-  *  @type Array
+  *  @method ObjectArray~parentKey
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 1.0.1
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  key Key
   *  @returns {String} Parent key
   */
   parentKey(key) {
-    if (typeof key !== undefined) {
+    if (typeof key !== 'undefined') {
       key = key.split('.');
       key.pop();
 
@@ -219,6 +237,97 @@ export default class ObjectArray {
       }
     }
     return undefined;
+  }
+
+  /**
+  *  Returns the child key for a given key
+  *
+  *  @method ObjectArray~childKey
+  *  @since 1.3.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *
+  *  @param {dottedKey}  key Key
+  *  @returns {String}  Child key
+  */
+  childKey(key) {
+    if (typeof key !== 'undefined') {
+      key = key.split('.');
+      key.shift();
+
+      if (key.length) {
+        key = key.join('.');
+        return key;
+      }
+    }
+    return undefined;
+  }
+
+  /**
+  *  Private method to recurse flatten
+  *
+  *  @method ObjectArray~_recurseFlatten
+  *  @private
+  *  @since 1.3.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *
+  *  @param {Object}    ret     Object to complete
+  *  @param {Boolean}   dotted  Should the new key be dotted or not
+  *  @param {dottedKey} pKey    Parent key defining current subdataset
+  *  @returns {Object}  Completed result with non-object data
+  */
+  _recurseFlatten(ret, dotted, pKey) {
+    let k, data = this.dataset(pKey);
+
+    for (let key in data) {
+      if (typeof data[key] === 'object') this._recurseFlatten(ret, dotted, pKey ? pKey + '.' + key : key);
+      else {
+        // Correct key for root key or subdataset key
+        pKey = (this.childKey(pKey)) ? this.childKey(pKey) : pKey;
+        k = (dotted && pKey) ? pKey + '.' + key : key;
+        ret[k] = data[key];
+      }
+    }
+    return ret;
+  }
+
+  /**
+  *  Flattens the object and replace data.
+  *
+  *  Each object in the dataset is
+  *  recursively explored to extract data and bring it a top level.
+  *
+  *  With default behaviour, if two or more properties have same name under
+  *  subkeys, the last explored one will replace the previous one.
+  *
+  *  If the method is called with <tt>true</tt> as first parameter, the
+  *  resulting data keys will be dotted, preventing duplication. In that case,
+  *  you must access new keys with <tt>dataset</tt> method or by calling
+  *  the <tt>data</tt> key property with [] (e.g. doa.data['my.key']);
+  *
+  *  Flatten can be run only on a subdataset by providing a key as second parameter.
+  *
+  *  @method ObjectArray~flatten
+  *  @since 1.3.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *
+  *  @param {Boolean} [dotted = false]
+  *  @param {dottedKey}  [pKey]  Key to flatten. If not provided, the whole
+  *  dataset will flattened.
+  *  @returns {Boolean} Parent key
+  */
+  flatten(dotted = false, pKey) {
+    let data;
+
+    if (typeof pKey === 'undefined') data = this._recurseFlatten({}, dotted);
+    else if (this.has(pKey)) data = this._recurseFlatten({}, dotted, pKey);
+    else return this;
+
+    if (typeof pKey === 'undefined') this._data = data;
+    else this.push(pKey, data);
+    return this;
   }
 
   /**
@@ -365,7 +474,7 @@ export default class ObjectArray {
   *
   *  @method ObjectArray~stringToStyles
   *  @since 1.2.0
-  *  @version 1.0.1
+  *  @version 1.0.2
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {String}  str   String to import

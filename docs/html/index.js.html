@@ -22,7 +22,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ObjectArray.html">ObjectArray</a><ul class='methods'><li data-type='method'><a href="ObjectArray.html#~camelize">camelize</a></li><li data-type='method'><a href="ObjectArray.html#~dashize">dashize</a></li><li data-type='method'><a href="ObjectArray.html#~dataset">dataset</a></li><li data-type='method'><a href="ObjectArray.html#~empty">empty</a></li><li data-type='method'><a href="ObjectArray.html#~forEach">forEach</a></li><li data-type='method'><a href="ObjectArray.html#~formUrlEncode">formUrlEncode</a></li><li data-type='method'><a href="ObjectArray.html#~has">has</a></li><li data-type='method'><a href="ObjectArray.html#~import">import</a></li><li data-type='method'><a href="ObjectArray.html#~keys">keys</a></li><li data-type='method'><a href="ObjectArray.html#~length">length</a></li><li data-type='method'><a href="ObjectArray.html#~parentKey">parentKey</a></li><li data-type='method'><a href="ObjectArray.html#~push">push</a></li><li data-type='method'><a href="ObjectArray.html#~reduce">reduce</a></li><li data-type='method'><a href="ObjectArray.html#~remove">remove</a></li><li data-type='method'><a href="ObjectArray.html#~stringToStyles">stringToStyles</a></li><li data-type='method'><a href="ObjectArray.html#~stylesToString">stylesToString</a></li><li data-type='method'><a href="ObjectArray.html#~urlEncode">urlEncode</a></li><li data-type='method'><a href="ObjectArray.html#~values">values</a></li></ul></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ObjectArray.html">ObjectArray</a><ul class='methods'><li data-type='method'><a href="ObjectArray.html#~camelize">camelize</a></li><li data-type='method'><a href="ObjectArray.html#~childKey">childKey</a></li><li data-type='method'><a href="ObjectArray.html#~clone">clone</a></li><li data-type='method'><a href="ObjectArray.html#~dashize">dashize</a></li><li data-type='method'><a href="ObjectArray.html#~dataset">dataset</a></li><li data-type='method'><a href="ObjectArray.html#~empty">empty</a></li><li data-type='method'><a href="ObjectArray.html#~flatten">flatten</a></li><li data-type='method'><a href="ObjectArray.html#~forEach">forEach</a></li><li data-type='method'><a href="ObjectArray.html#~formUrlEncode">formUrlEncode</a></li><li data-type='method'><a href="ObjectArray.html#~has">has</a></li><li data-type='method'><a href="ObjectArray.html#~import">import</a></li><li data-type='method'><a href="ObjectArray.html#~keys">keys</a></li><li data-type='method'><a href="ObjectArray.html#~length">length</a></li><li data-type='method'><a href="ObjectArray.html#~parentKey">parentKey</a></li><li data-type='method'><a href="ObjectArray.html#~push">push</a></li><li data-type='method'><a href="ObjectArray.html#~reduce">reduce</a></li><li data-type='method'><a href="ObjectArray.html#~remove">remove</a></li><li data-type='method'><a href="ObjectArray.html#~stringToStyles">stringToStyles</a></li><li data-type='method'><a href="ObjectArray.html#~stylesToString">stylesToString</a></li><li data-type='method'><a href="ObjectArray.html#~urlEncode">urlEncode</a></li><li data-type='method'><a href="ObjectArray.html#~values">values</a></li></ul></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <div id="main">
@@ -96,6 +96,27 @@ export default class ObjectArray {
 
   set data(data) {
     this.import(data);
+  }
+
+  /**
+  *  Returns a clone with same data of the current ObjectArray
+  *
+  *  @method ObjectArray~clone
+  *  @since 1.3.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
+  *
+  *  @param {Boolean} [keepFlattened=true]
+  *  If true, the flattened dotted keys will remains flattened
+  *  otherwise, the full hierarchy will be restored
+  *  @returns {ObjectArray} Return cloned ObjectArray
+  */
+  clone(keepFlattened = true) {
+    let o = new ObjectArray();
+
+    if (keepFlattened) o._data = this._data;
+    else o.import(this._data);
+    return o;
   }
 
   /**
@@ -183,8 +204,7 @@ export default class ObjectArray {
   /**
   *  Check if a given key exists in the ObjectArray
   *
-  *  @alias ObjectArray~has
-  *  @type Array
+  *  @method ObjectArray~has
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
@@ -211,8 +231,7 @@ export default class ObjectArray {
   *  Returns dataset for the key. If no key is provided,
   *  the whole data is returned
   *
-  *  @alias ObjectArray~dataset
-  *  @type Object
+  *  @method ObjectArray~dataset
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
@@ -238,17 +257,16 @@ export default class ObjectArray {
   /**
   *  Returns the parent key for a given key
   *
-  *  @alias ObjectArray~parentKey
-  *  @type Array
+  *  @method ObjectArray~parentKey
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 1.0.1
   *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  key Key
   *  @returns {String} Parent key
   */
   parentKey(key) {
-    if (typeof key !== undefined) {
+    if (typeof key !== 'undefined') {
       key = key.split('.');
       key.pop();
 
@@ -258,6 +276,97 @@ export default class ObjectArray {
       }
     }
     return undefined;
+  }
+
+  /**
+  *  Returns the child key for a given key
+  *
+  *  @method ObjectArray~childKey
+  *  @since 1.3.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
+  *
+  *  @param {dottedKey}  key Key
+  *  @returns {String}  Child key
+  */
+  childKey(key) {
+    if (typeof key !== 'undefined') {
+      key = key.split('.');
+      key.shift();
+
+      if (key.length) {
+        key = key.join('.');
+        return key;
+      }
+    }
+    return undefined;
+  }
+
+  /**
+  *  Private method to recurse flatten
+  *
+  *  @method ObjectArray~_recurseFlatten
+  *  @private
+  *  @since 1.3.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
+  *
+  *  @param {Object}    ret     Object to complete
+  *  @param {Boolean}   dotted  Should the new key be dotted or not
+  *  @param {dottedKey} pKey    Parent key defining current subdataset
+  *  @returns {Object}  Completed result with non-object data
+  */
+  _recurseFlatten(ret, dotted, pKey) {
+    let k, data = this.dataset(pKey);
+
+    for (let key in data) {
+      if (typeof data[key] === 'object') this._recurseFlatten(ret, dotted, pKey ? pKey + '.' + key : key);
+      else {
+        // Correct key for root key or subdataset key
+        pKey = (this.childKey(pKey)) ? this.childKey(pKey) : pKey;
+        k = (dotted &amp;&amp; pKey) ? pKey + '.' + key : key;
+        ret[k] = data[key];
+      }
+    }
+    return ret;
+  }
+
+  /**
+  *  Flattens the object and replace data.
+  *
+  *  Each object in the dataset is
+  *  recursively explored to extract data and bring it a top level.
+  *
+  *  With default behaviour, if two or more properties have same name under
+  *  subkeys, the last explored one will replace the previous one.
+  *
+  *  If the method is called with &lt;tt>true&lt;/tt> as first parameter, the
+  *  resulting data keys will be dotted, preventing duplication. In that case,
+  *  you must access new keys with &lt;tt>dataset&lt;/tt> method or by calling
+  *  the &lt;tt>data&lt;/tt> key property with [] (e.g. doa.data['my.key']);
+  *
+  *  Flatten can be run only on a subdataset by providing a key as second parameter.
+  *
+  *  @method ObjectArray~flatten
+  *  @since 1.3.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
+  *
+  *  @param {Boolean} [dotted = false]
+  *  @param {dottedKey}  [pKey]  Key to flatten. If not provided, the whole
+  *  dataset will flattened.
+  *  @returns {Boolean} Parent key
+  */
+  flatten(dotted = false, pKey) {
+    let data;
+
+    if (typeof pKey === 'undefined') data = this._recurseFlatten({}, dotted);
+    else if (this.has(pKey)) data = this._recurseFlatten({}, dotted, pKey);
+    else return this;
+
+    if (typeof pKey === 'undefined') this._data = data;
+    else this.push(pKey, data);
+    return this;
   }
 
   /**
@@ -404,7 +513,7 @@ export default class ObjectArray {
   *
   *  @method ObjectArray~stringToStyles
   *  @since 1.2.0
-  *  @version 1.0.1
+  *  @version 1.0.2
   *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com>
   *
   *  @param {String}  str   String to import
@@ -540,7 +649,7 @@ if (window) window.ObjectArray = ObjectArray;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Feb 20 2018 13:42:05 GMT+0100 (Paris, Madrid) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Feb 20 2018 17:29:08 GMT+0100 (Paris, Madrid) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

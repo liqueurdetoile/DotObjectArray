@@ -33,6 +33,66 @@ describe('ObjectArray Class', function () {
     });
   });
 
+  describe('Cloning ObjectArray', function () {
+    it('should return a clone', function () {
+      let i = new ObjectArray();
+
+      i.clone().should.not.equal(i);
+      i.clone().data.should.eql(i.data);
+    });
+
+    it('should return a clone', function () {
+      let i = new ObjectArray({
+        test1: 'fixture',
+        test2: {
+          testx: { test2x: 0 },
+          testy: {
+            test2y1: true,
+            test2y2: 'fix'
+          }
+        }
+      });
+
+      i.clone().should.not.equal(i);
+      i.clone().data.should.eql(i.data);
+    });
+
+    it('should return a clone', function () {
+      let i = new ObjectArray({
+        test1: 'fixture',
+        test2: {
+          testx: { test2x: 0 },
+          testy: {
+            test2y1: true,
+            test2y2: 'fix'
+          }
+        }
+      });
+
+      i.flatten().clone().should.not.equal(i);
+      i.clone().data.should.eql(i.data);
+    });
+
+    it('should return a clone', function () {
+      let i = new ObjectArray({
+        test1: 'fixture',
+        test2: {
+          test21: 0,
+          test22: true
+        }
+      });
+
+      i.flatten(true).clone(false).should.not.equal(i);
+      i.clone(false).data.should.eql({
+        test1: 'fixture',
+        test2: {
+          test21: 0,
+          test22: true
+        }
+      });
+    });
+  });
+
   describe('Camel and dash', function () {
     it('should camelize space and dashed strings', function () {
       let e = new ObjectArray();
@@ -156,6 +216,112 @@ describe('ObjectArray Class', function () {
       expect(i.parentKey('test')).to.equal(undefined);
       i.parentKey('test2.test21').should.equal('test2');
     });
+  });
+
+  describe('Flatten ObjectArray', function () {
+    it('should change nothing if data empty', function () {
+      let i = new ObjectArray();
+
+      i.flatten().should.eql(i);
+      i.data.should.eql({});
+    });
+
+    it('should change nothing if data already flattened', function () {
+      let i = new ObjectArray({
+        test1: 'fixture',
+        test2: 0
+      });
+
+      i.flatten().should.eql(i);
+      i.data.should.eql({test1: 'fixture', test2: 0});
+    });
+
+    it('should flatten dataset', function () {
+      let i = new ObjectArray({
+        test1: 'fixture',
+        test2: {
+          test21: 0,
+          test22: true
+        }
+      });
+
+      i.flatten().should.eql(i);
+      i.data.should.eql({test1: 'fixture', test21: 0, test22: true});
+    });
+
+    it('should flatten dataset and replace', function () {
+      let i = new ObjectArray({
+        test1: 'fixture',
+        test2: {
+          test1: 0,
+          test2: true
+        }
+      });
+
+      i.flatten().should.eql(i);
+      i.data.should.eql({test1: 0, test2: true});
+    });
+
+    it('should flatten dataset and dot keys', function () {
+      let i = new ObjectArray({
+        test1: 'fixture',
+        test2: {
+          test1: 0,
+          test2: true
+        }
+      });
+
+      i.flatten(true).should.eql(i);
+      i.data.should.eql({test1: 'fixture', 'test2.test1': 0, 'test2.test2': true});
+    });
+
+    it('should flatten subdataset and no change', function () {
+      let i = new ObjectArray({
+        test1: 'fixture',
+        test2: {
+          test21: 0,
+          test22: true
+        }
+      });
+
+      i.flatten(false, 'test2').should.eql(i);
+      i.data.should.eql({test1: 'fixture', test2: {test21: 0, test22: true}});
+      i.flatten(false, 'test3').should.eql(i);
+      i.data.should.eql({test1: 'fixture', test2: {test21: 0, test22: true}});
+    });
+
+    it('should flatten subdataset', function () {
+      let i = new ObjectArray({
+        test1: 'fixture',
+        test2: {
+          testx: { test2x: 0 },
+          testy: {
+            test2y1: true,
+            test2y2: 'fix'
+          }
+        }
+      });
+
+      i.flatten(false, 'test2').should.eql(i);
+      i.data.should.eql({test1: 'fixture', test2: {test2x: 0, test2y1: true, test2y2: 'fix'}});
+    });
+
+    it('should flatten subdataset and dot keys', function () {
+      let i = new ObjectArray({
+        test1: 'fixture',
+        test2: {
+          testx: { test2x: 0 },
+          testy: {
+            test2y1: true,
+            test2y2: 'fix'
+          }
+        }
+      });
+
+      i.flatten(true, 'test2').should.eql(i);
+      i.data.should.eql({test1: 'fixture', test2: {'testx.test2x': 0, 'testy.test2y1': true, 'testy.test2y2': 'fix'}});
+    });
+
   });
 
   describe('Push and delete data', function () {

@@ -41,6 +41,7 @@ The ObjectArray class implements array-like properties and
 * [ObjectArray](#ObjectArray)
     * [new ObjectArray(data)](#new_ObjectArray_new)
     * [~data](#ObjectArray..data) : <code>Object</code>
+    * [~clone([keepFlattened])](#ObjectArray..clone) ⇒ [<code>ObjectArray</code>](#ObjectArray)
     * [~empty(Key)](#ObjectArray..empty) ⇒ [<code>ObjectArray</code>](#ObjectArray)
     * [~length(pKey)](#ObjectArray..length) ⇒ <code>Number</code> \| <code>undefined</code>
     * [~keys(pKey)](#ObjectArray..keys) ⇒ <code>Array</code> \| <code>undefined</code>
@@ -48,6 +49,8 @@ The ObjectArray class implements array-like properties and
     * [~has(key)](#ObjectArray..has) ⇒ <code>Boolean</code>
     * [~dataset([key])](#ObjectArray..dataset) ⇒ <code>Object</code> \| <code>undefined</code>
     * [~parentKey(key)](#ObjectArray..parentKey) ⇒ <code>String</code>
+    * [~childKey(key)](#ObjectArray..childKey) ⇒ <code>String</code>
+    * [~flatten([dotted], [pKey])](#ObjectArray..flatten) ⇒ <code>Boolean</code>
     * [~push(key, val, [pKey])](#ObjectArray..push) ⇒ [<code>ObjectArray</code>](#ObjectArray)
     * [~remove(key)](#ObjectArray..remove) ⇒ [<code>ObjectArray</code>](#ObjectArray)
     * [~import(Data, [pKey])](#ObjectArray..import) ⇒ [<code>ObjectArray</code>](#ObjectArray)
@@ -80,6 +83,21 @@ Getter/setter for the root data of ObjectArray.
 **Since**: 1.0.0  
 **Version**: 1.0.0  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
+<a name="ObjectArray..clone"></a>
+
+### ObjectArray~clone([keepFlattened]) ⇒ [<code>ObjectArray</code>](#ObjectArray)
+Returns a clone with same data of the current ObjectArray
+
+**Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
+**Returns**: [<code>ObjectArray</code>](#ObjectArray) - Return cloned ObjectArray  
+**Since**: 1.3.0  
+**Version**: 1.0.0  
+**Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [keepFlattened] | <code>Boolean</code> | <code>true</code> | If true, the flattened dotted keys will remains flattened  otherwise, the full hierarchy will be restored |
+
 <a name="ObjectArray..empty"></a>
 
 ### ObjectArray~empty(Key) ⇒ [<code>ObjectArray</code>](#ObjectArray)
@@ -188,12 +206,56 @@ Returns the parent key for a given key
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
 **Returns**: <code>String</code> - Parent key  
 **Since**: 1.0.0  
+**Version**: 1.0.1  
+**Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| key | [<code>dottedKey</code>](#dottedKey) | Key |
+
+<a name="ObjectArray..childKey"></a>
+
+### ObjectArray~childKey(key) ⇒ <code>String</code>
+Returns the child key for a given key
+
+**Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
+**Returns**: <code>String</code> - Child key  
+**Since**: 1.3.0  
 **Version**: 1.0.0  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | key | [<code>dottedKey</code>](#dottedKey) | Key |
+
+<a name="ObjectArray..flatten"></a>
+
+### ObjectArray~flatten([dotted], [pKey]) ⇒ <code>Boolean</code>
+Flattens the object and replace data.
+
+ Each object in the dataset is
+ recursively explored to extract data and bring it a top level.
+
+ With default behaviour, if two or more properties have same name under
+ subkeys, the last explored one will replace the previous one.
+
+ If the method is called with <tt>true</tt> as first parameter, the
+ resulting data keys will be dotted, preventing duplication. In that case,
+ you must access new keys with <tt>dataset</tt> method or by calling
+ the <tt>data</tt> key property with [] (e.g. doa.data['my.key']);
+
+ Flatten can be run only on a subdataset by providing a key as second parameter.
+
+**Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
+**Returns**: <code>Boolean</code> - Parent key  
+**Since**: 1.3.0  
+**Version**: 1.0.0  
+**Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [dotted] | <code>Boolean</code> | <code>false</code> |  |
+| [pKey] | [<code>dottedKey</code>](#dottedKey) |  | Key to flatten. If not provided, the whole  dataset will flattened. |
 
 <a name="ObjectArray..push"></a>
 
@@ -300,7 +362,7 @@ Imports a string from a <tt>style</tt> attribute.
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
 **Returns**: [<code>ObjectArray</code>](#ObjectArray) - Returns self for chaining  
 **Since**: 1.2.0  
-**Version**: 1.0.1  
+**Version**: 1.0.2  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
 
 | Param | Type | Description |
