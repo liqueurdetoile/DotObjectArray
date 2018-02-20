@@ -341,7 +341,7 @@ export default class ObjectArray {
   *  Returns a string suitable for a <tt>style</tt> attribute.
   *  ObjectArray will convert camel-cased key to dashed key.
   *
-  *  @method ObjectArray~styleString
+  *  @method ObjectArray~stylesToString
   *  @since 1.0.0
   *  @version 1.1.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -363,9 +363,9 @@ export default class ObjectArray {
   *  Imports a string from a <tt>style</tt> attribute.
   *  ObjectArray will camelize key from spaces and/or dashes
   *
-  *  @method ObjectArray~styleString
+  *  @method ObjectArray~stringToStyles
   *  @since 1.2.0
-  *  @version 1.0.0
+  *  @version 1.0.1
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {String}  str   String to import
@@ -377,12 +377,15 @@ export default class ObjectArray {
     let styles = str.split(';');
 
     styles.forEach(function (style) {
-      let parts = style.split(':');
+      let parts;
 
-      try {
-        this.push(this.camelize(parts[0].trim()), parts[1].trim(), pKey);
-      } catch (e) {
-        throw new TypeError('Malformed string for stringToStyles');
+      if (style !== '') { // Fix trailing ;
+        parts = style.split(':');
+        try {
+          this.push(this.camelize(parts[0].trim()), parts[1].trim(), pKey);
+        } catch (e) {
+          throw new TypeError('Malformed string for stringToStyles');
+        }
       }
     }.bind(this));
   }

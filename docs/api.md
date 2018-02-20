@@ -53,8 +53,8 @@ The ObjectArray class implements array-like properties and
     * [~import(Data, [pKey])](#ObjectArray..import) ⇒ [<code>ObjectArray</code>](#ObjectArray)
     * [~forEach(cb, [key])](#ObjectArray..forEach) ⇒ <code>void</code>
     * [~reduce(reducer, [start], [key])](#ObjectArray..reduce) ⇒ <code>Mixed</code>
-    * [~styleString([key])](#ObjectArray..styleString) ⇒ <code>String</code>
-    * [~styleString(str, [pkey])](#ObjectArray..styleString) ⇒ [<code>ObjectArray</code>](#ObjectArray)
+    * [~stylesToString([key])](#ObjectArray..stylesToString) ⇒ <code>String</code>
+    * [~stringToStyles(str, [pkey])](#ObjectArray..stringToStyles) ⇒ [<code>ObjectArray</code>](#ObjectArray)
     * [~urlEncode([key])](#ObjectArray..urlEncode) ⇒ <code>String</code>
     * [~formUrlEncode([key])](#ObjectArray..formUrlEncode) ⇒ <code>String</code>
     * [~camelize(s)](#ObjectArray..camelize) ⇒ <code>String</code>
@@ -275,9 +275,9 @@ Reduce the ObjectArray data given a callback
 | [start] | <code>Mixed</code> | Initial value for iteration |
 | [key] | [<code>dottedKey</code>](#dottedKey) | Dotted key to limit iterations through its subset  if empty, the global data object will be used |
 
-<a name="ObjectArray..styleString"></a>
+<a name="ObjectArray..stylesToString"></a>
 
-### ObjectArray~styleString([key]) ⇒ <code>String</code>
+### ObjectArray~stylesToString([key]) ⇒ <code>String</code>
 Returns a string suitable for a <tt>style</tt> attribute.
  ObjectArray will convert camel-cased key to dashed key.
 
@@ -291,16 +291,16 @@ Returns a string suitable for a <tt>style</tt> attribute.
 | --- | --- | --- |
 | [key] | [<code>dottedKey</code>](#dottedKey) | Dotted key to limit iterations through its subset  if empty, the global data object will be used |
 
-<a name="ObjectArray..styleString"></a>
+<a name="ObjectArray..stringToStyles"></a>
 
-### ObjectArray~styleString(str, [pkey]) ⇒ [<code>ObjectArray</code>](#ObjectArray)
+### ObjectArray~stringToStyles(str, [pkey]) ⇒ [<code>ObjectArray</code>](#ObjectArray)
 Imports a string from a <tt>style</tt> attribute.
  ObjectArray will camelize key from spaces and/or dashes
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
 **Returns**: [<code>ObjectArray</code>](#ObjectArray) - Returns self for chaining  
 **Since**: 1.2.0  
-**Version**: 1.0.0  
+**Version**: 1.0.1  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
 
 | Param | Type | Description |
