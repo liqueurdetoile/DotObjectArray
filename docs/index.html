@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>DotObjectArray</title>
+    <meta name="description" content="Implements array-like methods for Object with support for dotted notation keys">
+    <link rel="stylesheet" type="text/css" href="assets/styles.css">
+    <link rel="stylesheet" type="text/css" href="assets/montserrat/css/montserrat.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/styles/default.min.css">
+    <style type="text/css">@keyframes lds-eclipse {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      50% {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @-webkit-keyframes lds-eclipse {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      50% {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    .lds-eclipse {
+      position: relative;
+    }
+    .lds-eclipse div {
+      position: absolute;
+      -webkit-animation: lds-eclipse 1s linear infinite;
+      animation: lds-eclipse 1s linear infinite;
+      width: 160px;
+      height: 160px;
+      top: 20px;
+      left: 20px;
+      border-radius: 50%;
+      box-shadow: 0 10px 0 0 #fcb711;
+      -webkit-transform-origin: 80px 85px;
+      transform-origin: 80px 85px;
+    }
+    .lds-eclipse {
+      width: 200px !important;
+      height: 200px !important;
+      -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+      transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+    }
+  </style>
+  </head>
+  <body>
+    <div class="loader">
+      <div class="lds-css ng-scope">
+        <div style="width:100%;height:100%" class="lds-eclipse">
+          <div></div>
+        </div>
+      </div>
+      <div class="loader-title">LOADING...</div>
+    </div>
+    <div class="wrapper"></div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" defer></script>
+    <script src="https://cdn.rawgit.com/showdownjs/showdown/1.8.6/dist/showdown.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/highlight.min.js" defer></script>
+    <script src="assets/loader.js" defer></script>
+  </body>
+</html>

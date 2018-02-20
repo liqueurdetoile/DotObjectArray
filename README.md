@@ -83,7 +83,7 @@ An ObjectArray constructor will be added to global (window) scope.
 
 ## Usage
 ### Api details
-[A full documentation for Api is available](https://github.com/liqueurdetoile/DotObjectArray/blob/master/docs/api.md)
+[A full documentation for Api is available](https://liqueurdetoile.github.io/DotObjectArray/api)
 
 ### Create an instance
 You can create an instance by calling `new ObjectArray()` or initialize it with data at creation :
