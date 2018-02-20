@@ -3,8 +3,10 @@
 [![Coverage Status](https://coveralls.io/repos/github/liqueurdetoile/DotObjectArray/badge.svg?branch=master)](https://coveralls.io/github/liqueurdetoile/DotObjectArray?branch=master)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-[![bitHound](https://img.shields.io/bithound/code/github/liqueurdetoile/objectarray.svg)](https://www.bithound.io/github/liqueurdetoile/DotObjectArray)
-[![bitHound](https://img.shields.io/bithound/dependencies/github/liqueurdetoile/objectarray.svg)](https://www.bithound.io/github/liqueurdetoile/DotObjectArray)
+[![bitHound Overall Score](https://www.bithound.io/github/liqueurdetoile/DotObjectArray/badges/score.svg)](https://www.bithound.io/github/liqueurdetoile/DotObjectArray)
+[![bitHound Code](https://www.bithound.io/github/liqueurdetoile/DotObjectArray/badges/code.svg)](https://www.bithound.io/github/liqueurdetoile/DotObjectArray)
+[![bitHound Dependencies](https://www.bithound.io/github/liqueurdetoile/DotObjectArray/badges/dependencies.svg)](https://www.bithound.io/github/liqueurdetoile/DotObjectArray/master/dependencies/npm)
+[![bitHound Dev Dependencies](https://www.bithound.io/github/liqueurdetoile/DotObjectArray/badges/devDependencies.svg)](https://www.bithound.io/github/liqueurdetoile/DotObjectArray/master/dependencies/npm)
 [![Known Vulnerabilities](https://snyk.io/test/github/liqueurdetoile/dotobjectarray/badge.svg?targetFile=package.json)](https://snyk.io/test/github/liqueurdetoile/dotobjectarray?targetFile=package.json)
 
 <p align="center"><a href="https://liqueurdetoile.com" target=_blank"><img src="http://hosting.liqueurdetoile.com/logo_lqdt.png" alt="Liqueur de Toile"></a></p>
