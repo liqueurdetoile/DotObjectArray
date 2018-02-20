@@ -24,6 +24,7 @@ DOA is an object with a set of methods to :
 - Check, push, get and store data with ease regardless of its level
 - Brings some array-like behaviours for convenience (you know <tt>forEach</tt>, eh ?)
 - Easy to use data serializers and parsers
+- Work as well on a whole dataset or a key-based sub-selection of the dataset
 
 - [Install](#install)
   * [Module](#module)
