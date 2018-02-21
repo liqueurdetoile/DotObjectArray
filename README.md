@@ -60,11 +60,12 @@ doa.import({
  subitem3: {obj: really}
 }, 'dat.long.and.far.away.key');
 
-sub dataset access
+//sub dataset access
 doa.dataset('dat.long.and.far.away.key');
+// or
+doa.pull('dat.long.and.far.away.key');
 
-//
-And many more !
+// And many more !
 ```
 ## Playground
 If you want to go further and try a bit, you [can go to the playground](https://jsfiddle.net/dx03k9sL/19/).
