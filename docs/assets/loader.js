@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $.ajax({
-    url: 'https://cdn.rawgit.com/liqueurdetoile/DotObjectArray/4c6b337c/README.md',
+    url: 'https://cdn.rawgit.com/liqueurdetoile/DotObjectArray/b5751e68/README.md',
     dataType: 'text',
     success: function(data) {       
       var converter = new showdown.Converter();      
