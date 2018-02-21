@@ -216,6 +216,22 @@ export default class ObjectArray {
   }
 
   /**
+  *  Alias for [dataset method]{@link ObjectArray~dataset}. Returns dataset for the key.
+  *  If no key is provided, the whole data is returned
+  *
+  *  @method ObjectArray~pull
+  *  @since 1.4.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *
+  *  @param {dottedKey}  [key=null] Key
+  *  @returns {Object|undefined} Data object or undefined if key doesn't exist
+  */
+  pull(key) {
+    return this.dataset(key);
+  }
+
+  /**
   *  Returns the parent key for a given key
   *
   *  @method ObjectArray~parentKey
@@ -474,7 +490,7 @@ export default class ObjectArray {
   *
   *  @method ObjectArray~stringToStyles
   *  @since 1.2.0
-  *  @version 1.0.2
+  *  @version 1.0.3
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {String}  str   String to import
@@ -483,8 +499,11 @@ export default class ObjectArray {
   *  @returns {ObjectArray}  Returns self for chaining
   */
   stringToStyles(str, pKey) {
-    let styles = str.split(';');
+    let styles;
 
+    if (typeof str === 'undefined' || str === null) return this; // fix null input value
+
+    styles = str.split(';');
     styles.forEach(function (style) {
       let parts;
 

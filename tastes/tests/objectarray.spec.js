@@ -396,6 +396,26 @@ describe('ObjectArray Class', function () {
       }}});
     });
 
+    it('should use pull as an alias to dataset', function () {
+      let o = new ObjectArray({
+        test: 'fixture',
+        test2: {
+          test21: 'fixture21',
+          test22: 'fixture22'
+        }
+      });
+
+      o.pull().should.eql({
+        test: 'fixture',
+        test2: {
+          test21: 'fixture21',
+          test22: 'fixture22'
+        }
+      });
+
+      o.pull('test2.test22').should.equal('fixture22');
+    });
+
     it('should create all needed keys', function () {
       let i = new ObjectArray();
 
@@ -538,6 +558,9 @@ describe('ObjectArray Class', function () {
 
     it('should import a style type string', function () {
       let i = new ObjectArray();
+
+      i.stringToStyles(undefined).data.should.eql({});
+      i.stringToStyles(null).data.should.eql({});
 
       i.stringToStyles('position:absolute;display:flex;padding-left:1em')
         .data.should.eql({

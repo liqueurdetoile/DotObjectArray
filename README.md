@@ -158,7 +158,7 @@ console.log(doa.data.test) //Output 'fixture'
 You can only treat with the whole data object through this property. *Data is kept under a "private" `_data` property that can be accessed though I do not recommend it, especially for imports*
 
 #### Fetch dataset
-Specific dataset linked to a key can be retrieved with the `dataset` method and using dot notation :
+Specific dataset linked to a key can be retrieved with the `dataset` method (or its alias `pull` method) and using dot notation :
 ```javascript
 var doa = new ObjectArray({
   dat: {
@@ -171,6 +171,8 @@ var doa = new ObjectArray({
 
 // Get the dataset
 console.log(doa.dataset('dat.long')) //Output {path: 'fixture1', dream: 'fixture2'}
+// or
+console.log(doa.pull('dat.long')) //Output {path: 'fixture1', dream: 'fixture2'}
 ```
 Calling `doa.dataset()` will return the whole data object.
 

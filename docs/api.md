@@ -22,10 +22,7 @@
 <a name="ObjectArray"></a>
 
 ## ObjectArray
-The ObjectArray class implements array-like properties and
- methods to a key/value javascript object.
- It can be viewed as a kind of associative array in JS but it also
- supports dot notation keys.
+The ObjectArray class implements array-like properties and methods to a key/value javascript object. It can be viewed as a kind of associative array in JS but it also supports dot notation keys.
 
 **Kind**: global class  
 **See**
@@ -48,6 +45,7 @@ The ObjectArray class implements array-like properties and
     * [~values(pKey)](#ObjectArray..values) ⇒ <code>Array</code> \| <code>undefined</code>
     * [~has(key)](#ObjectArray..has) ⇒ <code>Boolean</code>
     * [~dataset([key])](#ObjectArray..dataset) ⇒ <code>Object</code> \| <code>undefined</code>
+    * [~pull([key])](#ObjectArray..pull) ⇒ <code>Object</code> \| <code>undefined</code>
     * [~parentKey(key)](#ObjectArray..parentKey) ⇒ <code>String</code>
     * [~childKey(key)](#ObjectArray..childKey) ⇒ <code>String</code>
     * [~flatten([dotted], [pKey])](#ObjectArray..flatten) ⇒ <code>Boolean</code>
@@ -101,8 +99,7 @@ Returns a clone with same data of the current ObjectArray
 <a name="ObjectArray..empty"></a>
 
 ### ObjectArray~empty(Key) ⇒ [<code>ObjectArray</code>](#ObjectArray)
-Empty the ObjectArray data. It can also be used as
- an alias for [remove method](#ObjectArray..remove)
+Empty the ObjectArray data. It can also be used as an alias for [remove method](#ObjectArray..remove)
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
 **Returns**: [<code>ObjectArray</code>](#ObjectArray) - Return self for chaining  
@@ -117,9 +114,7 @@ Empty the ObjectArray data. It can also be used as
 <a name="ObjectArray..length"></a>
 
 ### ObjectArray~length(pKey) ⇒ <code>Number</code> \| <code>undefined</code>
-Returns length of a given dataset in the ObjectArray
- If no parent key is provided, it will output the length of
- the root data object
+Returns length of a given dataset in the ObjectArray If no parent key is provided, it will output the length of the root data object
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
 **Returns**: <code>Number</code> \| <code>undefined</code> - Length of the dataset or undefined if key doesn't exist  
@@ -134,13 +129,10 @@ Returns length of a given dataset in the ObjectArray
 <a name="ObjectArray..keys"></a>
 
 ### ObjectArray~keys(pKey) ⇒ <code>Array</code> \| <code>undefined</code>
-Returns keys of a given dataset in the ObjectArray
- If no parent key is provided, it will output the keys of
- the root data object
+Returns keys of a given dataset in the ObjectArray If no parent key is provided, it will output the keys of the root data object
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
-**Returns**: <code>Array</code> \| <code>undefined</code> - Array of keys for the dataset
- or undefined if key doesn't exist  
+**Returns**: <code>Array</code> \| <code>undefined</code> - Array of keys for the dataset or undefined if key doesn't exist  
 **Since**: 1.0.0  
 **Version**: 1.0.0  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
@@ -152,13 +144,10 @@ Returns keys of a given dataset in the ObjectArray
 <a name="ObjectArray..values"></a>
 
 ### ObjectArray~values(pKey) ⇒ <code>Array</code> \| <code>undefined</code>
-Returns values of a given dataset in the ObjectArray
- If no parent key is provided, it will output the keys of
- the root data object
+Returns values of a given dataset in the ObjectArray If no parent key is provided, it will output the keys of the root data object
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
-**Returns**: <code>Array</code> \| <code>undefined</code> - Array of values for the dataset
- or undefined if key doesn't exist  
+**Returns**: <code>Array</code> \| <code>undefined</code> - Array of values for the dataset or undefined if key doesn't exist  
 **Since**: 1.0.0  
 **Version**: 1.0.0  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
@@ -185,12 +174,26 @@ Check if a given key exists in the ObjectArray
 <a name="ObjectArray..dataset"></a>
 
 ### ObjectArray~dataset([key]) ⇒ <code>Object</code> \| <code>undefined</code>
-Returns dataset for the key. If no key is provided,
- the whole data is returned
+Returns dataset for the key. If no key is provided, the whole data is returned
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
 **Returns**: <code>Object</code> \| <code>undefined</code> - Data object or undefined if key doesn't exist  
 **Since**: 1.0.0  
+**Version**: 1.0.0  
+**Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [key] | [<code>dottedKey</code>](#dottedKey) | <code></code> | Key |
+
+<a name="ObjectArray..pull"></a>
+
+### ObjectArray~pull([key]) ⇒ <code>Object</code> \| <code>undefined</code>
+Alias for [dataset method](#ObjectArray..dataset). Returns dataset for the key. If no key is provided, the whole data is returned
+
+**Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
+**Returns**: <code>Object</code> \| <code>undefined</code> - Data object or undefined if key doesn't exist  
+**Since**: 1.4.0  
 **Version**: 1.0.0  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
 
@@ -231,20 +234,7 @@ Returns the child key for a given key
 <a name="ObjectArray..flatten"></a>
 
 ### ObjectArray~flatten([dotted], [pKey]) ⇒ <code>Boolean</code>
-Flattens the object and replace data.
-
- Each object in the dataset is
- recursively explored to extract data and bring it a top level.
-
- With default behaviour, if two or more properties have same name under
- subkeys, the last explored one will replace the previous one.
-
- If the method is called with <tt>true</tt> as first parameter, the
- resulting data keys will be dotted, preventing duplication. In that case,
- you must access new keys with <tt>dataset</tt> method or by calling
- the <tt>data</tt> key property with [] (e.g. doa.data['my.key']);
-
- Flatten can be run only on a subdataset by providing a key as second parameter.
+Flattens the object and replace data. Each object in the dataset is recursively explored to extract data and bring it a top level. With default behaviour, if two or more properties have same name under subkeys, the last explored one will replace the previous one. If the method is called with <tt>true</tt> as first parameter, the resulting data keys will be dotted, preventing duplication. In that case, you must access new keys with <tt>dataset</tt> method or by calling the <tt>data</tt> key property with [] (e.g. doa.data['my.key']); Flatten can be run only on a subdataset by providing a key as second parameter.
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
 **Returns**: <code>Boolean</code> - Parent key  
@@ -340,8 +330,7 @@ Reduce the ObjectArray data given a callback
 <a name="ObjectArray..stylesToString"></a>
 
 ### ObjectArray~stylesToString([key]) ⇒ <code>String</code>
-Returns a string suitable for a <tt>style</tt> attribute.
- ObjectArray will convert camel-cased key to dashed key.
+Returns a string suitable for a <tt>style</tt> attribute. ObjectArray will convert camel-cased key to dashed key.
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
 **Returns**: <code>String</code> - style string  
@@ -356,13 +345,12 @@ Returns a string suitable for a <tt>style</tt> attribute.
 <a name="ObjectArray..stringToStyles"></a>
 
 ### ObjectArray~stringToStyles(str, [pkey]) ⇒ [<code>ObjectArray</code>](#ObjectArray)
-Imports a string from a <tt>style</tt> attribute.
- ObjectArray will camelize key from spaces and/or dashes
+Imports a string from a <tt>style</tt> attribute. ObjectArray will camelize key from spaces and/or dashes
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
 **Returns**: [<code>ObjectArray</code>](#ObjectArray) - Returns self for chaining  
 **Since**: 1.2.0  
-**Version**: 1.0.2  
+**Version**: 1.0.3  
 **Author**: Liqueur de Toile <contact@liqueurdetoile.com>  
 
 | Param | Type | Description |
@@ -403,8 +391,7 @@ Returns a string suitable for a <tt>form-url-encoded</tt> query string
 <a name="ObjectArray..camelize"></a>
 
 ### ObjectArray~camelize(s) ⇒ <code>String</code>
-Returns a camelized string (without uppercase leading character)
- Replace dashes and spaces
+Returns a camelized string (without uppercase leading character) Replace dashes and spaces
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
 **Returns**: <code>String</code> - Camelized string  
@@ -419,8 +406,7 @@ Returns a camelized string (without uppercase leading character)
 <a name="ObjectArray..dashize"></a>
 
 ### ObjectArray~dashize([s]) ⇒ <code>String</code>
-Returns a dashed string
- Replace Uppercases and spaces
+Returns a dashed string Replace Uppercases and spaces
 
 **Kind**: inner method of [<code>ObjectArray</code>](#ObjectArray)  
 **Returns**: <code>String</code> - Dashed string  
@@ -435,23 +421,10 @@ Returns a dashed string
 <a name="dottedKey"></a>
 
 ## dottedKey : <code>String</code>
-A dotted key is useful to quickly access a subset of data
- stored into the ObjectArray as if it was still a
- vanilla <tt>Object</tt>.
+A dotted key is useful to quickly access a subset of data stored into the ObjectArray as if it was still a vanilla <tt>Object</tt>.
 
 **Kind**: global typedef  
 **Example**  
 ```js
-// Create an ObjectArray with subdata
- var oa = new ObjectArray({
-   set1: {
-     subset1: 'foo',
-     subset2: {
-       subsub1: 'bar',
-       subsub2: 'baz'
-     }
-   }
- });
- // 'set1.subset1' will yield to 'foo'
- // 'set1.subset1.subsub2' will yield to 'baz'
+// Create an ObjectArray with subdata var oa = new ObjectArray({   set1: {     subset1: 'foo',     subset2: {       subsub1: 'bar',       subsub2: 'baz'     }   } }); // 'set1.subset1' will yield to 'foo' // 'set1.subset1.subsub2' will yield to 'baz'
 ```
