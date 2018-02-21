@@ -9,7 +9,7 @@
 [![bitHound Dev Dependencies](https://www.bithound.io/github/liqueurdetoile/DotObjectArray/badges/devDependencies.svg)](https://www.bithound.io/github/liqueurdetoile/DotObjectArray/master/dependencies/npm)
 [![Known Vulnerabilities](https://snyk.io/test/github/liqueurdetoile/dotobjectarray/badge.svg?targetFile=package.json)](https://snyk.io/test/github/liqueurdetoile/dotobjectarray?targetFile=package.json)
 
-<p align="center"><a href="https://liqueurdetoile.com" target=_blank"><img src="http://hosting.liqueurdetoile.com/logo_lqdt.png" alt="Liqueur de Toile"></a></p>
+<p align="center"><a href="https://liqueurdetoile.com" target=_blank"><img src="https://hosting.liqueurdetoile.com/logo_lqdt.png" alt="Liqueur de Toile"></a></p>
 
 # DotObjectArray, a.k.a. DOA a.k.a. ObjectArray
 
