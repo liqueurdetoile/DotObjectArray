@@ -1,0 +1,210 @@
+{
+  "type": "File",
+  "start": 0,
+  "end": 1558,
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 52,
+      "column": 0
+    }
+  },
+  "program": {
+    "type": "Program",
+    "start": 0,
+    "end": 1558,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 52,
+        "column": 0
+      }
+    },
+    "sourceType": "module",
+    "body": [],
+    "directives": [],
+    "leadingComments": null,
+    "innerComments": [
+      {
+        "type": "CommentBlock",
+        "value": "*\n*  A dotted key is useful to quickly access a subset of data\n*  stored into the ObjectArray as if it was still a\n*  vanilla `Object`.\n*  Basically, a dotted key is constructed like a chain of property\n*  for an object.\n*\n*  @typedef {String} dottedKey\n*\n*  @example\n*  // Create an ObjectArray with subdata\n*  var oa = new ObjectArray({\n*    set1: {\n*      subset1: 'foo',\n*      subset2: {\n*        subsub1: 'bar',\n*        subsub2: 'baz'\n*      }\n*    }\n*  });\n*\n*  oa.pull('set1.subset1'); // returns 'foo'\n*  oa.pull('set1.subset1.subsub2'); // returns 'baz'\n*\n",
+        "start": 0,
+        "end": 571,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 25,
+            "column": 2
+          }
+        }
+      },
+      {
+        "type": "CommentBlock",
+        "value": "*  \n*  The function passed as a callback in a {@link forEach} iteration.\n*  \n*  Four arguments will be provided to the callback :\n*  1. `value` {{@link Object}}  : Value stored in the current iteration key\n*  2. `key` {{@link String}}  : Current key in iteration\n*  3. `index` {{@link Object}}  : Current index in iteration\n*  4. `path` {{@link Object}|{@link undefined}}  : Path to the key\n*  It will be `undefined` if the key is at first level\n*  \n*  @typedef {Function} ForEachCallback\n",
+        "start": 573,
+        "end": 1066,
+        "loc": {
+          "start": {
+            "line": 27,
+            "column": 0
+          },
+          "end": {
+            "line": 38,
+            "column": 2
+          }
+        }
+      },
+      {
+        "type": "CommentBlock",
+        "value": "*\n*  The function passed as a callback in a {@link reduce} iteration.\n*  \n*  Four arguments will be provided to the callback :\n*  1. `acc` {{@link Object}}  : Recursive accumulator value\n*  2. `value` {{@link Object}}  : Value stored in the current iteration key\n*  2. `key` {{@link String}}  : Current key in iteration\n*  4. `path` {{@link Object}|{@link undefined}}  : Path to the key\n*  It will be `undefined` if the key is at first level\n*  \n*  @typedef {Function} ReducerCallback\n",
+        "start": 1068,
+        "end": 1557,
+        "loc": {
+          "start": {
+            "line": 40,
+            "column": 0
+          },
+          "end": {
+            "line": 51,
+            "column": 2
+          }
+        }
+      }
+    ]
+  },
+  "comments": [
+    {
+      "type": "CommentBlock",
+      "value": "*\n*  A dotted key is useful to quickly access a subset of data\n*  stored into the ObjectArray as if it was still a\n*  vanilla `Object`.\n*  Basically, a dotted key is constructed like a chain of property\n*  for an object.\n*\n*  @typedef {String} dottedKey\n*\n*  @example\n*  // Create an ObjectArray with subdata\n*  var oa = new ObjectArray({\n*    set1: {\n*      subset1: 'foo',\n*      subset2: {\n*        subsub1: 'bar',\n*        subsub2: 'baz'\n*      }\n*    }\n*  });\n*\n*  oa.pull('set1.subset1'); // returns 'foo'\n*  oa.pull('set1.subset1.subsub2'); // returns 'baz'\n*\n",
+      "start": 0,
+      "end": 571,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 25,
+          "column": 2
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*  \n*  The function passed as a callback in a {@link forEach} iteration.\n*  \n*  Four arguments will be provided to the callback :\n*  1. `value` {{@link Object}}  : Value stored in the current iteration key\n*  2. `key` {{@link String}}  : Current key in iteration\n*  3. `index` {{@link Object}}  : Current index in iteration\n*  4. `path` {{@link Object}|{@link undefined}}  : Path to the key\n*  It will be `undefined` if the key is at first level\n*  \n*  @typedef {Function} ForEachCallback\n",
+      "start": 573,
+      "end": 1066,
+      "loc": {
+        "start": {
+          "line": 27,
+          "column": 0
+        },
+        "end": {
+          "line": 38,
+          "column": 2
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n*  The function passed as a callback in a {@link reduce} iteration.\n*  \n*  Four arguments will be provided to the callback :\n*  1. `acc` {{@link Object}}  : Recursive accumulator value\n*  2. `value` {{@link Object}}  : Value stored in the current iteration key\n*  2. `key` {{@link String}}  : Current key in iteration\n*  4. `path` {{@link Object}|{@link undefined}}  : Path to the key\n*  It will be `undefined` if the key is at first level\n*  \n*  @typedef {Function} ReducerCallback\n",
+      "start": 1068,
+      "end": 1557,
+      "loc": {
+        "start": {
+          "line": 40,
+          "column": 0
+        },
+        "end": {
+          "line": 51,
+          "column": 2
+        }
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "type": "CommentBlock",
+      "value": "*\n*  A dotted key is useful to quickly access a subset of data\n*  stored into the ObjectArray as if it was still a\n*  vanilla `Object`.\n*  Basically, a dotted key is constructed like a chain of property\n*  for an object.\n*\n*  @typedef {String} dottedKey\n*\n*  @example\n*  // Create an ObjectArray with subdata\n*  var oa = new ObjectArray({\n*    set1: {\n*      subset1: 'foo',\n*      subset2: {\n*        subsub1: 'bar',\n*        subsub2: 'baz'\n*      }\n*    }\n*  });\n*\n*  oa.pull('set1.subset1'); // returns 'foo'\n*  oa.pull('set1.subset1.subsub2'); // returns 'baz'\n*\n",
+      "start": 0,
+      "end": 571,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 25,
+          "column": 2
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*  \n*  The function passed as a callback in a {@link forEach} iteration.\n*  \n*  Four arguments will be provided to the callback :\n*  1. `value` {{@link Object}}  : Value stored in the current iteration key\n*  2. `key` {{@link String}}  : Current key in iteration\n*  3. `index` {{@link Object}}  : Current index in iteration\n*  4. `path` {{@link Object}|{@link undefined}}  : Path to the key\n*  It will be `undefined` if the key is at first level\n*  \n*  @typedef {Function} ForEachCallback\n",
+      "start": 573,
+      "end": 1066,
+      "loc": {
+        "start": {
+          "line": 27,
+          "column": 0
+        },
+        "end": {
+          "line": 38,
+          "column": 2
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n*  The function passed as a callback in a {@link reduce} iteration.\n*  \n*  Four arguments will be provided to the callback :\n*  1. `acc` {{@link Object}}  : Recursive accumulator value\n*  2. `value` {{@link Object}}  : Value stored in the current iteration key\n*  2. `key` {{@link String}}  : Current key in iteration\n*  4. `path` {{@link Object}|{@link undefined}}  : Path to the key\n*  It will be `undefined` if the key is at first level\n*  \n*  @typedef {Function} ReducerCallback\n",
+      "start": 1068,
+      "end": 1557,
+      "loc": {
+        "start": {
+          "line": 40,
+          "column": 0
+        },
+        "end": {
+          "line": 51,
+          "column": 2
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "eof",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 1558,
+      "end": 1558,
+      "loc": {
+        "start": {
+          "line": 52,
+          "column": 0
+        },
+        "end": {
+          "line": 52,
+          "column": 0
+        }
+      }
+    }
+  ]
+}

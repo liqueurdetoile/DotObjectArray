@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/index.js | DotObjectArray | Implements array-like methods for Object with support for dotted notation keys</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<link rel="stylesheet" href="./inject/css/0-styles.css"><script src="./inject/script/0-docs.js"></script><meta name="description" content="Implements array-like methods for Object with support for dot notation keys"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="DotObjectArray | Implements array-like methods for Object with support for dotted notation keys"><meta property="twitter:description" content="Implements array-like methods for Object with support for dot notation keys"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.png" style="width:34px;"></a>
+  <a href="./manual/index.html" data-ice="manualHeaderLink">Manual</a>
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  <a href="test.html" data-ice="testLink">Test</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/liqueurdetoile/dotobjectarray.git"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/index.js~ObjectArray.html">ObjectArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ForEachCallback">ForEachCallback</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ReducerCallback">ReducerCallback</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-dottedKey">dottedKey</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/index.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+*  @file dot-object-array module
+*  @author  Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+*  @license MIT {@link https://choosealicense.com/licenses/mit/}
+*  @see [Github]{@link https://github.com/liqueurdetoile/objectarray}
+*  @see [Author website]{@link https://liqueurdetoile.com}
+*/
+
+/**
+*  Implements array-like properties and
+*  methods to a key/value javascript object.
+*  It can be viewed as a kind of associative array in JS but it also
+*  supports dot notation keys.
+*
+*  @module dot-object-array
+*  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+*  @license MIT {@https://github.com/liqueurdetoile/DotObjectArray/blob/master/LICENSE}
+*/
+
+export default class ObjectArray {
+  /**
+  *  @param {Object}  [data={}] Initial data to import
+  *  @example
+  *  var doa = new ObjectArray();
+  *  var doa = new ObjectArray({
+  *   key1: value1,
+  *   key2: value2
+  *  });
+  *
+  *  @returns {ObjectArray} Instance of ObjectArray
+  */
+
+  constructor(data = {}) {
+    /**
+    *  The inner data object
+    *
+    *  @type {Object}
+    *  @since 1.0.0
+    */
+    this._data = {};
+    this.import(data);
+  }
+
+  /**
+  *  Returns the underlying `_data` object for raw reading
+  *
+  *  @type  {Object}
+  *  @see {@link _data}
+  *  @since 1.0.0
+  */
+  get data() {
+    return this._data;
+  }
+
+  /**
+  *  Import data into ObjectArray.
+  *
+  *  This setter is an alias to {@link import} method.
+  *
+  *  @param {Object} data Data to import
+  */
+  set data(data) {
+    this.import(data);
+  }
+
+  /**
+  *  Returns a clone with same data of the current ObjectArray
+  *
+  *  @since 1.3.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {Boolean} [keepFlattened=true]
+  *  If true, the flattened dotted keys will remains flattened
+  *  otherwise, the full hierarchy will be restored
+  *  @returns {this} Chainable
+  */
+  clone(keepFlattened = true) {
+    let o = new ObjectArray();
+
+    if (keepFlattened) o._data = this._data;
+    else o.import(this._data);
+    return o;
+  }
+
+  /**
+  *  Empty the ObjectArray data. It can also be used as
+  *  an alias for [remove method]{@link ObjectArray~remove}
+  *
+  *  @since 1.2.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {dottedKey} key  Key to remove
+  *  @returns {this} Chainable
+  */
+  empty(key) {
+    if (typeof key === &apos;undefined&apos;) this._data = {};
+    else this.remove(key);
+    return this;
+  }
+
+  /**
+  *  Returns length of a given dataset in the ObjectArray
+  *  If no parent key is provided, it will output the length of
+  *  the root data object
+  *
+  *  @since 1.0.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {dottedKey} pKey  Parent key
+  *  @returns  {Number|undefined} Length of the dataset or undefined if key doesn&apos;t exist
+  */
+  length(pKey) {
+    let data = this.keys(pKey);
+
+    if (!data) return undefined;
+    return this.keys(pKey).length;
+  }
+
+  /**
+  *  Returns keys of a given dataset in the ObjectArray
+  *  If no parent key is provided, it will output the keys of
+  *  the root data object
+  *
+  *  @since 1.0.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {dottedKey} pKey  Parent key
+  *  @returns  {Array|undefined} Array of keys for the dataset
+  *  or undefined if key doesn&apos;t exist
+  */
+  keys(pKey) {
+    let keys = [], data = this.dataset(pKey);
+
+    if (!data) return undefined;
+    for (let key in data) keys.push(key);
+    return keys;
+  }
+
+  /**
+  *  Returns values of a given dataset in the ObjectArray
+  *  If no parent key is provided, it will output the keys of
+  *  the root data object
+  *
+  *  @since 1.0.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {dottedKey} pKey  Parent key
+  *  @returns  {Array|undefined} Array of values for the dataset
+  *  or undefined if key doesn&apos;t exist
+  */
+  values(pKey) {
+    let values = [], data = this.dataset(pKey);
+
+    if (!data) return undefined;
+    for (let key in data) values.push(data[key]);
+    return values;
+  }
+
+  /**
+  *  Check if a given key exists in the ObjectArray
+  *
+  *  @since 1.0.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {dottedKey}  key Key
+  *  @returns {Boolean}  true if key exists, false otherwise
+  */
+  has(key) {
+    let i, k, data = this.data;
+
+    if (typeof key === &apos;undefined&apos;) return false;
+
+    key = key.split(&apos;.&apos;);
+    for (i = 0; i &lt; key.length; i++) {
+      k = key[i];
+
+      if (typeof data[k] === &apos;undefined&apos;) return false;
+      data = data[k];
+    }
+    return true;
+  }
+
+  /**
+  *  Returns dataset for the key. If no key is provided,
+  *  the whole data is returned
+  *
+  *  @since 1.0.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {dottedKey}  [key=null] Key
+  *  @returns {Object|undefined} Data object or undefined if key doesn&apos;t exist
+  */
+  dataset(key) {
+    let i, k, data = this.data;
+
+    if (key !== undefined) {
+      key = key.split(&apos;.&apos;);
+      for (i = 0; i &lt; key.length; i++) {
+        k = key[i];
+
+        if (typeof data[k] === &apos;undefined&apos;) return undefined;
+        data = data[k];
+      }
+    }
+    return data;
+  }
+
+  /**
+  *  Alias for {@link dataset} method.
+  *  Returns dataset for the key.
+  *  If no key is provided, the whole data is returned
+  *
+  *  @since 1.4.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {dottedKey}  [key=null] Key
+  *  @returns {Object|undefined} Data object or undefined if key doesn&apos;t exist
+  */
+  pull(key) {
+    return this.dataset(key);
+  }
+
+  /**
+  *  Returns the parent key for a given key
+  *
+  *  @since 1.0.0
+  *  @version 1.0.1
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {dottedKey}  key Key
+  *  @returns {String} Parent key
+  */
+  parentKey(key) {
+    if (typeof key !== &apos;undefined&apos;) {
+      key = key.split(&apos;.&apos;);
+      key.pop();
+
+      if (key.length) {
+        key = key.join(&apos;.&apos;);
+        return key;
+      }
+    }
+    return undefined;
+  }
+
+  /**
+  *  Returns the child key for a given key
+  *
+  *  @since 1.3.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {dottedKey}  key Key
+  *  @returns {String}  Child key
+  */
+  childKey(key) {
+    if (typeof key !== &apos;undefined&apos;) {
+      key = key.split(&apos;.&apos;);
+      key.shift();
+
+      if (key.length) {
+        key = key.join(&apos;.&apos;);
+        return key;
+      }
+    }
+    return undefined;
+  }
+
+  /**
+  *  Private method to recurse flatten
+  *
+  *  @private
+  *  @since 1.3.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {Object}    ret     Object to complete
+  *  @param {Boolean}   dotted  Should the new key be dotted or not
+  *  @param {dottedKey} pKey    Parent key defining current subdataset
+  *  @returns {Object}  Completed result with non-object data
+  */
+  _recurseFlatten(ret, dotted, pKey) {
+    let k, data = this.dataset(pKey);
+
+    for (let key in data) {
+      if (typeof data[key] === &apos;object&apos;) this._recurseFlatten(ret, dotted, pKey ? pKey + &apos;.&apos; + key : key);
+      else {
+        // Correct key for root key or subdataset key
+        pKey = (this.childKey(pKey)) ? this.childKey(pKey) : pKey;
+        k = (dotted &amp;&amp; pKey) ? pKey + &apos;.&apos; + key : key;
+        ret[k] = data[key];
+      }
+    }
+    return ret;
+  }
+
+  /**
+  *  Flattens the object and replace data.
+  *
+  *  Each object in the dataset is
+  *  recursively explored to extract data and bring it a top level.
+  *
+  *  With default behaviour, if two or more properties have same name under
+  *  subkeys, the last explored one will replace the previous one.
+  *
+  *  If the method is called with `true` as first parameter, the
+  *  resulting data keys will be dotted, preventing duplication. In that case,
+  *  you must access new keys with `dataset` method or by calling
+  *  the `data` key property with [] (e.g. doa.data[&apos;my.key&apos;]);
+  *
+  *  Flatten may be run on a subdataset by providing a key as second parameter.
+  *
+  *  @since 1.3.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {Boolean} [dotted = false]
+  *  @param {dottedKey}  [pKey]  Key to flatten. If not provided, the whole
+  *  dataset will flattened.
+  *  @returns {this} Chainable
+  */
+  flatten(dotted = false, pKey) {
+    let data;
+
+    if (typeof pKey === &apos;undefined&apos;) data = this._recurseFlatten({}, dotted);
+    else if (this.has(pKey)) data = this._recurseFlatten({}, dotted, pKey);
+    else return this;
+
+    if (typeof pKey === &apos;undefined&apos;) this._data = data;
+    else this.push(pKey, data);
+    return this;
+  }
+
+  /**
+  *  Push a new key/value pair
+  *
+  *  @since 1.0.0
+  *  @version 1.1.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {dottedKey} key Key of the added item
+  *  @param {Number|String|Array|Object} val Value of the added item
+  *  @param {dottedKey}  [pKey]  Parent key to push into
+  *  @returns {this} Chainable
+  */
+  push(key, val, pKey) {
+    let k, data;
+
+    // Check pKey existence
+    if (this.has(pKey) || typeof pKey === &apos;undefined&apos;) {
+      data = this.dataset(pKey);
+    } else {
+      key = pKey + &apos;.&apos; + key;
+      data = this.data;
+    }
+
+    key = key.split(&apos;.&apos;);
+    k = key.pop();
+    key.forEach(function (k, i) {
+      if (typeof data[k] === &apos;undefined&apos;) data[k] = {};
+      data = data[k];
+    });
+    if (val instanceof ObjectArray) val = val._data;
+    data[k] = val;
+    return this;
+  }
+
+  /**
+  *  Remove key/value data
+  *
+  *  @since 1.0.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {dottedKey} key Key of the added item
+  *  @returns {this} Chainable
+  */
+  remove(key) {
+    let pKey = this.parentKey(key);
+    let data = this.dataset(pKey);
+
+    if (data) {
+      key = key.replace(pKey + &apos;.&apos;, &apos;&apos;);
+      delete data[key];
+    }
+    return this;
+  }
+
+  /**
+  *  Import an object as data
+  *
+  *  @since 1.0.0
+  *  @version 1.1.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {Object} data Object to import
+  *  @param {dottedKey}  [pKey]  Dotted parent key to import into
+  *  @returns {this} Chainable
+  */
+  import(data, pKey) {
+    if (data instanceof ObjectArray) data = data._data;
+    for (let key in data) this.push(key, data[key], pKey);
+    return this;
+  }
+
+  /**
+  *  Runs a callback on each entry at the `key` level
+  *
+  *  @since 1.0.0
+  *  @version 1.0.1
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {ForEachCallback} cb Callback to be run
+  *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
+  *  if empty, the global data object will be used
+  *  @returns {void}
+  */
+  forEach(cb, key) {
+    let data = this.dataset(key);
+    let index = 0;
+
+    for (let k in data) cb.call(this, data[k], k, index++, this.parentKey(key));
+  }
+
+  /**
+  *  Reduce the ObjectArray data given a callback
+  *
+  *  @since 1.0.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param   {ReducerCallback}  reducer   Callback to apply to each key/value (from left)
+  *  @param   {Mixed}     [start]   Initial value for iteration
+  *  @param   {dottedKey} [key]  Dotted key to limit iterations through its subset
+  *  if empty, the global data object will be used
+  *  @returns {Mixed}     Callback iteration returned value
+  */
+  reduce(reducer, start, key) {
+    var acc = start;
+
+    this.forEach(function (value, k) { acc = reducer(acc, value, k, this.parentKey(key)); }, key);
+    return acc;
+  }
+
+  /**
+  *  Returns a string suitable for a `style` attribute.
+  *  ObjectArray will convert camel-cased key to dashed key.
+  *
+  *  @since 1.0.0
+  *  @version 1.1.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
+  *  if empty, the global data object will be used
+  *  @returns {String}  style string
+  */
+  stylesToString(key) {
+    let ret = this.reduce(function (str, value, k) {
+      str += this.dashize(k) + &apos;:&apos; + value + &apos;;&apos;;
+      return str;
+    }.bind(this), &apos;&apos;, key);
+
+    return ret.substr(0, ret.length - 1);
+  }
+
+  /**
+  *  Imports a string from a `style` attribute.
+  *  ObjectArray will camelize key from spaces and/or dashes
+  *
+  *  @since 1.2.0
+  *  @version 1.0.3
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {String}  str   String to import
+  *  @param {dottedKey}  [pKey]  Dotted key to import styles into.
+  *  If omitted, the object will be available at top-level
+  *  @returns {this} Chainable
+  */
+  stringToStyles(str, pKey) {
+    let styles;
+
+    if (typeof str === &apos;undefined&apos; || str === null) return this; // fix null input value
+
+    styles = str.split(&apos;;&apos;);
+    styles.forEach(function (style) {
+      let parts;
+
+      if (style !== &apos;&apos;) { // Fix trailing ;
+        parts = style.split(&apos;:&apos;);
+        try {
+          this.push(this.camelize(parts[0].trim()), parts[1].trim(), pKey);
+        } catch (e) {
+          throw new TypeError(&apos;Malformed string for stringToStyles&apos;);
+        }
+      }
+    }.bind(this));
+    return this;
+  }
+
+  /**
+  *  Returns a string suitable for a URI query string
+  *
+  *  @since 1.0.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
+  *  if empty, the global data object will be used
+  *  @returns {String}  style string
+  */
+  urlEncode(key) {
+    let ret = this.reduce(function (str, value, key) {
+      str += key + &apos;=&apos; + encodeURIComponent(value) + &apos;&amp;&apos;;
+      return str;
+    }, &apos;&apos;, key);
+
+    return ret.substr(0, ret.length - 1);
+  }
+
+  /**
+  *  Returns a string suitable for a `form-url-encoded` query string
+  *
+  *  @since 1.0.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
+  *  if empty, the global data object will be used
+  *  @returns {String}  style string
+  */
+  formUrlEncode(key) {
+    let ret = this.urlEncode(key);
+
+    return ret.replace(&apos;%20&apos;, &apos;+&apos;);
+  }
+
+  /**
+  *  Returns a camelized string (without uppercase leading character)
+  *  Replace dashes and spaces
+  *
+  *  @since 1.2.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {String}  s  String to camelize
+  *  @returns {String}  Camelized string
+  */
+  camelize(s) {
+    return s.replace(/[- ]([A-Za-z])/g, m =&gt; m[1].toUpperCase());
+  }
+
+  /**
+  *  Returns a dashed string
+  *  Replace Uppercases and spaces
+  *
+  *  @since 1.2.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {String}  [s]  String to dashize
+  *  @returns {String}  Dashed string
+  */
+  dashize(s) {
+    return s
+      .replace(/[A-Z]/g, (m, o) =&gt; (o &gt; 0 ? &apos;-&apos; : &apos;&apos;) + m.toLowerCase())
+      .replace(/ /g, (m, o, s) =&gt; s[o + 1] === &apos;-&apos; ? &apos;&apos; : &apos;-&apos;);
+  }
+}
+
+if (window) window.ObjectArray = ObjectArray;
+
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

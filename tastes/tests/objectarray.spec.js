@@ -1,6 +1,6 @@
 import ObjectArray from 'index';
 
-describe('ObjectArray Class', function () {
+describe('dot-object-array Module', function () {
   describe('ObjectArray Instance creation', function () {
     it('should create a void instance of ObjectArray', function () {
       let i = new ObjectArray();

@@ -1,0 +1,38 @@
+{
+  "source": "./src",
+  "destination": "./docs",
+  "includes": ["\\.js|\\.jsdoc$"],
+  "plugins": [
+    {
+      "name": "esdoc-standard-plugin",
+      "option": {
+        "test": {
+          "source": "./tastes/tests/"
+        },
+        "brand": {
+          "logo": "./docs/assets/logo.png",
+          "title": "DotObjectArray | Implements array-like methods for Object with support for dotted notation keys"
+        },
+        "manual": {
+          "files": [
+            "./docs/manual/md/index.md"
+          ]
+        }
+      }
+    },
+    {
+      "name": "esdoc-inject-style-plugin",
+      "option": {
+        "enable": true,
+        "styles": ["./docs/assets/styles.css"]
+      }
+    },
+    {
+      "name": "esdoc-inject-script-plugin",
+      "option": {
+        "enable": true,
+        "scripts": ["./docs/assets/docs.js"]
+      }
+    }
+  ]
+}

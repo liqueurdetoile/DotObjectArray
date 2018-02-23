@@ -11,7 +11,7 @@
     "dev": "webpack --progress --colors --watch --config webpack.conf/dev.js",
     "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "test:dev": "karma start",
-    "docs": "jsdoc ./src -c .jsdoc && jsdoc2md ./src/*.js  > docs/api.md"
+    "docs": "./node_modules/.bin/esdoc"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -21,13 +21,16 @@
     "babel-preset-env": "^1.6.1",
     "chai": "^4.1.2",
     "clean-webpack-plugin": "^0.1.18",
+    "color-themes-for-google-code-prettify": "^2.0.4",
     "coveralls": "^3.0.0",
     "docdash": "^0.4.0",
+    "esdoc": "^1.0.4",
+    "esdoc-inject-script-plugin": "^1.0.0",
+    "esdoc-inject-style-plugin": "^1.0.0",
+    "esdoc-standard-plugin": "^1.0.0",
     "eslint": "^4.18.0",
     "eslint-loader": "^1.9.0",
     "istanbul-instrumenter-loader": "^3.0.0",
-    "jsdoc": "^3.5.5",
-    "jsdoc-to-markdown": "^4.0.1",
     "karma": "^2.0.0",
     "karma-babel-preprocessor": "^7.0.0",
     "karma-chai": "^0.1.0",
