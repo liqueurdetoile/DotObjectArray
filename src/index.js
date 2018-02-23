@@ -1,5 +1,5 @@
 /**
-*  @file ObjectArray class declaration
+*  @file dot-object-array module
 *  @author  Liqueur de Toile <contact@liqueurdetoile.com>
 *  @license MIT {@link https://choosealicense.com/licenses/mit/}
 *  @see [Github]{@link https://github.com/liqueurdetoile/objectarray}
@@ -7,34 +7,33 @@
 */
 
 /**
-*  @classDesc
-*  The ObjectArray class implements array-like properties and
+*  Implements array-like properties and
 *  methods to a key/value javascript object.
 *  It can be viewed as a kind of associative array in JS but it also
 *  supports dot notation keys.
 *
-*  @class ObjectArray
-*  @since 1.0.0
-*  @version 1.0.0
+*  @module dot-object-array
 *  @author Liqueur de Toile <contact@liqueurdetoile.com>
-*  @license MIT {@link https://choosealicense.com/licenses/mit/}
-*  @see [Github]{@link https://github.com/liqueurdetoile/objectarray}
-*  @see [Author website]{@link https://liqueurdetoile.com}
-*
-*  @param   {Object}    data  Initial data to push into the ObjectArray
-*
-*  @returns {ObjectArray} ObjectArray object
-*  @description
-*  The constructor is straight-forward. It can be provided with an existent object
+*  @license MIT {@https://github.com/liqueurdetoile/DotObjectArray/blob/master/LICENSE}
 */
 
 export default class ObjectArray {
+  /**
+  *  @param {Object}  [data={}] Initial data to import
+  *  @example
+  *  var doa = new ObjectArray();
+  *  var doa = new ObjectArray({
+  *   key1: value1,
+  *   key2: value2
+  *  });
+  *
+  *  @returns {ObjectArray} Instance of ObjectArray
+  */
+
   constructor(data = {}) {
     /**
     *  The inner data object
     *
-    *  @alias ObjectArray~_data
-    *  @private
     *  @type {Object}
     *  @since 1.0.0
     */
@@ -43,18 +42,23 @@ export default class ObjectArray {
   }
 
   /**
-  *  Getter/setter for the root data of ObjectArray.
+  *  Returns the underlying `_data` object for raw reading
   *
-  *  @alias ObjectArray~data
-  *  @type  Object
+  *  @type  {Object}
+  *  @see {@link _data}
   *  @since 1.0.0
-  *  @version 1.0.0
-  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   */
   get data() {
     return this._data;
   }
 
+  /**
+  *  Import data into ObjectArray.
+  *
+  *  This setter is an alias to {@link import} method.
+  *
+  *  @param {Object} data Data to import
+  */
   set data(data) {
     this.import(data);
   }
@@ -62,7 +66,6 @@ export default class ObjectArray {
   /**
   *  Returns a clone with same data of the current ObjectArray
   *
-  *  @method ObjectArray~clone
   *  @since 1.3.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -70,7 +73,7 @@ export default class ObjectArray {
   *  @param {Boolean} [keepFlattened=true]
   *  If true, the flattened dotted keys will remains flattened
   *  otherwise, the full hierarchy will be restored
-  *  @returns {ObjectArray} Return cloned ObjectArray
+  *  @returns {this} Chainable
   */
   clone(keepFlattened = true) {
     let o = new ObjectArray();
@@ -84,13 +87,12 @@ export default class ObjectArray {
   *  Empty the ObjectArray data. It can also be used as
   *  an alias for [remove method]{@link ObjectArray~remove}
   *
-  *  @method ObjectArray~empty
   *  @since 1.2.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
-  *  @param {dottedKey} Key  Key to remove
-  *  @returns {ObjectArray} Return self for chaining
+  *  @param {dottedKey} key  Key to remove
+  *  @returns {this} Chainable
   */
   empty(key) {
     if (typeof key === 'undefined') this._data = {};
@@ -103,7 +105,6 @@ export default class ObjectArray {
   *  If no parent key is provided, it will output the length of
   *  the root data object
   *
-  *  @method ObjectArray~length
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -123,7 +124,6 @@ export default class ObjectArray {
   *  If no parent key is provided, it will output the keys of
   *  the root data object
   *
-  *  @method ObjectArray~keys
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -145,7 +145,6 @@ export default class ObjectArray {
   *  If no parent key is provided, it will output the keys of
   *  the root data object
   *
-  *  @method ObjectArray~values
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -165,7 +164,6 @@ export default class ObjectArray {
   /**
   *  Check if a given key exists in the ObjectArray
   *
-  *  @method ObjectArray~has
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -192,7 +190,6 @@ export default class ObjectArray {
   *  Returns dataset for the key. If no key is provided,
   *  the whole data is returned
   *
-  *  @method ObjectArray~dataset
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -216,10 +213,10 @@ export default class ObjectArray {
   }
 
   /**
-  *  Alias for [dataset method]{@link ObjectArray~dataset}. Returns dataset for the key.
+  *  Alias for {@link dataset} method.
+  *  Returns dataset for the key.
   *  If no key is provided, the whole data is returned
   *
-  *  @method ObjectArray~pull
   *  @since 1.4.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -234,7 +231,6 @@ export default class ObjectArray {
   /**
   *  Returns the parent key for a given key
   *
-  *  @method ObjectArray~parentKey
   *  @since 1.0.0
   *  @version 1.0.1
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -258,7 +254,6 @@ export default class ObjectArray {
   /**
   *  Returns the child key for a given key
   *
-  *  @method ObjectArray~childKey
   *  @since 1.3.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -282,7 +277,6 @@ export default class ObjectArray {
   /**
   *  Private method to recurse flatten
   *
-  *  @method ObjectArray~_recurseFlatten
   *  @private
   *  @since 1.3.0
   *  @version 1.0.0
@@ -317,14 +311,13 @@ export default class ObjectArray {
   *  With default behaviour, if two or more properties have same name under
   *  subkeys, the last explored one will replace the previous one.
   *
-  *  If the method is called with <tt>true</tt> as first parameter, the
+  *  If the method is called with `true` as first parameter, the
   *  resulting data keys will be dotted, preventing duplication. In that case,
-  *  you must access new keys with <tt>dataset</tt> method or by calling
-  *  the <tt>data</tt> key property with [] (e.g. doa.data['my.key']);
+  *  you must access new keys with `dataset` method or by calling
+  *  the `data` key property with [] (e.g. doa.data['my.key']);
   *
-  *  Flatten can be run only on a subdataset by providing a key as second parameter.
+  *  Flatten may be run on a subdataset by providing a key as second parameter.
   *
-  *  @method ObjectArray~flatten
   *  @since 1.3.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -332,7 +325,7 @@ export default class ObjectArray {
   *  @param {Boolean} [dotted = false]
   *  @param {dottedKey}  [pKey]  Key to flatten. If not provided, the whole
   *  dataset will flattened.
-  *  @returns {Boolean} Parent key
+  *  @returns {this} Chainable
   */
   flatten(dotted = false, pKey) {
     let data;
@@ -349,7 +342,6 @@ export default class ObjectArray {
   /**
   *  Push a new key/value pair
   *
-  *  @method ObjectArray~push
   *  @since 1.0.0
   *  @version 1.1.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -357,7 +349,7 @@ export default class ObjectArray {
   *  @param {dottedKey} key Key of the added item
   *  @param {Number|String|Array|Object} val Value of the added item
   *  @param {dottedKey}  [pKey]  Parent key to push into
-  *  @returns {ObjectArray} Return self for chaining
+  *  @returns {this} Chainable
   */
   push(key, val, pKey) {
     let k, data;
@@ -382,15 +374,14 @@ export default class ObjectArray {
   }
 
   /**
-  *  Remove key/value pair
+  *  Remove key/value data
   *
-  *  @method ObjectArray~remove
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey} key Key of the added item
-  *  @returns {ObjectArray} Return self for chaining
+  *  @returns {this} Chainable
   */
   remove(key) {
     let pKey = this.parentKey(key);
@@ -404,16 +395,15 @@ export default class ObjectArray {
   }
 
   /**
-  *  Import an object as data into the ObjectArray
+  *  Import an object as data
   *
-  *  @method ObjectArray~import
   *  @since 1.0.0
   *  @version 1.1.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
-  *  @param {Object} Data Object to import
+  *  @param {Object} data Object to import
   *  @param {dottedKey}  [pKey]  Dotted parent key to import into
-  *  @returns {ObjectArray} Return self for chaining
+  *  @returns {this} Chainable
   */
   import(data, pKey) {
     if (data instanceof ObjectArray) data = data._data;
@@ -422,14 +412,13 @@ export default class ObjectArray {
   }
 
   /**
-  *  Runs a callback on each ObjectArray entry
+  *  Runs a callback on each entry at the `key` level
   *
-  *  @method ObjectArray~forEach
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 1.0.1
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
-  *  @param {forEachCallback} cb Callback to be run
+  *  @param {ForEachCallback} cb Callback to be run
   *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
   *  @returns {void}
@@ -438,35 +427,33 @@ export default class ObjectArray {
     let data = this.dataset(key);
     let index = 0;
 
-    for (let key in data) cb.call(this, data[key], key, index++);
+    for (let k in data) cb.call(this, data[k], k, index++, this.parentKey(key));
   }
 
   /**
   *  Reduce the ObjectArray data given a callback
   *
-  *  @method ObjectArray~reduce
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
-  *  @param   {Callback}  reducer   Callback to apply to each key/value (from left)
+  *  @param   {ReducerCallback}  reducer   Callback to apply to each key/value (from left)
   *  @param   {Mixed}     [start]   Initial value for iteration
-  *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
+  *  @param   {dottedKey} [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
-  *  @returns {Mixed}               Callback returns value
+  *  @returns {Mixed}     Callback iteration returned value
   */
   reduce(reducer, start, key) {
     var acc = start;
 
-    this.forEach(function (value, k) { acc = reducer(acc, value, k); }, key);
+    this.forEach(function (value, k) { acc = reducer(acc, value, k, this.parentKey(key)); }, key);
     return acc;
   }
 
   /**
-  *  Returns a string suitable for a <tt>style</tt> attribute.
+  *  Returns a string suitable for a `style` attribute.
   *  ObjectArray will convert camel-cased key to dashed key.
   *
-  *  @method ObjectArray~stylesToString
   *  @since 1.0.0
   *  @version 1.1.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -485,18 +472,17 @@ export default class ObjectArray {
   }
 
   /**
-  *  Imports a string from a <tt>style</tt> attribute.
+  *  Imports a string from a `style` attribute.
   *  ObjectArray will camelize key from spaces and/or dashes
   *
-  *  @method ObjectArray~stringToStyles
   *  @since 1.2.0
   *  @version 1.0.3
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {String}  str   String to import
-  *  @param {dottedKey}  [pkey]  Dotted key to import styles into.
+  *  @param {dottedKey}  [pKey]  Dotted key to import styles into.
   *  If omitted, the object will be available at top-level
-  *  @returns {ObjectArray}  Returns self for chaining
+  *  @returns {this} Chainable
   */
   stringToStyles(str, pKey) {
     let styles;
@@ -522,7 +508,6 @@ export default class ObjectArray {
   /**
   *  Returns a string suitable for a URI query string
   *
-  *  @method ObjectArray~urlEncode
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -541,9 +526,8 @@ export default class ObjectArray {
   }
 
   /**
-  *  Returns a string suitable for a <tt>form-url-encoded</tt> query string
+  *  Returns a string suitable for a `form-url-encoded` query string
   *
-  *  @method ObjectArray~formUrlEncode
   *  @since 1.0.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -562,7 +546,6 @@ export default class ObjectArray {
   *  Returns a camelized string (without uppercase leading character)
   *  Replace dashes and spaces
   *
-  *  @method ObjectArray~camelize
   *  @since 1.2.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -578,7 +561,6 @@ export default class ObjectArray {
   *  Returns a dashed string
   *  Replace Uppercases and spaces
   *
-  *  @method ObjectArray~dashize
   *  @since 1.2.0
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
@@ -595,25 +577,3 @@ export default class ObjectArray {
 
 if (window) window.ObjectArray = ObjectArray;
 
-/**
-*  @typedef dottedKey
-*  @type String
-*  @description
-*  A dotted key is useful to quickly access a subset of data
-*  stored into the ObjectArray as if it was still a
-*  vanilla <tt>Object</tt>.
-*  @example
-*  // Create an ObjectArray with subdata
-*  var oa = new ObjectArray({
-*    set1: {
-*      subset1: 'foo',
-*      subset2: {
-*        subsub1: 'bar',
-*        subsub2: 'baz'
-*      }
-*    }
-*  });
-*  // 'set1.subset1' will yield to 'foo'
-*  // 'set1.subset1.subsub2' will yield to 'baz'
-*
-*/
