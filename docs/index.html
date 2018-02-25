@@ -63,8 +63,10 @@
 <li>Easy to use data serializers and parsers</li>
 <li>Work as well on a whole dataset or a key-based sub-selection of the dataset</li>
 </ul>
-<h2 id="installation">Installation</h2><h3 id="module">Module</h3><p>The ObjectArray class is provided as a UMD module available on NPM.</p>
+<h2 id="installation">Installation</h2><h3 id="module">Module</h3><p>The ObjectArray class is provided as a UMD module.</p>
 <pre><code><code class="source-code prettyprint">npm install dot-object-array</code>
+</code></pre><p>or</p>
+<pre><code><code class="source-code prettyprint">yarn add dot-object-array</code>
 </code></pre><p>Then simply require/import it :</p>
 <pre><code class="lang-javascript"><code class="source-code prettyprint">import ObjectArray from &apos;dot-object-array&apos;;
 const ObjectArray = require(&apos;dot-object-array&apos;).default;
@@ -72,7 +74,14 @@ const ObjectArray = require(&apos;dot-object-array&apos;).default;
 const ObjectArray = require(&apos;dot-object-array&apos;).ObjectArray;</code>
 </code></pre>
 <p>ObjectArray have been built on a ECMA6 class with webpack a named default export.</p>
-<h3 id="browser">Browser</h3><p>For browser install, you can simply fetch <code>dist/objectarray.min.js</code> in this repo and load it :</p>
+<h3 id="browser">Browser</h3><p>DOA is available as CDN external link or can easily be installed locally.</p>
+<h4 id="bundle">Bundle</h4><pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;https://bundle.run/dot-object-array@latest&quot;&gt;&lt;/script&gt;</code>
+</code></pre>
+<h4 id="jsdelivr">JsDelivr</h4><pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.jsdelivr.net/npm/dot-object-array@latest&quot;&gt;&lt;/script&gt;</code>
+</code></pre>
+<h4 id="unpkg">Unpkg</h4><pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;https://unpkg.com/dot-object-array@latest&quot;&gt;&lt;/script&gt;</code>
+</code></pre>
+<h4 id="local-install">Local install</h4><p>For browser install, you can simply fetch file <code>dist/objectarray.min.js</code> in this repo or clone it and load it :</p>
 <pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;myJsFolder/objectarray.min.js&quot;&gt;&lt;/script&gt;</code>
 </code></pre>
 <p>An ObjectArray constructor will be added to global (window) scope.</p>
