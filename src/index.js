@@ -194,11 +194,17 @@ export default class ObjectArray {
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
-  *  @param {dottedKey}  [key=null] Key
+  *  @param {dottedKey}  [key] Key
+  *  @param {dottedKey}  [pKey] Parent Key
   *  @returns {Object|undefined} Data object or undefined if key doesn't exist
   */
-  dataset(key) {
+  dataset(key, pKey) {
     let i, k, data = this.data;
+
+    if (pKey !== undefined) {
+      if (!this.has(pKey)) return undefined;
+      key = pKey + '.' + key;
+    }
 
     if (key !== undefined) {
       key = key.split('.');
@@ -221,11 +227,12 @@ export default class ObjectArray {
   *  @version 1.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
-  *  @param {dottedKey}  [key=null] Key
+  *  @param {dottedKey}  [key] Key
+  *  @param {dottedKey}  [pKey] Parent Key
   *  @returns {Object|undefined} Data object or undefined if key doesn't exist
   */
-  pull(key) {
-    return this.dataset(key);
+  pull(key, pKey) {
+    return this.dataset(key, pKey);
   }
 
   /**

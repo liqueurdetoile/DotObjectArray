@@ -416,6 +416,18 @@ describe('dot-object-array Module', function () {
       o.pull('test2.test22').should.equal('fixture22');
     });
 
+    it('should use pull as an alias to dataset with parent key', function () {
+      let o = new ObjectArray({
+        test: 'fixture',
+        test2: {
+          test21: 'fixture21',
+          test22: 'fixture22'
+        }
+      });
+
+      o.pull('test21', 'test2').should.equal('fixture21');
+    });
+
     it('should create all needed keys', function () {
       let i = new ObjectArray();
 
