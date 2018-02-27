@@ -13,7 +13,7 @@
     "test:dry": "./node_modules/.bin/karma start --single-run --browsers ChromeHeadless",
     "test:dev": "karma start",
     "docs": "./node_modules/.bin/esdoc",
-    "prepare": "npm run test:dry && npm run build && npm run docs"
+    "prepub": "npm run test:dry && npm run build && npm run docs"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

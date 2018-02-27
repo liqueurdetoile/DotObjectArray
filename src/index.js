@@ -350,9 +350,13 @@ export default class ObjectArray {
   *  @param {Number|String|Array|Object} val Value of the added item
   *  @param {dottedKey}  [pKey]  Parent key to push into
   *  @returns {this} Chainable
+  *  @throws {TypeError} If key or parent key are not a string
   */
   push(key, val, pKey) {
     let k, data;
+
+    if (typeof key !== 'string') throw new TypeError('Key must be a string');
+    if (pKey && typeof pKey !== 'string') throw new TypeError('Parent key must be a string');
 
     // Check pKey existence
     if (this.has(pKey) || typeof pKey === 'undefined') {

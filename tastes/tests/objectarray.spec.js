@@ -488,6 +488,18 @@ describe('dot-object-array Module', function () {
         .remove('test.dot2')
         ._data.should.eql({test: {dot: 'fixture'}});
     });
+
+    it('should throw an exception if key not a string', function () {
+      let i = new ObjectArray();
+
+      expect(i.push.bind(i, new ObjectArray())).to.throw(TypeError);
+    });
+
+    it('should throw an exception if parent key is not a string', function () {
+      let i = new ObjectArray();
+
+      expect(i.push.bind(i, 'a', 0, new ObjectArray())).to.throw(TypeError);
+    });
   });
 
   describe('ObjectArray methods', function () {

@@ -528,6 +528,18 @@ describe(&apos;dot-object-array Module&apos;, function () {
         .remove(&apos;test.dot2&apos;)
         ._data.should.eql({test: {dot: &apos;fixture&apos;}});
     });
+
+    it(&apos;should throw an exception if key not a string&apos;, function () {
+      let i = new ObjectArray();
+
+      expect(i.push.bind(i, new ObjectArray())).to.throw(TypeError);
+    });
+
+    it(&apos;should throw an exception if parent key is not a string&apos;, function () {
+      let i = new ObjectArray();
+
+      expect(i.push.bind(i, &apos;a&apos;, 0, new ObjectArray())).to.throw(TypeError);
+    });
   });
 
   describe(&apos;ObjectArray methods&apos;, function () {
