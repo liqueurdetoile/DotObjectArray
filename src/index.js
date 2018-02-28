@@ -444,7 +444,7 @@ export default class ObjectArray {
   */
   remove(key, pKey) {
     let p, data;
-    
+
     key = this._key(key, pKey);
     p = this.parentKey(key);
     data = this.dataset(p);
@@ -489,9 +489,9 @@ export default class ObjectArray {
   */
   forEach(cb, key, pKey) {
     let data, index = 0;
-    
+
     key = this._key(key, pKey);
-    data = this.dataset(key);    
+    data = this.dataset(key);
 
     for (let k in data) cb.call(this, data[k], k, index++, this.parentKey(key));
   }
