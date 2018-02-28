@@ -16,6 +16,7 @@
     "prepub": "npm run test:dry && npm run build && npm run docs"
   },
   "devDependencies": {
+    "ajv": "^6.0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",

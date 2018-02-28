@@ -72,7 +72,7 @@ export default class ObjectArray {
   *
   *  @param {dottedKey}   key     Key
   *  @param {dottedKey}   [pKey]  Parent key
-  *  @returns {Boolean}  true if key exists, false otherwise
+  *  @returns {dottedKey}  Joined dotted key
   *  @throws  {TypeError} If key does not exist
   */
   _key(key, pKey) {
