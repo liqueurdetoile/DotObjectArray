@@ -1,3 +1,5 @@
+[![NPM](https://nodei.co/npm/dot-object-array.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/dot-object-array/)
+
 [![GitHub release](https://img.shields.io/github/release/liqueurdetoile/objectarray.svg)](https://www.npmjs.com/package/dot-object-array)
 [![Build Status](https://travis-ci.org/liqueurdetoile/DotObjectArray.svg?branch=master)](https://travis-ci.org/liqueurdetoile/DotObjectArray)
 [![Coverage Status](https://coveralls.io/repos/github/liqueurdetoile/DotObjectArray/badge.svg?branch=master)](https://coveralls.io/github/liqueurdetoile/DotObjectArray?branch=master)
