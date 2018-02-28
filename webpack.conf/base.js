@@ -3,7 +3,9 @@ const path = require('path');
 module.exports = {
   entry: './src/index.js',
   output: {
-    libraryTarget: 'umd'
+    library: 'ObjectArray',
+    libraryTarget: 'umd',
+    libraryExport: 'default'
   },
   module: {
     rules: [

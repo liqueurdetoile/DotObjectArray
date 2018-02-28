@@ -268,16 +268,43 @@ export default class ObjectArray {
   *  If no key is provided, the whole data is returned
   *
   *  @since 1.4.0
-  *  @version 1.0.0
+  *  @version 1.1.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  [key] Key
   *  @param {dottedKey}  [pKey] Parent Key
+  *  @param {boolean}    [throwable=true] If `true`, pull will throw
+  *  an exception if key doesn't exist else it will return undefined
   *  @returns {Object|undefined} Data object
-  *  @throws  {TypeError} If key does not exist
+  *  @throws  {TypeError} If key does not exist and throwable is `true`
   */
-  pull(key, pKey) {
-    return this.dataset(key, pKey);
+  pull(key, pKey, throwable = true) {
+    try {
+      return this.dataset(key, pKey);
+    } catch (e) {
+      if (throwable) throw e;
+      return undefined;
+    }
+  }
+
+  getset(key, val, pKey, throwable) {
+    let ret = {
+      'set': false
+    };
+
+    if (typeof key === 'undefined') ret['get'] = this.pull(pKey, null, throwable);
+    else if (typeof key === 'string') {
+      if (typeof val === 'undefined') ret['get'] = this.pull(key, pKey, throwable);
+      else {
+        ret['set'] = true;
+        this.push(key, val, pKey);
+      }
+    } else {
+      ret['set'] = true;
+      this.import(key, val);
+    }
+
+    return ret;
   }
 
   /**
@@ -651,4 +678,4 @@ export default class ObjectArray {
   }
 }
 
-if (typeof window !== 'undefined') window.ObjectArray = ObjectArray;
+// if (typeof window !== 'undefined') window.ObjectArray = ObjectArray;

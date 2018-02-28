@@ -567,7 +567,7 @@
     "__docId__": 48,
     "kind": "file",
     "name": "src/index.js",
-    "content": "/**\r\n*  @file dot-object-array module\r\n*  @author  Liqueur de Toile <contact@liqueurdetoile.com>\r\n*  @license MIT {@link https://choosealicense.com/licenses/mit/}\r\n*  @see [Github]{@link https://github.com/liqueurdetoile/objectarray}\r\n*  @see [Author website]{@link https://liqueurdetoile.com}\r\n*/\r\n\r\n/**\r\n*  Implements array-like properties and\r\n*  methods to a key/value javascript object.\r\n*  It can be viewed as a kind of associative array in JS but it also\r\n*  supports dot notation keys.\r\n*\r\n*  @module dot-object-array\r\n*  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n*  @license MIT {@https://github.com/liqueurdetoile/DotObjectArray/blob/master/LICENSE}\r\n*/\r\n\r\nexport default class ObjectArray {\r\n  /**\r\n  *  @param {Object}  [data={}] Initial data to import\r\n  *  @example\r\n  *  var doa = new ObjectArray();\r\n  *  var doa = new ObjectArray({\r\n  *   key1: value1,\r\n  *   key2: value2\r\n  *  });\r\n  *\r\n  *  @returns {ObjectArray} Instance of ObjectArray\r\n  */\r\n\r\n  constructor(data = {}) {\r\n    /**\r\n    *  The inner data object\r\n    *\r\n    *  @type {Object}\r\n    *  @since 1.0.0\r\n    */\r\n    this._data = {};\r\n    this.import(data);\r\n  }\r\n\r\n  /**\r\n  *  Returns the underlying `_data` object for raw reading\r\n  *\r\n  *  @type  {Object}\r\n  *  @see {@link _data}\r\n  *  @since 1.0.0\r\n  */\r\n  get data() {\r\n    return this._data;\r\n  }\r\n\r\n  /**\r\n  *  Import data into ObjectArray.\r\n  *\r\n  *  This setter is an alias to {@link import} method.\r\n  *\r\n  *  @param {Object} data Data to import\r\n  */\r\n  set data(data) {\r\n    this.import(data);\r\n  }\r\n\r\n  /**\r\n  *  Returns a joined dotted key from key and parent key\r\n  *\r\n  *  @since 2.0.0\r\n  *  @version 1.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}   key     Key\r\n  *  @param {dottedKey}   [pKey]  Parent key\r\n  *  @returns {dottedKey}  Joined dotted key\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  _key(key, pKey) {\r\n    if (pKey) key = pKey + '.' + key;\r\n    if (this.has(key) || typeof key === 'undefined') return key;\r\n    throw new TypeError('Inexistent key, key : ' + key + ', Parent key : ' + pKey);\r\n  }\r\n\r\n  /**\r\n  *  Returns a clone with same data of the current ObjectArray\r\n  *\r\n  *  @since 1.3.0\r\n  *  @version 1.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {Boolean} [keepFlattened=true]\r\n  *  If true, the flattened dotted keys will remains flattened\r\n  *  otherwise, the full hierarchy will be restored\r\n  *  @returns {this} Chainable\r\n  */\r\n  clone(keepFlattened = true) {\r\n    let o = new ObjectArray();\r\n\r\n    if (keepFlattened) o._data = this._data;\r\n    else o.import(this._data);\r\n    return o;\r\n  }\r\n\r\n  /**\r\n  *  Empty the ObjectArray data. It can also be used as\r\n  *  an alias for [remove method]{@link ObjectArray~remove}\r\n  *\r\n  *  @since 1.2.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey} key  Key to remove\r\n  *  @param {dottedKey}  [pKey] Parent key\r\n  *  @returns {this} Chainable\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  empty(key, pKey) {\r\n    key = this._key(key, pKey);\r\n    if (!key) this._data = {};\r\n    else this.remove(key);\r\n    return this;\r\n  }\r\n\r\n  /**\r\n  *  Returns length of a given dataset in the ObjectArray\r\n  *  If no key is provided, it will output the length of\r\n  *  the root data object\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey} key  Key\r\n  *  @param {dottedKey}  [pKey] Parent key\r\n  *  @returns  {Number|undefined} Length of the dataset\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  length(key, pKey) {\r\n    return this.keys(this._key(key, pKey)).length;\r\n  }\r\n\r\n  /**\r\n  *  Returns keys of a given dataset in the ObjectArray\r\n  *  If no key is provided, it will output the keys of\r\n  *  the root data object\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey} key  Key\r\n  *  @param {dottedKey}  [pKey] Parent key\r\n  *  @returns  {Array|undefined} Array of keys for the dataset\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  keys(key, pKey) {\r\n    let keys = [], data = this.dataset(this._key(key, pKey));\r\n\r\n    for (let k in data) keys.push(k);\r\n    return keys;\r\n  }\r\n\r\n  /**\r\n  *  Returns values of a given dataset in the ObjectArray\r\n  *  If no key is provided, it will output the values of\r\n  *  the root data object\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey} key  Key\r\n  *  @param {dottedKey}  [pKey] Parent key\r\n  *  @returns  {Array|undefined} Array of values for the dataset\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  values(key, pKey) {\r\n    let values = [], data = this.dataset(this._key(key, pKey));\r\n\r\n    for (let k in data) values.push(data[k]);\r\n    return values;\r\n  }\r\n\r\n  /**\r\n  *  Check if a given key exists in the ObjectArray\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 1.1.1\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  key Key\r\n  *  @param {dottedKey}  [pKey] Parent key\r\n  *  @returns {Boolean}  true if key exists, false otherwise\r\n  */\r\n  has(key, pKey) {\r\n    let i, k, data = this._data;\r\n\r\n    if (typeof key === 'undefined') return false;\r\n    if (pKey) key = pKey + '.' + key;\r\n\r\n    key = key.split('.');\r\n    for (i = 0; i < key.length; i++) {\r\n      k = key[i];\r\n\r\n      if (typeof data[k] === 'undefined') return false;\r\n      data = data[k];\r\n    }\r\n    return true;\r\n  }\r\n\r\n  /**\r\n  *  Check the value for a given key in the ObjectArray\r\n  *\r\n  *  @since 2.0.0\r\n  *  @version 1.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  key Key\r\n  *  @param {Number|String|Array|Object} val Value\r\n  *  @param {dottedKey}  [pKey] Parent key\r\n  *  @param {boolean} [strict=true]  `true` to perform a strict comparison\r\n  *  (`===`) or false otherwise\r\n  *  @returns {Boolean}  true if key exists and is equal to val\r\n  */\r\n  check(key, val, pKey, strict = true) {\r\n    /* istanbul ignore else */\r\n    if (this.has(key, pKey)) {\r\n      let v = this.pull(key, pKey);\r\n\n      if (strict) return val === v;\r\n      else return val == v; //eslint-disable-line\r\n    }\r\n    /* istanbul ignore next */\r\n    return false;\r\n  }\r\n\r\n  /**\r\n  *  Returns dataset for the key. If no key is provided,\r\n  *  the whole dataset is returned\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.1\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  [key] Key\r\n  *  @param {dottedKey}  [pKey] Parent Key\r\n  *  @returns {Object|undefined} Data object\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  dataset(key, pKey) {\r\n    let i, k, data = this.data;\r\n\r\n    key = this._key(key, pKey);\r\n\r\n    if (key !== undefined) {\r\n      key = key.split('.');\r\n      for (i = 0; i < key.length; i++) {\r\n        k = key[i];\r\n        data = data[k];\r\n      }\r\n    }\r\n    return data;\r\n  }\r\n\r\n  /**\r\n  *  Alias for {@link dataset} method.\r\n  *  Returns dataset for the key.\r\n  *  If no key is provided, the whole data is returned\r\n  *\r\n  *  @since 1.4.0\r\n  *  @version 1.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  [key] Key\r\n  *  @param {dottedKey}  [pKey] Parent Key\r\n  *  @returns {Object|undefined} Data object\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  pull(key, pKey) {\r\n    return this.dataset(key, pKey);\r\n  }\r\n\r\n  /**\r\n  *  Returns the parent key for a given key\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 1.0.1\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  key Key\r\n  *  @returns {String} Parent key\r\n  */\r\n  parentKey(key) {\r\n    if (typeof key !== 'undefined') {\r\n      key = key.split('.');\r\n      key.pop();\r\n\r\n      if (key.length) {\r\n        key = key.join('.');\r\n        return key;\r\n      }\r\n    }\r\n    return undefined;\r\n  }\r\n\r\n  /**\r\n  *  Returns the child key for a given key\r\n  *\r\n  *  @since 1.3.0\r\n  *  @version 1.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  key Key\r\n  *  @returns {String}  Child key\r\n  */\r\n  childKey(key) {\r\n    if (typeof key !== 'undefined') {\r\n      key = key.split('.');\r\n      key.shift();\r\n\r\n      if (key.length) {\r\n        key = key.join('.');\r\n        return key;\r\n      }\r\n    }\r\n    return undefined;\r\n  }\r\n\r\n  /**\r\n  *  Private method to recurse flatten\r\n  *\r\n  *  @private\r\n  *  @since 1.3.0\r\n  *  @version 1.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {Object}    ret     Object to complete\r\n  *  @param {Boolean}   dotted  Should the new key be dotted or not\r\n  *  @param {dottedKey} pKey    Parent key defining current subdataset\r\n  *  @returns {Object}  Completed result with non-object data\r\n  */\r\n  _recurseFlatten(ret, dotted, pKey) {\r\n    let k, data = this.dataset(pKey);\r\n\r\n    for (let key in data) {\r\n      if (typeof data[key] === 'object') this._recurseFlatten(ret, dotted, pKey ? pKey + '.' + key : key);\r\n      else {\r\n        // Correct key for root key or subdataset key\r\n        pKey = (this.childKey(pKey)) ? this.childKey(pKey) : pKey;\r\n        k = (dotted && pKey) ? pKey + '.' + key : key;\r\n        ret[k] = data[key];\r\n      }\r\n    }\r\n    return ret;\r\n  }\r\n\r\n  /**\r\n  *  Flattens the object and replace data.\r\n  *\r\n  *  Each object in the dataset is\r\n  *  recursively explored to extract data and bring it a top level.\r\n  *\r\n  *  With default behaviour, if two or more properties have same name under\r\n  *  subkeys, the last explored one will replace the previous one.\r\n  *\r\n  *  If the method is called with `true` as first parameter, the\r\n  *  resulting data keys will be dotted, preventing duplication. In that case,\r\n  *  you must access new keys with `dataset` method or by calling\r\n  *  the `data` key property with [] (e.g. doa.data['my.key']);\r\n  *\r\n  *  Flatten may be run on a subdataset by providing a key as second parameter.\r\n  *\r\n  *  @since 1.3.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {Boolean} [dotted = false]\r\n  *  @param {dottedKey}  [key]  Key to flatten. If not provided, the whole\r\n  *  dataset will flattened.\r\n  *  @returns {this} Chainable\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  flatten(dotted = false, key) {\r\n    let data;\r\n\r\n    if (typeof key === 'undefined') data = this._recurseFlatten({}, dotted);\r\n    else if (this.has(key)) data = this._recurseFlatten({}, dotted, key);\r\n    else throw new TypeError('Inexistent key, key : ' + key);\r\n\r\n    if (typeof key === 'undefined') this._data = data;\r\n    else this.push(key, data);\r\n    return this;\r\n  }\r\n\r\n  /**\r\n  *  Push a new key/value pair\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 1.1.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey} key Key of the added item\r\n  *  @param {Number|String|Array|Object} val Value of the added item\r\n  *  @param {dottedKey}  [pKey]  Parent key to push into\r\n  *  @returns {this} Chainable\r\n  *  @throws {TypeError} If key or parent key are not a string\r\n  */\r\n  push(key, val, pKey) {\r\n    let k, data;\r\n\r\n    if (typeof key !== 'string') throw new TypeError('Key must be a string');\r\n    if (pKey && typeof pKey !== 'string') throw new TypeError('Parent key must be a string');\r\n\r\n    // Check pKey existence\r\n    if (this.has(pKey) || typeof pKey === 'undefined') {\r\n      data = this.dataset(pKey);\r\n    } else {\r\n      key = pKey + '.' + key;\r\n      data = this.data;\r\n    }\r\n\r\n    key = key.split('.');\r\n    k = key.pop();\r\n    key.forEach(function (k, i) {\r\n      if (typeof data[k] === 'undefined') data[k] = {};\r\n      data = data[k];\r\n    });\r\n    if (val instanceof ObjectArray) val = val._data;\r\n    data[k] = val;\r\n    return this;\r\n  }\r\n\r\n  /**\r\n  *  Remove key/value data\r\n  *\r\n  *  @since 1.1.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey} key Key of the added item\r\n  *  @param {dottedKey}  [pKey]  Parent key\r\n  *  @returns {this} Chainable\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  remove(key, pKey) {\r\n    let p, data;\r\n\r\n    key = this._key(key, pKey);\r\n    p = this.parentKey(key);\r\n    data = this.dataset(p);\r\n\r\n    /* istanbul ignore else */\r\n    if (data) {\r\n      key = key.replace(p + '.', '');\r\n      delete data[key];\r\n    }\r\n    return this;\r\n  }\r\n\r\n  /**\r\n  *  Import an object as data\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 1.1.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {Object} data Object to import\r\n  *  @param {dottedKey}  [pKey]  Parent key\r\n  *  @returns {this} Chainable\r\n  */\r\n  import(data, pKey) {\r\n    if (data instanceof ObjectArray) data = data._data;\r\n    for (let key in data) this.push(key, data[key], pKey);\r\n    return this;\r\n  }\r\n\r\n  /**\r\n  *  Runs a callback on each entry at the `key` level\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {ForEachCallback} cb Callback to be run\r\n  *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset\r\n  *  if empty, the global data object will be used\r\n  *  @param {dottedKey}  [pKey]  Parent key\r\n  *  @returns {void}\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  forEach(cb, key, pKey) {\r\n    let data, index = 0;\r\n\r\n    key = this._key(key, pKey);\r\n    data = this.dataset(key);\r\n\r\n    for (let k in data) cb.call(this, data[k], k, index++, this.parentKey(key));\r\n  }\r\n\r\n  /**\r\n  *  Reduce the ObjectArray data given a callback\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param   {ReducerCallback}  reducer   Callback to apply to each key/value (from left)\r\n  *  @param   {Mixed}     [start]   Initial value for iteration\r\n  *  @param   {dottedKey} [key]  Dotted key to limit iterations through its subset\r\n  *  if empty, the global data object will be used\r\n  *  @param {dottedKey}  [pKey]  Parent key\r\n  *  @returns {Mixed}     Callback iteration returned value\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  reduce(reducer, start, key, pKey) {\r\n    var acc = start;\r\n\r\n    key = this._key(key, pKey);\r\n    this.forEach(function (value, k) { acc = reducer(acc, value, k, this.parentKey(key)); }, key);\r\n    return acc;\r\n  }\r\n\r\n  /**\r\n  *  Returns a string suitable for a `style` attribute.\r\n  *  ObjectArray will convert camel-cased key to dashed key.\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset\r\n  *  if empty, the global data object will be used\r\n  *  @param {dottedKey}  [pKey]  Parent key\r\n  *  @returns {String}  style string\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  stylesToString(key, pKey) {\r\n    let ret = this.reduce(function (str, value, k) {\r\n      str += this.dashize(k) + ':' + value + ';';\r\n      return str;\r\n    }.bind(this), '', key, pKey);\r\n\r\n    return ret.substr(0, ret.length - 1);\r\n  }\r\n\r\n  /**\r\n  *  Imports a string from a `style` attribute.\r\n  *  ObjectArray will camelize key from spaces and/or dashes\r\n  *\r\n  *  @since 1.2.0\r\n  *  @version 1.0.3\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {String}  str   String to import\r\n  *  @param {dottedKey}  [pKey]  Dotted key to import styles into.\r\n  *  If omitted, the object will be available at top-level\r\n  *  @returns {this} Chainable\r\n  */\r\n  stringToStyles(str, pKey) {\r\n    let styles;\r\n\r\n    if (typeof str === 'undefined' || str === null) return this; // fix null input value\r\n\r\n    styles = str.split(';');\r\n    styles.forEach(function (style) {\r\n      let parts;\r\n\r\n      if (style !== '') { // Fix trailing ;\r\n        parts = style.split(':');\r\n        try {\r\n          this.push(this.camelize(parts[0].trim()), parts[1].trim(), pKey);\r\n        } catch (e) {\r\n          throw new TypeError('Malformed string for stringToStyles');\r\n        }\r\n      }\r\n    }.bind(this));\r\n    return this;\r\n  }\r\n\r\n  /**\r\n  *  Returns a string suitable for a URI query string\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset\r\n  *  if empty, the global data object will be used\r\n  *  @param {dottedKey}  [pKey]  Parent key\r\n  *  @returns {String}  style string\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  urlEncode(key, pKey) {\r\n    let ret = this.reduce(function (str, value, key) {\r\n      str += key + '=' + encodeURIComponent(value) + '&';\r\n      return str;\r\n    }, '', key, pKey);\r\n\r\n    return ret.substr(0, ret.length - 1);\r\n  }\r\n\r\n  /**\r\n  *  Returns a string suitable for a `form-url-encoded` query string\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset\r\n  *  if empty, the global data object will be used\r\n  *  @param {dottedKey}  [pKey]  Parent key\r\n  *  @returns {String}  style string\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  formUrlEncode(key, pKey) {\r\n    let ret = this.urlEncode(key, pKey);\r\n\r\n    return ret.replace('%20', '+');\r\n  }\r\n\r\n  /**\r\n  *  Returns a camelized string (without uppercase leading character)\r\n  *  Replace dashes and spaces\r\n  *\r\n  *  @since 1.2.0\r\n  *  @version 1.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {String}  s  String to camelize\r\n  *  @returns {String}  Camelized string\r\n  */\r\n  camelize(s) {\r\n    return s.replace(/[- ]([A-Za-z])/g, m => m[1].toUpperCase());\r\n  }\r\n\r\n  /**\r\n  *  Returns a dashed string\r\n  *  Replace Uppercases and spaces\r\n  *\r\n  *  @since 1.2.0\r\n  *  @version 1.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {String}  [s]  String to dashize\r\n  *  @returns {String}  Dashed string\r\n  */\r\n  dashize(s) {\r\n    return s\r\n      .replace(/[A-Z]/g, (m, o) => (o > 0 ? '-' : '') + m.toLowerCase())\r\n      .replace(/ /g, (m, o, s) => s[o + 1] === '-' ? '' : '-');\r\n  }\r\n}\r\n\r\nif (typeof window !== 'undefined') window.ObjectArray = ObjectArray;\r\n",
+    "content": "/**\r\n*  @file dot-object-array module\r\n*  @author  Liqueur de Toile <contact@liqueurdetoile.com>\r\n*  @license MIT {@link https://choosealicense.com/licenses/mit/}\r\n*  @see [Github]{@link https://github.com/liqueurdetoile/objectarray}\r\n*  @see [Author website]{@link https://liqueurdetoile.com}\r\n*/\r\n\r\n/**\r\n*  Implements array-like properties and\r\n*  methods to a key/value javascript object.\r\n*  It can be viewed as a kind of associative array in JS but it also\r\n*  supports dot notation keys.\r\n*\r\n*  @module dot-object-array\r\n*  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n*  @license MIT {@https://github.com/liqueurdetoile/DotObjectArray/blob/master/LICENSE}\r\n*/\r\n\r\nexport default class ObjectArray {\r\n  /**\r\n  *  @param {Object}  [data={}] Initial data to import\r\n  *  @example\r\n  *  var doa = new ObjectArray();\r\n  *  var doa = new ObjectArray({\r\n  *   key1: value1,\r\n  *   key2: value2\r\n  *  });\r\n  *\r\n  *  @returns {ObjectArray} Instance of ObjectArray\r\n  */\r\n\r\n  constructor(data = {}) {\r\n    /**\r\n    *  The inner data object\r\n    *\r\n    *  @type {Object}\r\n    *  @since 1.0.0\r\n    */\r\n    this._data = {};\r\n    this.import(data);\r\n  }\r\n\r\n  /**\r\n  *  Returns the underlying `_data` object for raw reading\r\n  *\r\n  *  @type  {Object}\r\n  *  @see {@link _data}\r\n  *  @since 1.0.0\r\n  */\r\n  get data() {\r\n    return this._data;\r\n  }\r\n\r\n  /**\r\n  *  Import data into ObjectArray.\r\n  *\r\n  *  This setter is an alias to {@link import} method.\r\n  *\r\n  *  @param {Object} data Data to import\r\n  */\r\n  set data(data) {\r\n    this.import(data);\r\n  }\r\n\r\n  /**\r\n  *  Returns a joined dotted key from key and parent key\r\n  *\r\n  *  @since 2.0.0\r\n  *  @version 1.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}   key     Key\r\n  *  @param {dottedKey}   [pKey]  Parent key\r\n  *  @returns {dottedKey}  Joined dotted key\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  _key(key, pKey) {\r\n    if (pKey) key = pKey + '.' + key;\r\n    if (this.has(key) || typeof key === 'undefined') return key;\r\n    throw new TypeError('Inexistent key, key : ' + key + ', Parent key : ' + pKey);\r\n  }\r\n\r\n  /**\r\n  *  Returns a clone with same data of the current ObjectArray\r\n  *\r\n  *  @since 1.3.0\r\n  *  @version 1.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {Boolean} [keepFlattened=true]\r\n  *  If true, the flattened dotted keys will remains flattened\r\n  *  otherwise, the full hierarchy will be restored\r\n  *  @returns {this} Chainable\r\n  */\r\n  clone(keepFlattened = true) {\r\n    let o = new ObjectArray();\r\n\r\n    if (keepFlattened) o._data = this._data;\r\n    else o.import(this._data);\r\n    return o;\r\n  }\r\n\r\n  /**\r\n  *  Empty the ObjectArray data. It can also be used as\r\n  *  an alias for [remove method]{@link ObjectArray~remove}\r\n  *\r\n  *  @since 1.2.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey} key  Key to remove\r\n  *  @param {dottedKey}  [pKey] Parent key\r\n  *  @returns {this} Chainable\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  empty(key, pKey) {\r\n    key = this._key(key, pKey);\r\n    if (!key) this._data = {};\r\n    else this.remove(key);\r\n    return this;\r\n  }\r\n\r\n  /**\r\n  *  Returns length of a given dataset in the ObjectArray\r\n  *  If no key is provided, it will output the length of\r\n  *  the root data object\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey} key  Key\r\n  *  @param {dottedKey}  [pKey] Parent key\r\n  *  @returns  {Number|undefined} Length of the dataset\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  length(key, pKey) {\r\n    return this.keys(this._key(key, pKey)).length;\r\n  }\r\n\r\n  /**\r\n  *  Returns keys of a given dataset in the ObjectArray\r\n  *  If no key is provided, it will output the keys of\r\n  *  the root data object\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey} key  Key\r\n  *  @param {dottedKey}  [pKey] Parent key\r\n  *  @returns  {Array|undefined} Array of keys for the dataset\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  keys(key, pKey) {\r\n    let keys = [], data = this.dataset(this._key(key, pKey));\r\n\r\n    for (let k in data) keys.push(k);\r\n    return keys;\r\n  }\r\n\r\n  /**\r\n  *  Returns values of a given dataset in the ObjectArray\r\n  *  If no key is provided, it will output the values of\r\n  *  the root data object\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey} key  Key\r\n  *  @param {dottedKey}  [pKey] Parent key\r\n  *  @returns  {Array|undefined} Array of values for the dataset\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  values(key, pKey) {\r\n    let values = [], data = this.dataset(this._key(key, pKey));\r\n\r\n    for (let k in data) values.push(data[k]);\r\n    return values;\r\n  }\r\n\r\n  /**\r\n  *  Check if a given key exists in the ObjectArray\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 1.1.1\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  key Key\r\n  *  @param {dottedKey}  [pKey] Parent key\r\n  *  @returns {Boolean}  true if key exists, false otherwise\r\n  */\r\n  has(key, pKey) {\r\n    let i, k, data = this._data;\r\n\r\n    if (typeof key === 'undefined') return false;\r\n    if (pKey) key = pKey + '.' + key;\r\n\r\n    key = key.split('.');\r\n    for (i = 0; i < key.length; i++) {\r\n      k = key[i];\r\n\r\n      if (typeof data[k] === 'undefined') return false;\r\n      data = data[k];\r\n    }\r\n    return true;\r\n  }\r\n\r\n  /**\r\n  *  Check the value for a given key in the ObjectArray\r\n  *\r\n  *  @since 2.0.0\r\n  *  @version 1.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  key Key\r\n  *  @param {Number|String|Array|Object} val Value\r\n  *  @param {dottedKey}  [pKey] Parent key\r\n  *  @param {boolean} [strict=true]  `true` to perform a strict comparison\r\n  *  (`===`) or false otherwise\r\n  *  @returns {Boolean}  true if key exists and is equal to val\r\n  */\r\n  check(key, val, pKey, strict = true) {\r\n    /* istanbul ignore else */\r\n    if (this.has(key, pKey)) {\r\n      let v = this.pull(key, pKey);\r\n\n      if (strict) return val === v;\r\n      else return val == v; //eslint-disable-line\r\n    }\r\n    /* istanbul ignore next */\r\n    return false;\r\n  }\r\n\r\n  /**\r\n  *  Returns dataset for the key. If no key is provided,\r\n  *  the whole dataset is returned\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.1\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  [key] Key\r\n  *  @param {dottedKey}  [pKey] Parent Key\r\n  *  @returns {Object|undefined} Data object\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  dataset(key, pKey) {\r\n    let i, k, data = this.data;\r\n\r\n    key = this._key(key, pKey);\r\n\r\n    if (key !== undefined) {\r\n      key = key.split('.');\r\n      for (i = 0; i < key.length; i++) {\r\n        k = key[i];\r\n        data = data[k];\r\n      }\r\n    }\r\n    return data;\r\n  }\r\n\r\n  /**\r\n  *  Alias for {@link dataset} method.\r\n  *  Returns dataset for the key.\r\n  *  If no key is provided, the whole data is returned\r\n  *\r\n  *  @since 1.4.0\r\n  *  @version 1.1.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  [key] Key\r\n  *  @param {dottedKey}  [pKey] Parent Key\r\n  *  @param {boolean}    [throwable=true] If `true`, pull will throw\r\n  *  an exception if key doesn't exist else it will return undefined\r\n  *  @returns {Object|undefined} Data object\r\n  *  @throws  {TypeError} If key does not exist and throwable is `true`\r\n  */\r\n  pull(key, pKey, throwable = true) {\r\n    try {\r\n      return this.dataset(key, pKey);\r\n    } catch (e) {\r\n      if (throwable) throw e;\r\n      return undefined;\r\n    }\r\n  }\r\n\r\n  getset(key, val, pKey, throwable) {\r\n    let ret = {\r\n      'set': false\r\n    };\r\n\r\n    if (typeof key === 'undefined') ret['get'] = this.pull(pKey, null, throwable);\r\n    else if (typeof key === 'string') {\r\n      if (typeof val === 'undefined') ret['get'] = this.pull(key, pKey, throwable);\r\n      else {\r\n        ret['set'] = true;\r\n        this.push(key, val, pKey);\r\n      }\r\n    } else {\r\n      ret['set'] = true;\r\n      this.import(key, val);\r\n    }\r\n\r\n    return ret;\r\n  }\r\n\r\n  /**\r\n  *  Returns the parent key for a given key\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 1.0.1\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  key Key\r\n  *  @returns {String} Parent key\r\n  */\r\n  parentKey(key) {\r\n    if (typeof key !== 'undefined') {\r\n      key = key.split('.');\r\n      key.pop();\r\n\r\n      if (key.length) {\r\n        key = key.join('.');\r\n        return key;\r\n      }\r\n    }\r\n    return undefined;\r\n  }\r\n\r\n  /**\r\n  *  Returns the child key for a given key\r\n  *\r\n  *  @since 1.3.0\r\n  *  @version 1.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  key Key\r\n  *  @returns {String}  Child key\r\n  */\r\n  childKey(key) {\r\n    if (typeof key !== 'undefined') {\r\n      key = key.split('.');\r\n      key.shift();\r\n\r\n      if (key.length) {\r\n        key = key.join('.');\r\n        return key;\r\n      }\r\n    }\r\n    return undefined;\r\n  }\r\n\r\n  /**\r\n  *  Private method to recurse flatten\r\n  *\r\n  *  @private\r\n  *  @since 1.3.0\r\n  *  @version 1.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {Object}    ret     Object to complete\r\n  *  @param {Boolean}   dotted  Should the new key be dotted or not\r\n  *  @param {dottedKey} pKey    Parent key defining current subdataset\r\n  *  @returns {Object}  Completed result with non-object data\r\n  */\r\n  _recurseFlatten(ret, dotted, pKey) {\r\n    let k, data = this.dataset(pKey);\r\n\r\n    for (let key in data) {\r\n      if (typeof data[key] === 'object') this._recurseFlatten(ret, dotted, pKey ? pKey + '.' + key : key);\r\n      else {\r\n        // Correct key for root key or subdataset key\r\n        pKey = (this.childKey(pKey)) ? this.childKey(pKey) : pKey;\r\n        k = (dotted && pKey) ? pKey + '.' + key : key;\r\n        ret[k] = data[key];\r\n      }\r\n    }\r\n    return ret;\r\n  }\r\n\r\n  /**\r\n  *  Flattens the object and replace data.\r\n  *\r\n  *  Each object in the dataset is\r\n  *  recursively explored to extract data and bring it a top level.\r\n  *\r\n  *  With default behaviour, if two or more properties have same name under\r\n  *  subkeys, the last explored one will replace the previous one.\r\n  *\r\n  *  If the method is called with `true` as first parameter, the\r\n  *  resulting data keys will be dotted, preventing duplication. In that case,\r\n  *  you must access new keys with `dataset` method or by calling\r\n  *  the `data` key property with [] (e.g. doa.data['my.key']);\r\n  *\r\n  *  Flatten may be run on a subdataset by providing a key as second parameter.\r\n  *\r\n  *  @since 1.3.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {Boolean} [dotted = false]\r\n  *  @param {dottedKey}  [key]  Key to flatten. If not provided, the whole\r\n  *  dataset will flattened.\r\n  *  @returns {this} Chainable\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  flatten(dotted = false, key) {\r\n    let data;\r\n\r\n    if (typeof key === 'undefined') data = this._recurseFlatten({}, dotted);\r\n    else if (this.has(key)) data = this._recurseFlatten({}, dotted, key);\r\n    else throw new TypeError('Inexistent key, key : ' + key);\r\n\r\n    if (typeof key === 'undefined') this._data = data;\r\n    else this.push(key, data);\r\n    return this;\r\n  }\r\n\r\n  /**\r\n  *  Push a new key/value pair\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 1.1.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey} key Key of the added item\r\n  *  @param {Number|String|Array|Object} val Value of the added item\r\n  *  @param {dottedKey}  [pKey]  Parent key to push into\r\n  *  @returns {this} Chainable\r\n  *  @throws {TypeError} If key or parent key are not a string\r\n  */\r\n  push(key, val, pKey) {\r\n    let k, data;\r\n\r\n    if (typeof key !== 'string') throw new TypeError('Key must be a string');\r\n    if (pKey && typeof pKey !== 'string') throw new TypeError('Parent key must be a string');\r\n\r\n    // Check pKey existence\r\n    if (this.has(pKey) || typeof pKey === 'undefined') {\r\n      data = this.dataset(pKey);\r\n    } else {\r\n      key = pKey + '.' + key;\r\n      data = this.data;\r\n    }\r\n\r\n    key = key.split('.');\r\n    k = key.pop();\r\n    key.forEach(function (k, i) {\r\n      if (typeof data[k] === 'undefined') data[k] = {};\r\n      data = data[k];\r\n    });\r\n    if (val instanceof ObjectArray) val = val._data;\r\n    data[k] = val;\r\n    return this;\r\n  }\r\n\r\n  /**\r\n  *  Remove key/value data\r\n  *\r\n  *  @since 1.1.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey} key Key of the added item\r\n  *  @param {dottedKey}  [pKey]  Parent key\r\n  *  @returns {this} Chainable\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  remove(key, pKey) {\r\n    let p, data;\r\n\r\n    key = this._key(key, pKey);\r\n    p = this.parentKey(key);\r\n    data = this.dataset(p);\r\n\r\n    /* istanbul ignore else */\r\n    if (data) {\r\n      key = key.replace(p + '.', '');\r\n      delete data[key];\r\n    }\r\n    return this;\r\n  }\r\n\r\n  /**\r\n  *  Import an object as data\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 1.1.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {Object} data Object to import\r\n  *  @param {dottedKey}  [pKey]  Parent key\r\n  *  @returns {this} Chainable\r\n  */\r\n  import(data, pKey) {\r\n    if (data instanceof ObjectArray) data = data._data;\r\n    for (let key in data) this.push(key, data[key], pKey);\r\n    return this;\r\n  }\r\n\r\n  /**\r\n  *  Runs a callback on each entry at the `key` level\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {ForEachCallback} cb Callback to be run\r\n  *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset\r\n  *  if empty, the global data object will be used\r\n  *  @param {dottedKey}  [pKey]  Parent key\r\n  *  @returns {void}\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  forEach(cb, key, pKey) {\r\n    let data, index = 0;\r\n\r\n    key = this._key(key, pKey);\r\n    data = this.dataset(key);\r\n\r\n    for (let k in data) cb.call(this, data[k], k, index++, this.parentKey(key));\r\n  }\r\n\r\n  /**\r\n  *  Reduce the ObjectArray data given a callback\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param   {ReducerCallback}  reducer   Callback to apply to each key/value (from left)\r\n  *  @param   {Mixed}     [start]   Initial value for iteration\r\n  *  @param   {dottedKey} [key]  Dotted key to limit iterations through its subset\r\n  *  if empty, the global data object will be used\r\n  *  @param {dottedKey}  [pKey]  Parent key\r\n  *  @returns {Mixed}     Callback iteration returned value\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  reduce(reducer, start, key, pKey) {\r\n    var acc = start;\r\n\r\n    key = this._key(key, pKey);\r\n    this.forEach(function (value, k) { acc = reducer(acc, value, k, this.parentKey(key)); }, key);\r\n    return acc;\r\n  }\r\n\r\n  /**\r\n  *  Returns a string suitable for a `style` attribute.\r\n  *  ObjectArray will convert camel-cased key to dashed key.\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset\r\n  *  if empty, the global data object will be used\r\n  *  @param {dottedKey}  [pKey]  Parent key\r\n  *  @returns {String}  style string\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  stylesToString(key, pKey) {\r\n    let ret = this.reduce(function (str, value, k) {\r\n      str += this.dashize(k) + ':' + value + ';';\r\n      return str;\r\n    }.bind(this), '', key, pKey);\r\n\r\n    return ret.substr(0, ret.length - 1);\r\n  }\r\n\r\n  /**\r\n  *  Imports a string from a `style` attribute.\r\n  *  ObjectArray will camelize key from spaces and/or dashes\r\n  *\r\n  *  @since 1.2.0\r\n  *  @version 1.0.3\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {String}  str   String to import\r\n  *  @param {dottedKey}  [pKey]  Dotted key to import styles into.\r\n  *  If omitted, the object will be available at top-level\r\n  *  @returns {this} Chainable\r\n  */\r\n  stringToStyles(str, pKey) {\r\n    let styles;\r\n\r\n    if (typeof str === 'undefined' || str === null) return this; // fix null input value\r\n\r\n    styles = str.split(';');\r\n    styles.forEach(function (style) {\r\n      let parts;\r\n\r\n      if (style !== '') { // Fix trailing ;\r\n        parts = style.split(':');\r\n        try {\r\n          this.push(this.camelize(parts[0].trim()), parts[1].trim(), pKey);\r\n        } catch (e) {\r\n          throw new TypeError('Malformed string for stringToStyles');\r\n        }\r\n      }\r\n    }.bind(this));\r\n    return this;\r\n  }\r\n\r\n  /**\r\n  *  Returns a string suitable for a URI query string\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset\r\n  *  if empty, the global data object will be used\r\n  *  @param {dottedKey}  [pKey]  Parent key\r\n  *  @returns {String}  style string\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  urlEncode(key, pKey) {\r\n    let ret = this.reduce(function (str, value, key) {\r\n      str += key + '=' + encodeURIComponent(value) + '&';\r\n      return str;\r\n    }, '', key, pKey);\r\n\r\n    return ret.substr(0, ret.length - 1);\r\n  }\r\n\r\n  /**\r\n  *  Returns a string suitable for a `form-url-encoded` query string\r\n  *\r\n  *  @since 1.0.0\r\n  *  @version 2.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset\r\n  *  if empty, the global data object will be used\r\n  *  @param {dottedKey}  [pKey]  Parent key\r\n  *  @returns {String}  style string\r\n  *  @throws  {TypeError} If key does not exist\r\n  */\r\n  formUrlEncode(key, pKey) {\r\n    let ret = this.urlEncode(key, pKey);\r\n\r\n    return ret.replace('%20', '+');\r\n  }\r\n\r\n  /**\r\n  *  Returns a camelized string (without uppercase leading character)\r\n  *  Replace dashes and spaces\r\n  *\r\n  *  @since 1.2.0\r\n  *  @version 1.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {String}  s  String to camelize\r\n  *  @returns {String}  Camelized string\r\n  */\r\n  camelize(s) {\r\n    return s.replace(/[- ]([A-Za-z])/g, m => m[1].toUpperCase());\r\n  }\r\n\r\n  /**\r\n  *  Returns a dashed string\r\n  *  Replace Uppercases and spaces\r\n  *\r\n  *  @since 1.2.0\r\n  *  @version 1.0.0\r\n  *  @author Liqueur de Toile <contact@liqueurdetoile.com>\r\n  *\r\n  *  @param {String}  [s]  String to dashize\r\n  *  @returns {String}  Dashed string\r\n  */\r\n  dashize(s) {\r\n    return s\r\n      .replace(/[A-Z]/g, (m, o) => (o > 0 ? '-' : '') + m.toLowerCase())\r\n      .replace(/ /g, (m, o, s) => s[o + 1] === '-' ? '' : '-');\r\n  }\r\n}\r\n\r\n// if (typeof window !== 'undefined') window.ObjectArray = ObjectArray;\r\n",
     "static": true,
     "longname": "F:/Projets/ObjectArray/src/index.js",
     "access": "public",
@@ -1292,9 +1292,9 @@
     "longname": "src/index.js~ObjectArray#pull",
     "access": "public",
     "description": " Alias for {@link dataset} method.\n Returns dataset for the key.\n If no key is provided, the whole data is returned",
-    "lineNumber": 279,
+    "lineNumber": 281,
     "since": "1.4.0",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "unknown": [
       {
         "tagName": "@author",
@@ -1325,6 +1325,18 @@
         "optional": true,
         "name": "pKey",
         "description": "Parent Key"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "boolean"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "true",
+        "defaultRaw": true,
+        "name": "throwable",
+        "description": "If `true`, pull will throw\n an exception if key doesn't exist else it will return undefined"
       }
     ],
     "return": {
@@ -1341,12 +1353,57 @@
         "types": [
           "TypeError"
         ],
-        "description": "If key does not exist"
+        "description": "If key does not exist and throwable is `true`"
       }
     ]
   },
   {
     "__docId__": 65,
+    "kind": "method",
+    "name": "getset",
+    "memberof": "src/index.js~ObjectArray",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/index.js~ObjectArray#getset",
+    "access": "public",
+    "description": null,
+    "lineNumber": 290,
+    "undocument": true,
+    "params": [
+      {
+        "name": "key",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "val",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "pKey",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "throwable",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 66,
     "kind": "method",
     "name": "parentKey",
     "memberof": "src/index.js~ObjectArray",
@@ -1356,7 +1413,7 @@
     "longname": "src/index.js~ObjectArray#parentKey",
     "access": "public",
     "description": " Returns the parent key for a given key",
-    "lineNumber": 293,
+    "lineNumber": 320,
     "since": "1.0.0",
     "version": "1.0.1",
     "unknown": [
@@ -1391,7 +1448,7 @@
     }
   },
   {
-    "__docId__": 66,
+    "__docId__": 67,
     "kind": "method",
     "name": "childKey",
     "memberof": "src/index.js~ObjectArray",
@@ -1401,7 +1458,7 @@
     "longname": "src/index.js~ObjectArray#childKey",
     "access": "public",
     "description": " Returns the child key for a given key",
-    "lineNumber": 316,
+    "lineNumber": 343,
     "since": "1.3.0",
     "version": "1.0.0",
     "unknown": [
@@ -1436,7 +1493,7 @@
     }
   },
   {
-    "__docId__": 67,
+    "__docId__": 68,
     "kind": "method",
     "name": "_recurseFlatten",
     "memberof": "src/index.js~ObjectArray",
@@ -1446,7 +1503,7 @@
     "longname": "src/index.js~ObjectArray#_recurseFlatten",
     "access": "private",
     "description": " Private method to recurse flatten",
-    "lineNumber": 342,
+    "lineNumber": 369,
     "since": "1.3.0",
     "version": "1.0.0",
     "unknown": [
@@ -1501,7 +1558,7 @@
     }
   },
   {
-    "__docId__": 68,
+    "__docId__": 69,
     "kind": "method",
     "name": "flatten",
     "memberof": "src/index.js~ObjectArray",
@@ -1511,7 +1568,7 @@
     "longname": "src/index.js~ObjectArray#flatten",
     "access": "public",
     "description": " Flattens the object and replace data.\n\n Each object in the dataset is\n recursively explored to extract data and bring it a top level.\n\n With default behaviour, if two or more properties have same name under\n subkeys, the last explored one will replace the previous one.\n\n If the method is called with `true` as first parameter, the\n resulting data keys will be dotted, preventing duplication. In that case,\n you must access new keys with `dataset` method or by calling\n the `data` key property with [] (e.g. doa.data['my.key']);\n\n Flatten may be run on a subdataset by providing a key as second parameter.",
-    "lineNumber": 383,
+    "lineNumber": 410,
     "since": "1.3.0",
     "version": "2.0.0",
     "unknown": [
@@ -1566,7 +1623,7 @@
     ]
   },
   {
-    "__docId__": 70,
+    "__docId__": 71,
     "kind": "method",
     "name": "push",
     "memberof": "src/index.js~ObjectArray",
@@ -1576,7 +1633,7 @@
     "longname": "src/index.js~ObjectArray#push",
     "access": "public",
     "description": " Push a new key/value pair",
-    "lineNumber": 408,
+    "lineNumber": 435,
     "since": "1.0.0",
     "version": "1.1.0",
     "unknown": [
@@ -1642,7 +1699,7 @@
     ]
   },
   {
-    "__docId__": 71,
+    "__docId__": 72,
     "kind": "method",
     "name": "remove",
     "memberof": "src/index.js~ObjectArray",
@@ -1652,7 +1709,7 @@
     "longname": "src/index.js~ObjectArray#remove",
     "access": "public",
     "description": " Remove key/value data",
-    "lineNumber": 445,
+    "lineNumber": 472,
     "since": "1.1.0",
     "version": "2.0.0",
     "unknown": [
@@ -1705,7 +1762,7 @@
     ]
   },
   {
-    "__docId__": 72,
+    "__docId__": 73,
     "kind": "method",
     "name": "import",
     "memberof": "src/index.js~ObjectArray",
@@ -1715,7 +1772,7 @@
     "longname": "src/index.js~ObjectArray#import",
     "access": "public",
     "description": " Import an object as data",
-    "lineNumber": 471,
+    "lineNumber": 498,
     "since": "1.0.0",
     "version": "1.1.0",
     "unknown": [
@@ -1760,7 +1817,7 @@
     }
   },
   {
-    "__docId__": 73,
+    "__docId__": 74,
     "kind": "method",
     "name": "forEach",
     "memberof": "src/index.js~ObjectArray",
@@ -1770,7 +1827,7 @@
     "longname": "src/index.js~ObjectArray#forEach",
     "access": "public",
     "description": " Runs a callback on each entry at the `key` level",
-    "lineNumber": 491,
+    "lineNumber": 518,
     "since": "1.0.0",
     "version": "2.0.0",
     "unknown": [
@@ -1833,7 +1890,7 @@
     ]
   },
   {
-    "__docId__": 74,
+    "__docId__": 75,
     "kind": "method",
     "name": "reduce",
     "memberof": "src/index.js~ObjectArray",
@@ -1843,7 +1900,7 @@
     "longname": "src/index.js~ObjectArray#reduce",
     "access": "public",
     "description": " Reduce the ObjectArray data given a callback",
-    "lineNumber": 515,
+    "lineNumber": 542,
     "since": "1.0.0",
     "version": "2.0.0",
     "unknown": [
@@ -1916,7 +1973,7 @@
     ]
   },
   {
-    "__docId__": 75,
+    "__docId__": 76,
     "kind": "method",
     "name": "stylesToString",
     "memberof": "src/index.js~ObjectArray",
@@ -1926,7 +1983,7 @@
     "longname": "src/index.js~ObjectArray#stylesToString",
     "access": "public",
     "description": " Returns a string suitable for a `style` attribute.\n ObjectArray will convert camel-cased key to dashed key.",
-    "lineNumber": 537,
+    "lineNumber": 564,
     "since": "1.0.0",
     "version": "2.0.0",
     "unknown": [
@@ -1979,7 +2036,7 @@
     ]
   },
   {
-    "__docId__": 76,
+    "__docId__": 77,
     "kind": "method",
     "name": "stringToStyles",
     "memberof": "src/index.js~ObjectArray",
@@ -1989,7 +2046,7 @@
     "longname": "src/index.js~ObjectArray#stringToStyles",
     "access": "public",
     "description": " Imports a string from a `style` attribute.\n ObjectArray will camelize key from spaces and/or dashes",
-    "lineNumber": 559,
+    "lineNumber": 586,
     "since": "1.2.0",
     "version": "1.0.3",
     "unknown": [
@@ -2034,7 +2091,7 @@
     }
   },
   {
-    "__docId__": 77,
+    "__docId__": 78,
     "kind": "method",
     "name": "urlEncode",
     "memberof": "src/index.js~ObjectArray",
@@ -2044,70 +2101,7 @@
     "longname": "src/index.js~ObjectArray#urlEncode",
     "access": "public",
     "description": " Returns a string suitable for a URI query string",
-    "lineNumber": 593,
-    "since": "1.0.0",
-    "version": "2.0.0",
-    "unknown": [
-      {
-        "tagName": "@author",
-        "tagValue": "Liqueur de Toile <contact@liqueurdetoile.com>"
-      },
-      {
-        "tagName": "@returns",
-        "tagValue": "{String}  style string"
-      }
-    ],
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "dottedKey"
-        ],
-        "spread": false,
-        "optional": true,
-        "name": "key",
-        "description": "Dotted key to limit iterations through its subset\n if empty, the global data object will be used"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "dottedKey"
-        ],
-        "spread": false,
-        "optional": true,
-        "name": "pKey",
-        "description": "Parent key"
-      }
-    ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "String"
-      ],
-      "spread": false,
-      "description": "style string"
-    },
-    "throws": [
-      {
-        "types": [
-          "TypeError"
-        ],
-        "description": "If key does not exist"
-      }
-    ]
-  },
-  {
-    "__docId__": 78,
-    "kind": "method",
-    "name": "formUrlEncode",
-    "memberof": "src/index.js~ObjectArray",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "src/index.js~ObjectArray#formUrlEncode",
-    "access": "public",
-    "description": " Returns a string suitable for a `form-url-encoded` query string",
-    "lineNumber": 615,
+    "lineNumber": 620,
     "since": "1.0.0",
     "version": "2.0.0",
     "unknown": [
@@ -2162,6 +2156,69 @@
   {
     "__docId__": 79,
     "kind": "method",
+    "name": "formUrlEncode",
+    "memberof": "src/index.js~ObjectArray",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/index.js~ObjectArray#formUrlEncode",
+    "access": "public",
+    "description": " Returns a string suitable for a `form-url-encoded` query string",
+    "lineNumber": 642,
+    "since": "1.0.0",
+    "version": "2.0.0",
+    "unknown": [
+      {
+        "tagName": "@author",
+        "tagValue": "Liqueur de Toile <contact@liqueurdetoile.com>"
+      },
+      {
+        "tagName": "@returns",
+        "tagValue": "{String}  style string"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "dottedKey"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "key",
+        "description": "Dotted key to limit iterations through its subset\n if empty, the global data object will be used"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "dottedKey"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "pKey",
+        "description": "Parent key"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": "style string"
+    },
+    "throws": [
+      {
+        "types": [
+          "TypeError"
+        ],
+        "description": "If key does not exist"
+      }
+    ]
+  },
+  {
+    "__docId__": 80,
+    "kind": "method",
     "name": "camelize",
     "memberof": "src/index.js~ObjectArray",
     "generator": false,
@@ -2170,7 +2227,7 @@
     "longname": "src/index.js~ObjectArray#camelize",
     "access": "public",
     "description": " Returns a camelized string (without uppercase leading character)\n Replace dashes and spaces",
-    "lineNumber": 632,
+    "lineNumber": 659,
     "since": "1.2.0",
     "version": "1.0.0",
     "unknown": [
@@ -2205,7 +2262,7 @@
     }
   },
   {
-    "__docId__": 80,
+    "__docId__": 81,
     "kind": "method",
     "name": "dashize",
     "memberof": "src/index.js~ObjectArray",
@@ -2215,7 +2272,7 @@
     "longname": "src/index.js~ObjectArray#dashize",
     "access": "public",
     "description": " Returns a dashed string\n Replace Uppercases and spaces",
-    "lineNumber": 647,
+    "lineNumber": 674,
     "since": "1.2.0",
     "version": "1.0.0",
     "unknown": [
@@ -2250,7 +2307,7 @@
     }
   },
   {
-    "__docId__": 81,
+    "__docId__": 82,
     "kind": "file",
     "name": "src/typedef.jsdoc",
     "content": "/**\n*  A dotted key is useful to quickly access a subset of data\n*  stored into the ObjectArray as if it was still a\n*  vanilla `Object`.\n*  Basically, a dotted key is constructed like a chain of property\n*  for an object.\n*\n*  @typedef {String} dottedKey\n*\n*  @example\n*  // Create an ObjectArray with subdata\n*  var oa = new ObjectArray({\n*    set1: {\n*      subset1: 'foo',\n*      subset2: {\n*        subsub1: 'bar',\n*        subsub2: 'baz'\n*      }\n*    }\n*  });\n*\n*  oa.pull('set1.subset1'); // returns 'foo'\n*  oa.pull('set1.subset1.subsub2'); // returns 'baz'\n*\n*/\n\n/**  \n*  The function passed as a callback in a {@link forEach} iteration.\n*  \n*  Four arguments will be provided to the callback :\n*  1. `value` {{@link Object}}  : Value stored in the current iteration key\n*  2. `key` {{@link String}}  : Current key in iteration\n*  3. `index` {{@link Object}}  : Current index in iteration\n*  4. `path` {{@link Object}|{@link undefined}}  : Path to the key\n*  It will be `undefined` if the key is at first level\n*  \n*  @typedef {Function} ForEachCallback\n*/\n\n/**\n*  The function passed as a callback in a {@link reduce} iteration.\n*  \n*  Four arguments will be provided to the callback :\n*  1. `acc` {{@link Object}}  : Recursive accumulator value\n*  2. `value` {{@link Object}}  : Value stored in the current iteration key\n*  2. `key` {{@link String}}  : Current key in iteration\n*  4. `path` {{@link Object}|{@link undefined}}  : Path to the key\n*  It will be `undefined` if the key is at first level\n*  \n*  @typedef {Function} ReducerCallback\n*/\n",
@@ -2261,7 +2318,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 82,
+    "__docId__": 83,
     "kind": "typedef",
     "name": "dottedKey",
     "memberof": "src/typedef.jsdoc",
@@ -2281,7 +2338,7 @@
     }
   },
   {
-    "__docId__": 83,
+    "__docId__": 84,
     "kind": "typedef",
     "name": "ForEachCallback",
     "memberof": "src/typedef.jsdoc",
@@ -2298,7 +2355,7 @@
     }
   },
   {
-    "__docId__": 84,
+    "__docId__": 85,
     "kind": "typedef",
     "name": "ReducerCallback",
     "memberof": "src/typedef.jsdoc",
@@ -2324,7 +2381,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"dot-object-array\",\n  \"version\": \"1.2.3\",\n  \"description\": \"Implements array-like methods for Object with support for dot notation keys\",\n  \"main\": \"dist/objectarray.min.js\",\n  \"publishConfig\": {\n    \"access\": \"public\"\n  },\n  \"scripts\": {\n    \"build\": \"webpack --config webpack.conf/build.js\",\n    \"dev\": \"webpack --progress --colors --watch --config webpack.conf/dev.js\",\n    \"test\": \"./node_modules/.bin/karma start --single-run --browsers PhantomJS && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage\",\n    \"test:dry\": \"./node_modules/.bin/karma start --single-run --browsers ChromeHeadless\",\n    \"test:dev\": \"karma start\",\n    \"docs\": \"./node_modules/.bin/esdoc\",\n    \"prepub\": \"npm run test:dry && npm run build && npm run docs\"\n  },\n  \"devDependencies\": {\n    \"ajv\": \"^6.0.0\",\n    \"babel-cli\": \"^6.26.0\",\n    \"babel-core\": \"^6.26.0\",\n    \"babel-eslint\": \"^8.2.2\",\n    \"babel-loader\": \"^7.1.3\",\n    \"babel-preset-env\": \"^1.6.1\",\n    \"chai\": \"^4.1.2\",\n    \"clean-webpack-plugin\": \"^0.1.18\",\n    \"color-themes-for-google-code-prettify\": \"^2.0.4\",\n    \"coveralls\": \"^3.0.0\",\n    \"docdash\": \"^0.4.0\",\n    \"esdoc\": \"^1.0.4\",\n    \"esdoc-inject-script-plugin\": \"^1.0.0\",\n    \"esdoc-inject-style-plugin\": \"^1.0.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"eslint\": \"^4.18.1\",\n    \"eslint-loader\": \"^1.9.0\",\n    \"istanbul-instrumenter-loader\": \"^3.0.0\",\n    \"karma\": \"^2.0.0\",\n    \"karma-babel-preprocessor\": \"^7.0.0\",\n    \"karma-chai\": \"^0.1.0\",\n    \"karma-chrome-launcher\": \"^2.2.0\",\n    \"karma-coverage-istanbul-reporter\": \"^1.4.1\",\n    \"karma-firefox-launcher\": \"^1.1.0\",\n    \"karma-ie-launcher\": \"^1.0.0\",\n    \"karma-mocha\": \"^1.3.0\",\n    \"karma-opera-launcher\": \"^1.0.0\",\n    \"karma-phantomjs-launcher\": \"^1.0.4\",\n    \"karma-safari-launcher\": \"^1.0.0\",\n    \"karma-sourcemap-loader\": \"^0.3.7\",\n    \"karma-webpack\": \"^2.0.12\",\n    \"mocha\": \"^5.0.1\",\n    \"phantomjs-prebuilt\": \"^2.1.16\",\n    \"semantic-release\": \"^12.4.1\",\n    \"webpack\": \"^3.11.0\",\n    \"webpack-bundle-analyzer\": \"^2.11.0\",\n    \"webpack-merge\": \"^4.1.2\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"https://github.com/liqueurdetoile/dotobjectarray.git\"\n  },\n  \"keywords\": [\n    \"object\",\n    \"array\",\n    \"array-like\",\n    \"dot notation\"\n  ],\n  \"author\": \"Liqueur de Toile\",\n  \"license\": \"MIT\",\n  \"bugs\": {\n    \"url\": \"https://github.com/liqueurdetoile/dotobjectarray/issues\"\n  },\n  \"homepage\": \"https://github.com/liqueurdetoile/dotobjectarray\",\n  \"dependencies\": {}\n}\n",
+    "content": "{\n  \"name\": \"dot-object-array\",\n  \"version\": \"1.2.3\",\n  \"description\": \"Implements array-like methods for Object with support for dot notation keys\",\n  \"main\": \"dist/objectarray.min.js\",\n  \"publishConfig\": {\n    \"access\": \"public\"\n  },\n  \"scripts\": {\n    \"build\": \"webpack --config webpack.conf/build.js\",\n    \"dev\": \"webpack --progress --colors --watch --config webpack.conf/dev.js\",\n    \"test\": \"./node_modules/.bin/karma start --single-run --browsers PhantomJS && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage\",\n    \"test:dry\": \"./node_modules/.bin/karma start --single-run --browsers ChromeHeadless\",\n    \"test:dev\": \"karma start\",\n    \"docs\": \"./node_modules/.bin/esdoc\",\n    \"prepub\": \"npm run test:dry && npm run build && npm run docs\"\n  },\n  \"devDependencies\": {\n    \"ajv\": \"^6.0.0\",\n    \"babel-cli\": \"^6.26.0\",\n    \"babel-core\": \"^6.26.0\",\n    \"babel-eslint\": \"^8.2.2\",\n    \"babel-loader\": \"^7.1.3\",\n    \"babel-preset-env\": \"^1.6.1\",\n    \"chai\": \"^4.1.2\",\n    \"clean-webpack-plugin\": \"^0.1.18\",\n    \"color-themes-for-google-code-prettify\": \"^2.0.4\",\n    \"coveralls\": \"^3.0.0\",\n    \"docdash\": \"^0.4.0\",\n    \"esdoc\": \"^1.0.4\",\n    \"esdoc-inject-script-plugin\": \"^1.0.0\",\n    \"esdoc-inject-style-plugin\": \"^1.0.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"eslint\": \"^4.18.1\",\n    \"eslint-loader\": \"^1.9.0\",\n    \"istanbul-instrumenter-loader\": \"^3.0.0\",\n    \"karma\": \"^2.0.0\",\n    \"karma-babel-preprocessor\": \"^7.0.0\",\n    \"karma-chai\": \"^0.1.0\",\n    \"karma-chrome-launcher\": \"^2.2.0\",\n    \"karma-coverage-istanbul-reporter\": \"^1.4.1\",\n    \"karma-firefox-launcher\": \"^1.1.0\",\n    \"karma-ie-launcher\": \"^1.0.0\",\n    \"karma-mocha\": \"^1.3.0\",\n    \"karma-opera-launcher\": \"^1.0.0\",\n    \"karma-phantomjs-launcher\": \"^1.0.4\",\n    \"karma-safari-launcher\": \"^1.0.0\",\n    \"karma-sourcemap-loader\": \"^0.3.7\",\n    \"karma-webpack\": \"^2.0.13\",\n    \"mocha\": \"^5.0.1\",\n    \"phantomjs-prebuilt\": \"^2.1.16\",\n    \"semantic-release\": \"^12.4.1\",\n    \"webpack\": \"^3.11.0\",\n    \"webpack-bundle-analyzer\": \"^2.11.0\",\n    \"webpack-merge\": \"^4.1.2\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"https://github.com/liqueurdetoile/dotobjectarray.git\"\n  },\n  \"keywords\": [\n    \"object\",\n    \"array\",\n    \"array-like\",\n    \"dot notation\"\n  ],\n  \"author\": \"Liqueur de Toile\",\n  \"license\": \"MIT\",\n  \"bugs\": {\n    \"url\": \"https://github.com/liqueurdetoile/dotobjectarray/issues\"\n  },\n  \"homepage\": \"https://github.com/liqueurdetoile/dotobjectarray\",\n  \"dependencies\": {}\n}\n",
     "longname": "F:\\Projets\\ObjectArray\\package.json",
     "name": "package.json",
     "static": true,
@@ -2347,10 +2404,10 @@
     "access": "public"
   },
   {
-    "__docId__": 85,
+    "__docId__": 86,
     "kind": "testFile",
     "name": "tests/objectarray.spec.js",
-    "content": "import ObjectArray from 'index';\n\ndescribe('dot-object-array Module', function () {\n  describe('ObjectArray Instance creation', function () {\n    it('should create a void instance of ObjectArray', function () {\n      let i = new ObjectArray();\n\n      expect(i instanceof ObjectArray).to.equal(true);\n    });\n    it('should create a data instance of ObjectArray', function () {\n      let i = new ObjectArray({\n        test: 'fixture',\n        test2: 'fixture2'\n      });\n\n      i.data.should.eql({\n        test: 'fixture',\n        test2: 'fixture2'\n      });\n    });\n    it('should preserve ObjectArray data if ObjectArray is given in arguments', function () {\n      let i = new ObjectArray({\n        test: 'fixture',\n        test2: 'fixture2'\n      });\n\n      let j = new ObjectArray(i);\n\n      j.data.should.eql({\n        test: 'fixture',\n        test2: 'fixture2'\n      });\n    });\n  });\n\n  describe('Cloning ObjectArray', function () {\n    it('should return a clone', function () {\n      let i = new ObjectArray();\n\n      i.clone().should.not.equal(i);\n      i.clone().data.should.eql(i.data);\n    });\n\n    it('should return a clone', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          testx: { test2x: 0 },\n          testy: {\n            test2y1: true,\n            test2y2: 'fix'\n          }\n        }\n      });\n\n      i.clone().should.not.equal(i);\n      i.clone().data.should.eql(i.data);\n    });\n\n    it('should return a clone', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          testx: { test2x: 0 },\n          testy: {\n            test2y1: true,\n            test2y2: 'fix'\n          }\n        }\n      });\n\n      i.flatten().clone().should.not.equal(i);\n      i.clone().data.should.eql(i.data);\n    });\n\n    it('should return a clone', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          test21: 0,\n          test22: true\n        }\n      });\n\n      i.flatten(true).clone(false).should.not.equal(i);\n      i.clone(false).data.should.eql({\n        test1: 'fixture',\n        test2: {\n          test21: 0,\n          test22: true\n        }\n      });\n    });\n  });\n\n  describe('Camel and dash', function () {\n    it('should camelize space and dashed strings', function () {\n      let e = new ObjectArray();\n\n      e.camelize('a long string').should.equal('aLongString');\n      e.camelize('a LonG string').should.equal('aLonGString');\n      e.camelize('a-long-string').should.equal('aLongString');\n      e.camelize('a long-string').should.equal('aLongString');\n      e.camelize('background-color').should.equal('backgroundColor');\n      e.camelize('padding-left').should.equal('paddingLeft');\n    });\n\n    it('should dashize space and uppercase letter', function () {\n      let e = new ObjectArray();\n\n      e.dashize('a long string').should.equal('a-long-string');\n      e.dashize('aLongString').should.equal('a-long-string');\n      e.dashize('a LongString').should.equal('a-long-string');\n      e.dashize('a longString').should.equal('a-long-string');\n      e.dashize('backgroundColor').should.equal('background-color');\n      e.dashize('paddingLeft').should.equal('padding-left');\n      e.dashize('PaddingLeft').should.equal('padding-left');\n    });\n  });\n\n  describe('ObjectArray length, keys and values', function () {\n    it('should returns length', function () {\n      let i = new ObjectArray();\n\n      i.length().should.equal(0);\n      i.push('test', 'fixture');\n      i.length().should.equal(1);\n      i.push('test2', 'fixture2');\n      i.length().should.equal(2);\n      expect(i.length.bind(i, 'dat.wrong.path')).to.throw(TypeError);\n    });\n    it('should returns keys', function () {\n      let i = new ObjectArray();\n\n      i.keys().should.eql([]);\n      i.push('test', 'fixture');\n      i.keys().should.eql(['test']);\n      i.push('test2', 'fixture2');\n      i.keys().should.eql(['test', 'test2']);\n      expect(i.keys.bind(i, 'dat.wrong.path')).to.throw(TypeError);\n    });\n    it('should returns values', function () {\n      let i = new ObjectArray();\n\n      i.values().should.eql([]);\n      i.push('test', 'fixture');\n      i.values().should.eql(['fixture']);\n      i.push('test2', 'fixture2');\n      i.values().should.eql(['fixture', 'fixture2']);\n      expect(i.values.bind(i, 'dat.wrong.path')).to.throw(TypeError);\n    });\n    it('should returns right keys and values for dotted object', function () {\n      var i = new ObjectArray({\n        dat: {\n          long: {\n            path: 'fixture1',\n            dream: 'fixture2'\n          }\n        }\n      });\n\n      i.keys().should.eql(['dat']);\n      i.values().should.eql([{long: {path: 'fixture1', dream: 'fixture2'}}]);\n      i.keys('dat.long').should.eql(['path', 'dream']);\n      i.values('dat.long').should.eql(['fixture1', 'fixture2']);\n      expect(i.keys.bind(i, 'dat.short')).to.throw(TypeError);\n      expect(i.values.bind(i, 'dat.short')).to.throw(TypeError);\n    });\n  });\n\n  describe('Has key, data fetch and parent data fetch', function () {\n    it('should find key', function () {\n      let i = new ObjectArray({\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      });\n\n      i.has('test').should.equal(true);\n      i.has('test2').should.equal(true);\n      i.has('test2.test21').should.equal(true);\n      i.has('test2.test22').should.equal(true);\n      i.has('test3').should.equal(false);\n      i.has('test2.test23').should.equal(false);\n    });\n\n    it('should find data', function () {\n      let i = new ObjectArray({\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      });\n\n      i.dataset('test').should.equal('fixture');\n      i.dataset('test2').should.eql({\n        test21: 'fixture21',\n        test22: 'fixture22'\n      });\n      i.dataset('test2.test21').should.equal('fixture21');\n      i.dataset('test21', 'test2').should.equal('fixture21');\n      expect(i.dataset.bind(i, 'test3')).to.throw(TypeError);\n      expect(i.dataset.bind(i, 'test23', 'test2')).to.throw(TypeError);\n    });\n\n    it('should find parent key', function () {\n      let i = new ObjectArray({\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      });\n\n      expect(i.parentKey('test')).to.equal(undefined);\n      i.parentKey('test2.test21').should.equal('test2');\n    });\n  });\n\n  describe('Check key/value', function () {\n    it('Strict equality', function () {\n      let i = new ObjectArray({\n        test: 'fixture',\n        test2: {\n          test21: 0,\n          test22: '0'\n        }\n      });\n\n      i.check('test2.test21', 0).should.be.true;\n      i.check('test2.test21', '0').should.be.false;\n      i.check('test2.test21', 'fixture').should.be.false;\n      i.check('test22', '0', 'test2').should.be.true;\n      i.check('test22', 0, 'test2').should.be.false;\n    });\n\n    it('Loose equality', function () {\n      let i = new ObjectArray({\n        test: 'fixture',\n        test2: {\n          test21: 0,\n          test22: '0'\n        }\n      });\n\n      i.check('test2.test21', 0, '', false).should.be.true;\n      i.check('test2.test21', '0', '', false).should.be.true;\n      i.check('test22', '0', 'test2', false).should.be.true;\n      i.check('test22', 0, 'test2', false).should.be.true;\n      i.check('test2.test21', 'fixture', '', false).should.be.false;\n    });\n  });\n\n  describe('Flatten ObjectArray', function () {\n    it('should change nothing if data empty', function () {\n      let i = new ObjectArray();\n\n      i.flatten().should.eql(i);\n      i.data.should.eql({});\n    });\n\n    it('should change nothing if data already flattened', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: 0\n      });\n\n      i.flatten().should.eql(i);\n      i.data.should.eql({test1: 'fixture', test2: 0});\n    });\n\n    it('should flatten dataset', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          test21: 0,\n          test22: true\n        }\n      });\n\n      i.flatten().should.eql(i);\n      i.data.should.eql({test1: 'fixture', test21: 0, test22: true});\n    });\n\n    it('should flatten dataset and replace', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          test1: 0,\n          test2: true\n        }\n      });\n\n      i.flatten().should.eql(i);\n      i.data.should.eql({test1: 0, test2: true});\n    });\n\n    it('should flatten dataset and dot keys', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          test1: 0,\n          test2: true\n        }\n      });\n\n      i.flatten(true).should.eql(i);\n      i.data.should.eql({test1: 'fixture', 'test2.test1': 0, 'test2.test2': true});\n    });\n\n    it('should flatten subdataset and no change', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          test21: 0,\n          test22: true\n        }\n      });\n\n      i.flatten(false, 'test2').should.eql(i);\n      i.data.should.eql({test1: 'fixture', test2: {test21: 0, test22: true}});\n    });\n\n    it('should throw an exception if key does not exist', function () {\n      let i = new ObjectArray();\n\n      expect(i.flatten.bind(i, true, 'test3')).to.throw(TypeError);\n    });\n\n    it('should flatten subdataset', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          testx: { test2x: 0 },\n          testy: {\n            test2y1: true,\n            test2y2: 'fix'\n          }\n        }\n      });\n\n      i.flatten(false, 'test2').should.eql(i);\n      i.data.should.eql({test1: 'fixture', test2: {test2x: 0, test2y1: true, test2y2: 'fix'}});\n    });\n\n    it('should flatten subdataset and dot keys', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          testx: { test2x: 0 },\n          testy: {\n            test2y1: true,\n            test2y2: 'fix'\n          }\n        }\n      });\n\n      i.flatten(true, 'test2').should.eql(i);\n      i.data.should.eql({test1: 'fixture', test2: {'testx.test2x': 0, 'testy.test2y1': true, 'testy.test2y2': 'fix'}});\n    });\n\n  });\n\n  describe('Push and delete data', function () {\n    it('should get and set data', function () {\n      let i = new ObjectArray();\n\n      i.data = {test: 'fixture'};\n      i.data.test.should.equal('fixture');\n    });\n    it('should create all needed keys', function () {\n      let i = new ObjectArray();\n\n      i.push('dat.really.long.path', 'fixture');\n      i.data.should.eql({\n        dat: {\n          really: {\n            long: {\n              path: 'fixture'\n            }\n          }\n        }\n      });\n    });\n\n    it('should push or import ObjectArray without losing data', function () {\n      let o = new ObjectArray({\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      });\n\n      let i = new ObjectArray().push('itest', o);\n\n      i.data.should.eql({itest: {\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      }});\n\n      i = new ObjectArray().push('itest', o, 'dat.path');\n\n      i.data.should.eql({dat: {path: {itest: {\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      }}}});\n\n      i = new ObjectArray().import(o);\n\n      i.data.should.eql({\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      });\n\n      i = new ObjectArray().import(o, 'dat.path');\n\n      i.data.should.eql({dat: {path: {\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      }}});\n    });\n\n    it('should use pull as an alias to dataset', function () {\n      let o = new ObjectArray({\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      });\n\n      o.pull().should.eql({\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      });\n\n      o.pull('test2.test22').should.equal('fixture22');\n    });\n\n    it('should use pull as an alias to dataset with parent key', function () {\n      let o = new ObjectArray({\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      });\n\n      o.pull('test21', 'test2').should.equal('fixture21');\n    });\n\n    it('should create all needed keys', function () {\n      let i = new ObjectArray();\n\n      i.import({\n        'dat.really.long.path': 'fixture1',\n        'dat.really.long.dream': 'fixture2',\n        'dat.shorter.path': 'fixture3'\n      });\n      i.data.should.eql({\n        dat: {\n          really: {\n            long: {\n              path: 'fixture1',\n              dream: 'fixture2'\n            }\n          },\n          shorter: {\n            path: 'fixture3'\n          }\n        }\n      });\n    });\n    it('should create all needed keys', function () {\n      let i = new ObjectArray();\n\n      i.push('dat.really.long.path', 'fixture1');\n      i.push('dream', 'fixture2', 'dat.really.long');\n      i.import({\n        'shorter.path': 'fixture3'\n      }, 'dat');\n      i.data.should.eql({\n        dat: {\n          really: {\n            long: {\n              path: 'fixture1',\n              dream: 'fixture2'\n            }\n          },\n          shorter: {\n            path: 'fixture3'\n          }\n        }\n      });\n    });\n    it('should push simple data', function () {\n      let i = new ObjectArray();\n\n      i.push('test', 'fixture');\n      i._data.should.eql({test: 'fixture'});\n    });\n    it('should remove simple data', function () {\n      let i = new ObjectArray();\n\n      i.push('test', 'fixture');\n      i.remove('test');\n      i._data.should.eql({});\n    });\n\n    it('should push dotted data', function () {\n      let i = new ObjectArray();\n\n      i.push('test.dot', 'fixture')\n        .push('test.dot2', 'fixture2');\n      i._data.should.eql({test: {dot: 'fixture', dot2: 'fixture2'}});\n    });\n\n    it('should remove dotted data', function () {\n      let i = new ObjectArray();\n\n      i.push('test.dot', 'fixture')\n        .push('test.dot2', 'fixture2')\n        .empty('test.dot2')\n        ._data.should.eql({test: {dot: 'fixture'}});\n    });\n\n    it('should throw an exception if key not a string', function () {\n      let i = new ObjectArray();\n\n      expect(i.push.bind(i, new ObjectArray())).to.throw(TypeError);\n    });\n\n    it('should throw an exception if parent key is not a string', function () {\n      let i = new ObjectArray();\n\n      expect(i.push.bind(i, 'a', 0, new ObjectArray())).to.throw(TypeError);\n    });\n  });\n\n  describe('ObjectArray methods', function () {\n    it('should iterate a callback with forEach', function () {\n      let i = new ObjectArray();\n      let ret = {};\n      let indexes = [];\n\n      i.import({\n        test: 'fixture',\n        test2: 'fixture2'\n      });\n      i.forEach(function (value, key, index) {\n        ret[key] = value;\n        indexes.push(index);\n      });\n      ret.should.eql({\n        test: 'fixture',\n        test2: 'fixture2'\n      });\n      indexes.should.eql([0, 1]);\n    });\n\n    it('should iterate a callback with forEach on a dotted key', function () {\n      let i = new ObjectArray();\n      let ret = {};\n      let indexes = [];\n\n      i.import({\n        test: {\n          test: 'fixture',\n          test2: 'fixture2'\n        }\n      });\n      i.forEach(function (value, key, index) {\n        ret[key] = value;\n        indexes.push(index);\n      }, 'test');\n      ret.should.eql({\n        test: 'fixture',\n        test2: 'fixture2'\n      });\n      indexes.should.eql([0, 1]);\n    });\n\n    it('should reduce the data', function () {\n      let i = new ObjectArray({\n        position: 'absolute',\n        display: 'flex'\n      });\n      let ret = i.reduce(function (str, value, key) {\n        str += key + ':' + value + ';';\n        return str;\n      }, '');\n\n      ret.should.equal('position:absolute;display:flex;');\n    });\n\n    it('should return a style type string', function () {\n      let i = new ObjectArray({\n        position: 'absolute',\n        display: 'flex',\n        paddingLeft: '1em'\n      });\n\n      i.stylesToString().should.equal('position:absolute;display:flex;padding-left:1em');\n    });\n\n    it('should import a style type string', function () {\n      let i = new ObjectArray();\n\n      i.stringToStyles(undefined).data.should.eql({});\n      i.stringToStyles(null).data.should.eql({});\n\n      i.stringToStyles('position:absolute;display:flex;padding-left:1em')\n        .data.should.eql({\n          position: 'absolute',\n          display: 'flex',\n          paddingLeft: '1em'\n        });\n\n      i.empty();\n\n      i.stringToStyles('position:absolute;display:flex;padding-left:1em', 'dat.path.to.subkey')\n        .dataset('dat.path.to.subkey').should.eql({\n          position: 'absolute',\n          display: 'flex',\n          paddingLeft: '1em'\n        });\n\n      i.stringToStyles('position:absolute;display:flex;padding-left:1em;', 'dat.path.to.subkey')\n        .dataset('dat.path.to.subkey').should.eql({\n          position: 'absolute',\n          display: 'flex',\n          paddingLeft: '1em'\n        });\n    });\n\n    it('should throw an exception if bad string provided', function () {\n      let i = new ObjectArray();\n\n      expect(i.stringToStyles.bind(i, 'databadword')).to.throw('Malformed string for stringToStyles');\n      expect(i.stringToStyles.bind(i, ':databadword;peanuts')).to.throw('Malformed string for stringToStyles');\n    });\n\n    it('should return a url encoded string', function () {\n      let i = new ObjectArray({\n        input: 'test',\n        glob: '**/*',\n        alias: 'test fixture'\n      });\n      let ret = i.urlEncode();\n\n      ret.should.equal('input=test&glob=**%2F*&alias=test%20fixture');\n    });\n\n    it('should return a form url encoded string', function () {\n      let i = new ObjectArray({\n        input: 'test',\n        glob: '**/*',\n        alias: 'test fixture'\n      });\n      let ret = i.formUrlEncode();\n\n      ret.should.equal('input=test&glob=**%2F*&alias=test+fixture');\n    });\n  });\n\n  describe('Import JSON and change keys', function () {\n    it('should import JSON and change keys', function () {\n      var jstring = '{\"dat\": {\"long\": {\"path\": \"foo\", \"dream\": \"baz\"}}}';\n      var doa = new ObjectArray(JSON.parse(jstring));\n\n      doa.push('short', doa.dataset('dat.long')).remove('dat');\n      JSON.stringify(doa.data).should.equal('{\"short\":{\"path\":\"foo\",\"dream\":\"baz\"}}');\n    });\n  });\n});\n",
+    "content": "import ObjectArray from 'index';\n\ndescribe('dot-object-array Module', function () {\n  describe('ObjectArray Instance creation', function () {\n    it('should create a void instance of ObjectArray', function () {\n      let i = new ObjectArray();\n\n      expect(i instanceof ObjectArray).to.equal(true);\n    });\n    it('should create a data instance of ObjectArray', function () {\n      let i = new ObjectArray({\n        test: 'fixture',\n        test2: 'fixture2'\n      });\n\n      i.data.should.eql({\n        test: 'fixture',\n        test2: 'fixture2'\n      });\n    });\n    it('should preserve ObjectArray data if ObjectArray is given in arguments', function () {\n      let i = new ObjectArray({\n        test: 'fixture',\n        test2: 'fixture2'\n      });\n\n      let j = new ObjectArray(i);\n\n      j.data.should.eql({\n        test: 'fixture',\n        test2: 'fixture2'\n      });\n    });\n  });\n\n  describe('Cloning ObjectArray', function () {\n    it('should return a clone', function () {\n      let i = new ObjectArray();\n\n      i.clone().should.not.equal(i);\n      i.clone().data.should.eql(i.data);\n    });\n\n    it('should return a clone', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          testx: { test2x: 0 },\n          testy: {\n            test2y1: true,\n            test2y2: 'fix'\n          }\n        }\n      });\n\n      i.clone().should.not.equal(i);\n      i.clone().data.should.eql(i.data);\n    });\n\n    it('should return a clone', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          testx: { test2x: 0 },\n          testy: {\n            test2y1: true,\n            test2y2: 'fix'\n          }\n        }\n      });\n\n      i.flatten().clone().should.not.equal(i);\n      i.clone().data.should.eql(i.data);\n    });\n\n    it('should return a clone', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          test21: 0,\n          test22: true\n        }\n      });\n\n      i.flatten(true).clone(false).should.not.equal(i);\n      i.clone(false).data.should.eql({\n        test1: 'fixture',\n        test2: {\n          test21: 0,\n          test22: true\n        }\n      });\n    });\n  });\n\n  describe('Camel and dash', function () {\n    it('should camelize space and dashed strings', function () {\n      let e = new ObjectArray();\n\n      e.camelize('a long string').should.equal('aLongString');\n      e.camelize('a LonG string').should.equal('aLonGString');\n      e.camelize('a-long-string').should.equal('aLongString');\n      e.camelize('a long-string').should.equal('aLongString');\n      e.camelize('background-color').should.equal('backgroundColor');\n      e.camelize('padding-left').should.equal('paddingLeft');\n    });\n\n    it('should dashize space and uppercase letter', function () {\n      let e = new ObjectArray();\n\n      e.dashize('a long string').should.equal('a-long-string');\n      e.dashize('aLongString').should.equal('a-long-string');\n      e.dashize('a LongString').should.equal('a-long-string');\n      e.dashize('a longString').should.equal('a-long-string');\n      e.dashize('backgroundColor').should.equal('background-color');\n      e.dashize('paddingLeft').should.equal('padding-left');\n      e.dashize('PaddingLeft').should.equal('padding-left');\n    });\n  });\n\n  describe('ObjectArray length, keys and values', function () {\n    it('should returns length', function () {\n      let i = new ObjectArray();\n\n      i.length().should.equal(0);\n      i.push('test', 'fixture');\n      i.length().should.equal(1);\n      i.push('test2', 'fixture2');\n      i.length().should.equal(2);\n      expect(i.length.bind(i, 'dat.wrong.path')).to.throw(TypeError);\n    });\n    it('should returns keys', function () {\n      let i = new ObjectArray();\n\n      i.keys().should.eql([]);\n      i.push('test', 'fixture');\n      i.keys().should.eql(['test']);\n      i.push('test2', 'fixture2');\n      i.keys().should.eql(['test', 'test2']);\n      expect(i.keys.bind(i, 'dat.wrong.path')).to.throw(TypeError);\n    });\n    it('should returns values', function () {\n      let i = new ObjectArray();\n\n      i.values().should.eql([]);\n      i.push('test', 'fixture');\n      i.values().should.eql(['fixture']);\n      i.push('test2', 'fixture2');\n      i.values().should.eql(['fixture', 'fixture2']);\n      expect(i.values.bind(i, 'dat.wrong.path')).to.throw(TypeError);\n    });\n    it('should returns right keys and values for dotted object', function () {\n      var i = new ObjectArray({\n        dat: {\n          long: {\n            path: 'fixture1',\n            dream: 'fixture2'\n          }\n        }\n      });\n\n      i.keys().should.eql(['dat']);\n      i.values().should.eql([{long: {path: 'fixture1', dream: 'fixture2'}}]);\n      i.keys('dat.long').should.eql(['path', 'dream']);\n      i.values('dat.long').should.eql(['fixture1', 'fixture2']);\n      expect(i.keys.bind(i, 'dat.short')).to.throw(TypeError);\n      expect(i.values.bind(i, 'dat.short')).to.throw(TypeError);\n    });\n  });\n\n  describe('Has key, data fetch and parent data fetch', function () {\n    it('should find key', function () {\n      let i = new ObjectArray({\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      });\n\n      i.has('test').should.equal(true);\n      i.has('test2').should.equal(true);\n      i.has('test2.test21').should.equal(true);\n      i.has('test2.test22').should.equal(true);\n      i.has('test3').should.equal(false);\n      i.has('test2.test23').should.equal(false);\n    });\n\n    it('should find data', function () {\n      let i = new ObjectArray({\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      });\n\n      i.dataset('test').should.equal('fixture');\n      i.dataset('test2').should.eql({\n        test21: 'fixture21',\n        test22: 'fixture22'\n      });\n      i.dataset('test2.test21').should.equal('fixture21');\n      i.dataset('test21', 'test2').should.equal('fixture21');\n      expect(i.dataset.bind(i, 'test3')).to.throw(TypeError);\n      expect(i.dataset.bind(i, 'test23', 'test2')).to.throw(TypeError);\n    });\n\n    it('should find parent key', function () {\n      let i = new ObjectArray({\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      });\n\n      expect(i.parentKey('test')).to.equal(undefined);\n      i.parentKey('test2.test21').should.equal('test2');\n    });\n  });\n\n  describe('Check key/value', function () {\n    it('Strict equality', function () {\n      let i = new ObjectArray({\n        test: 'fixture',\n        test2: {\n          test21: 0,\n          test22: '0'\n        }\n      });\n\n      i.check('test2.test21', 0).should.be.true;\n      i.check('test2.test21', '0').should.be.false;\n      i.check('test2.test21', 'fixture').should.be.false;\n      i.check('test22', '0', 'test2').should.be.true;\n      i.check('test22', 0, 'test2').should.be.false;\n    });\n\n    it('Loose equality', function () {\n      let i = new ObjectArray({\n        test: 'fixture',\n        test2: {\n          test21: 0,\n          test22: '0'\n        }\n      });\n\n      i.check('test2.test21', 0, '', false).should.be.true;\n      i.check('test2.test21', '0', '', false).should.be.true;\n      i.check('test22', '0', 'test2', false).should.be.true;\n      i.check('test22', 0, 'test2', false).should.be.true;\n      i.check('test2.test21', 'fixture', '', false).should.be.false;\n    });\n  });\n\n  describe('Flatten ObjectArray', function () {\n    it('should change nothing if data empty', function () {\n      let i = new ObjectArray();\n\n      i.flatten().should.eql(i);\n      i.data.should.eql({});\n    });\n\n    it('should change nothing if data already flattened', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: 0\n      });\n\n      i.flatten().should.eql(i);\n      i.data.should.eql({test1: 'fixture', test2: 0});\n    });\n\n    it('should flatten dataset', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          test21: 0,\n          test22: true\n        }\n      });\n\n      i.flatten().should.eql(i);\n      i.data.should.eql({test1: 'fixture', test21: 0, test22: true});\n    });\n\n    it('should flatten dataset and replace', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          test1: 0,\n          test2: true\n        }\n      });\n\n      i.flatten().should.eql(i);\n      i.data.should.eql({test1: 0, test2: true});\n    });\n\n    it('should flatten dataset and dot keys', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          test1: 0,\n          test2: true\n        }\n      });\n\n      i.flatten(true).should.eql(i);\n      i.data.should.eql({test1: 'fixture', 'test2.test1': 0, 'test2.test2': true});\n    });\n\n    it('should flatten subdataset and no change', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          test21: 0,\n          test22: true\n        }\n      });\n\n      i.flatten(false, 'test2').should.eql(i);\n      i.data.should.eql({test1: 'fixture', test2: {test21: 0, test22: true}});\n    });\n\n    it('should throw an exception if key does not exist', function () {\n      let i = new ObjectArray();\n\n      expect(i.flatten.bind(i, true, 'test3')).to.throw(TypeError);\n    });\n\n    it('should flatten subdataset', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          testx: { test2x: 0 },\n          testy: {\n            test2y1: true,\n            test2y2: 'fix'\n          }\n        }\n      });\n\n      i.flatten(false, 'test2').should.eql(i);\n      i.data.should.eql({test1: 'fixture', test2: {test2x: 0, test2y1: true, test2y2: 'fix'}});\n    });\n\n    it('should flatten subdataset and dot keys', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          testx: { test2x: 0 },\n          testy: {\n            test2y1: true,\n            test2y2: 'fix'\n          }\n        }\n      });\n\n      i.flatten(true, 'test2').should.eql(i);\n      i.data.should.eql({test1: 'fixture', test2: {'testx.test2x': 0, 'testy.test2y1': true, 'testy.test2y2': 'fix'}});\n    });\n\n  });\n\n  describe('Push and delete data', function () {\n    it('should get and set data', function () {\n      let i = new ObjectArray();\n\n      i.data = {test: 'fixture'};\n      i.data.test.should.equal('fixture');\n    });\n\n    it('should create all needed keys', function () {\n      let i = new ObjectArray();\n\n      i.push('dat.really.long.path', 'fixture');\n      i.data.should.eql({\n        dat: {\n          really: {\n            long: {\n              path: 'fixture'\n            }\n          }\n        }\n      });\n    });\n\n    it('should push or import ObjectArray without losing data', function () {\n      let o = new ObjectArray({\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      });\n\n      let i = new ObjectArray().push('itest', o);\n\n      i.data.should.eql({itest: {\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      }});\n\n      i = new ObjectArray().push('itest', o, 'dat.path');\n\n      i.data.should.eql({dat: {path: {itest: {\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      }}}});\n\n      i = new ObjectArray().import(o);\n\n      i.data.should.eql({\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      });\n\n      i = new ObjectArray().import(o, 'dat.path');\n\n      i.data.should.eql({dat: {path: {\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      }}});\n    });\n\n    it('should use pull as an alias to dataset', function () {\n      let o = new ObjectArray({\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      });\n\n      o.pull().should.eql({\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      });\n\n      o.pull('test2.test22').should.equal('fixture22');\n    });\n\n    it('should use pull as an alias to dataset with parent key', function () {\n      let o = new ObjectArray({\n        test: 'fixture',\n        test2: {\n          test21: 'fixture21',\n          test22: 'fixture22'\n        }\n      });\n\n      o.pull('test21', 'test2').should.equal('fixture21');\n    });\n\n    it('should create all needed keys', function () {\n      let i = new ObjectArray();\n\n      i.import({\n        'dat.really.long.path': 'fixture1',\n        'dat.really.long.dream': 'fixture2',\n        'dat.shorter.path': 'fixture3'\n      });\n      i.data.should.eql({\n        dat: {\n          really: {\n            long: {\n              path: 'fixture1',\n              dream: 'fixture2'\n            }\n          },\n          shorter: {\n            path: 'fixture3'\n          }\n        }\n      });\n    });\n    it('should create all needed keys', function () {\n      let i = new ObjectArray();\n\n      i.push('dat.really.long.path', 'fixture1');\n      i.push('dream', 'fixture2', 'dat.really.long');\n      i.import({\n        'shorter.path': 'fixture3'\n      }, 'dat');\n      i.data.should.eql({\n        dat: {\n          really: {\n            long: {\n              path: 'fixture1',\n              dream: 'fixture2'\n            }\n          },\n          shorter: {\n            path: 'fixture3'\n          }\n        }\n      });\n    });\n    it('should push simple data', function () {\n      let i = new ObjectArray();\n\n      i.push('test', 'fixture');\n      i._data.should.eql({test: 'fixture'});\n    });\n    it('should remove simple data', function () {\n      let i = new ObjectArray();\n\n      i.push('test', 'fixture');\n      i.remove('test');\n      i._data.should.eql({});\n    });\n\n    it('should push dotted data', function () {\n      let i = new ObjectArray();\n\n      i.push('test.dot', 'fixture')\n        .push('test.dot2', 'fixture2');\n      i._data.should.eql({test: {dot: 'fixture', dot2: 'fixture2'}});\n    });\n\n    it('should remove dotted data', function () {\n      let i = new ObjectArray();\n\n      i.push('test.dot', 'fixture')\n        .push('test.dot2', 'fixture2')\n        .empty('test.dot2')\n        ._data.should.eql({test: {dot: 'fixture'}});\n    });\n\n    it('should throw an exception if key not a string', function () {\n      let i = new ObjectArray();\n\n      expect(i.push.bind(i, new ObjectArray())).to.throw(TypeError);\n    });\n\n    it('should throw an exception if parent key is not a string', function () {\n      let i = new ObjectArray();\n\n      expect(i.push.bind(i, 'a', 0, new ObjectArray())).to.throw(TypeError);\n    });\n  });\n\n  describe('Fetch and getset', function () {\n    it('should getset data and throw an exception if inexistent key', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          testx: { test2x: 0 },\n          testy: {\n            test2y1: true,\n            test2y2: 'fix'\n          }\n        }\n      });\n\n      // getters\n      i.getset('test1')['get'].should.equal('fixture');\n      i.getset('test2.testx.test2x')['get'].should.equal(0);\n      i.getset('test2x', undefined, 'test2.testx')['get'].should.equal(0);\n      i.getset(undefined, undefined, 'test2.testx')['get'].should.eql({test2x: 0});\n      expect(i.getset.bind(i, 'test3')).to.throw(TypeError);\n      expect(i.getset.bind(i, 'testx', undefined, 'test3')).to.throw(TypeError);\n\n      // setters\n      i.getset('test1', 'fixture2')['set'].should.be.true;\n      i.pull('test1').should.equal('fixture2');\n      i.getset('test2.testx', 'test1')['set'].should.be.true;\n      i.pull('test2.testx').should.equal('test1');\n      i.getset('testx', 'test2', 'test2')['set'].should.be.true;\n      i.pull('testx', 'test2').should.equal('test2');\n      i.getset({test3: 'test3'})['set'].should.be.true;\n      i.pull('test3').should.equal('test3');\n    });\n\n    it('should pull data and returns undefined if inexistent key', function () {\n      let i = new ObjectArray({\n        test1: 'fixture',\n        test2: {\n          testx: { test2x: 0 },\n          testy: {\n            test2y1: true,\n            test2y2: 'fix'\n          }\n        }\n      });\n\n      expect(i.pull('test3', null, false)).to.be.undefined;\n      expect(i.pull(undefined, 'test3', false)).to.be.undefined;\n      expect(i.getset('test3', undefined, '', false)['get']).to.be.undefined;\n    });\n  });\n\n  describe('ObjectArray iterations', function () {\n    it('should iterate a callback with forEach', function () {\n      let i = new ObjectArray();\n      let ret = {};\n      let indexes = [];\n\n      i.import({\n        test: 'fixture',\n        test2: 'fixture2'\n      });\n      i.forEach(function (value, key, index) {\n        ret[key] = value;\n        indexes.push(index);\n      });\n      ret.should.eql({\n        test: 'fixture',\n        test2: 'fixture2'\n      });\n      indexes.should.eql([0, 1]);\n    });\n\n    it('should iterate a callback with forEach on a dotted key', function () {\n      let i = new ObjectArray();\n      let ret = {};\n      let indexes = [];\n\n      i.import({\n        test: {\n          test: 'fixture',\n          test2: 'fixture2'\n        }\n      });\n      i.forEach(function (value, key, index) {\n        ret[key] = value;\n        indexes.push(index);\n      }, 'test');\n      ret.should.eql({\n        test: 'fixture',\n        test2: 'fixture2'\n      });\n      indexes.should.eql([0, 1]);\n    });\n\n    it('should reduce the data', function () {\n      let i = new ObjectArray({\n        position: 'absolute',\n        display: 'flex'\n      });\n      let ret = i.reduce(function (str, value, key) {\n        str += key + ':' + value + ';';\n        return str;\n      }, '');\n\n      ret.should.equal('position:absolute;display:flex;');\n    });\n\n    it('should return a style type string', function () {\n      let i = new ObjectArray({\n        position: 'absolute',\n        display: 'flex',\n        paddingLeft: '1em'\n      });\n\n      i.stylesToString().should.equal('position:absolute;display:flex;padding-left:1em');\n    });\n\n    it('should import a style type string', function () {\n      let i = new ObjectArray();\n\n      i.stringToStyles(undefined).data.should.eql({});\n      i.stringToStyles(null).data.should.eql({});\n\n      i.stringToStyles('position:absolute;display:flex;padding-left:1em')\n        .data.should.eql({\n          position: 'absolute',\n          display: 'flex',\n          paddingLeft: '1em'\n        });\n\n      i.empty();\n\n      i.stringToStyles('position:absolute;display:flex;padding-left:1em', 'dat.path.to.subkey')\n        .dataset('dat.path.to.subkey').should.eql({\n          position: 'absolute',\n          display: 'flex',\n          paddingLeft: '1em'\n        });\n\n      i.stringToStyles('position:absolute;display:flex;padding-left:1em;', 'dat.path.to.subkey')\n        .dataset('dat.path.to.subkey').should.eql({\n          position: 'absolute',\n          display: 'flex',\n          paddingLeft: '1em'\n        });\n    });\n\n    it('should throw an exception if bad string provided', function () {\n      let i = new ObjectArray();\n\n      expect(i.stringToStyles.bind(i, 'databadword')).to.throw('Malformed string for stringToStyles');\n      expect(i.stringToStyles.bind(i, ':databadword;peanuts')).to.throw('Malformed string for stringToStyles');\n    });\n\n    it('should return a url encoded string', function () {\n      let i = new ObjectArray({\n        input: 'test',\n        glob: '**/*',\n        alias: 'test fixture'\n      });\n      let ret = i.urlEncode();\n\n      ret.should.equal('input=test&glob=**%2F*&alias=test%20fixture');\n    });\n\n    it('should return a form url encoded string', function () {\n      let i = new ObjectArray({\n        input: 'test',\n        glob: '**/*',\n        alias: 'test fixture'\n      });\n      let ret = i.formUrlEncode();\n\n      ret.should.equal('input=test&glob=**%2F*&alias=test+fixture');\n    });\n  });\n\n  describe('Import JSON and change keys', function () {\n    it('should import JSON and change keys', function () {\n      var jstring = '{\"dat\": {\"long\": {\"path\": \"foo\", \"dream\": \"baz\"}}}';\n      var doa = new ObjectArray(JSON.parse(jstring));\n\n      doa.push('short', doa.dataset('dat.long')).remove('dat');\n      JSON.stringify(doa.data).should.equal('{\"short\":{\"path\":\"foo\",\"dream\":\"baz\"}}');\n    });\n  });\n});\n",
     "static": true,
     "longname": "F:/Projets/ObjectArray/tastes/tests/objectarray.spec.js",
     "access": null,
@@ -2358,7 +2415,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 86,
+    "__docId__": 87,
     "kind": "test",
     "name": "describe0",
     "testId": 0,
@@ -2371,7 +2428,7 @@
     "lineNumber": 3
   },
   {
-    "__docId__": 87,
+    "__docId__": 88,
     "kind": "test",
     "name": "describe1",
     "testId": 1,
@@ -2384,7 +2441,7 @@
     "lineNumber": 4
   },
   {
-    "__docId__": 88,
+    "__docId__": 89,
     "kind": "test",
     "name": "it2",
     "testId": 2,
@@ -2397,7 +2454,7 @@
     "lineNumber": 5
   },
   {
-    "__docId__": 89,
+    "__docId__": 90,
     "kind": "test",
     "name": "it3",
     "testId": 3,
@@ -2410,7 +2467,7 @@
     "lineNumber": 10
   },
   {
-    "__docId__": 90,
+    "__docId__": 91,
     "kind": "test",
     "name": "it4",
     "testId": 4,
@@ -2423,7 +2480,7 @@
     "lineNumber": 21
   },
   {
-    "__docId__": 91,
+    "__docId__": 92,
     "kind": "test",
     "name": "describe5",
     "testId": 5,
@@ -2436,7 +2493,7 @@
     "lineNumber": 36
   },
   {
-    "__docId__": 92,
+    "__docId__": 93,
     "kind": "test",
     "name": "it6",
     "testId": 6,
@@ -2449,7 +2506,7 @@
     "lineNumber": 37
   },
   {
-    "__docId__": 93,
+    "__docId__": 94,
     "kind": "test",
     "name": "it7",
     "testId": 7,
@@ -2462,7 +2519,7 @@
     "lineNumber": 44
   },
   {
-    "__docId__": 94,
+    "__docId__": 95,
     "kind": "test",
     "name": "it8",
     "testId": 8,
@@ -2475,7 +2532,7 @@
     "lineNumber": 60
   },
   {
-    "__docId__": 95,
+    "__docId__": 96,
     "kind": "test",
     "name": "it9",
     "testId": 9,
@@ -2488,7 +2545,7 @@
     "lineNumber": 76
   },
   {
-    "__docId__": 96,
+    "__docId__": 97,
     "kind": "test",
     "name": "describe10",
     "testId": 10,
@@ -2501,7 +2558,7 @@
     "lineNumber": 96
   },
   {
-    "__docId__": 97,
+    "__docId__": 98,
     "kind": "test",
     "name": "it11",
     "testId": 11,
@@ -2514,7 +2571,7 @@
     "lineNumber": 97
   },
   {
-    "__docId__": 98,
+    "__docId__": 99,
     "kind": "test",
     "name": "it12",
     "testId": 12,
@@ -2527,7 +2584,7 @@
     "lineNumber": 108
   },
   {
-    "__docId__": 99,
+    "__docId__": 100,
     "kind": "test",
     "name": "describe13",
     "testId": 13,
@@ -2540,7 +2597,7 @@
     "lineNumber": 121
   },
   {
-    "__docId__": 100,
+    "__docId__": 101,
     "kind": "test",
     "name": "it14",
     "testId": 14,
@@ -2553,7 +2610,7 @@
     "lineNumber": 122
   },
   {
-    "__docId__": 101,
+    "__docId__": 102,
     "kind": "test",
     "name": "it15",
     "testId": 15,
@@ -2566,7 +2623,7 @@
     "lineNumber": 132
   },
   {
-    "__docId__": 102,
+    "__docId__": 103,
     "kind": "test",
     "name": "it16",
     "testId": 16,
@@ -2579,7 +2636,7 @@
     "lineNumber": 142
   },
   {
-    "__docId__": 103,
+    "__docId__": 104,
     "kind": "test",
     "name": "it17",
     "testId": 17,
@@ -2592,7 +2649,7 @@
     "lineNumber": 152
   },
   {
-    "__docId__": 104,
+    "__docId__": 105,
     "kind": "test",
     "name": "describe18",
     "testId": 18,
@@ -2605,7 +2662,7 @@
     "lineNumber": 171
   },
   {
-    "__docId__": 105,
+    "__docId__": 106,
     "kind": "test",
     "name": "it19",
     "testId": 19,
@@ -2618,7 +2675,7 @@
     "lineNumber": 172
   },
   {
-    "__docId__": 106,
+    "__docId__": 107,
     "kind": "test",
     "name": "it20",
     "testId": 20,
@@ -2631,7 +2688,7 @@
     "lineNumber": 189
   },
   {
-    "__docId__": 107,
+    "__docId__": 108,
     "kind": "test",
     "name": "it21",
     "testId": 21,
@@ -2644,7 +2701,7 @@
     "lineNumber": 209
   },
   {
-    "__docId__": 108,
+    "__docId__": 109,
     "kind": "test",
     "name": "describe22",
     "testId": 22,
@@ -2657,7 +2714,7 @@
     "lineNumber": 223
   },
   {
-    "__docId__": 109,
+    "__docId__": 110,
     "kind": "test",
     "name": "it23",
     "testId": 23,
@@ -2670,7 +2727,7 @@
     "lineNumber": 224
   },
   {
-    "__docId__": 110,
+    "__docId__": 111,
     "kind": "test",
     "name": "it24",
     "testId": 24,
@@ -2683,7 +2740,7 @@
     "lineNumber": 240
   },
   {
-    "__docId__": 111,
+    "__docId__": 112,
     "kind": "test",
     "name": "describe25",
     "testId": 25,
@@ -2696,7 +2753,7 @@
     "lineNumber": 257
   },
   {
-    "__docId__": 112,
+    "__docId__": 113,
     "kind": "test",
     "name": "it26",
     "testId": 26,
@@ -2709,7 +2766,7 @@
     "lineNumber": 258
   },
   {
-    "__docId__": 113,
+    "__docId__": 114,
     "kind": "test",
     "name": "it27",
     "testId": 27,
@@ -2722,7 +2779,7 @@
     "lineNumber": 265
   },
   {
-    "__docId__": 114,
+    "__docId__": 115,
     "kind": "test",
     "name": "it28",
     "testId": 28,
@@ -2735,7 +2792,7 @@
     "lineNumber": 275
   },
   {
-    "__docId__": 115,
+    "__docId__": 116,
     "kind": "test",
     "name": "it29",
     "testId": 29,
@@ -2748,7 +2805,7 @@
     "lineNumber": 288
   },
   {
-    "__docId__": 116,
+    "__docId__": 117,
     "kind": "test",
     "name": "it30",
     "testId": 30,
@@ -2761,7 +2818,7 @@
     "lineNumber": 301
   },
   {
-    "__docId__": 117,
+    "__docId__": 118,
     "kind": "test",
     "name": "it31",
     "testId": 31,
@@ -2774,7 +2831,7 @@
     "lineNumber": 314
   },
   {
-    "__docId__": 118,
+    "__docId__": 119,
     "kind": "test",
     "name": "it32",
     "testId": 32,
@@ -2787,7 +2844,7 @@
     "lineNumber": 327
   },
   {
-    "__docId__": 119,
+    "__docId__": 120,
     "kind": "test",
     "name": "it33",
     "testId": 33,
@@ -2800,7 +2857,7 @@
     "lineNumber": 333
   },
   {
-    "__docId__": 120,
+    "__docId__": 121,
     "kind": "test",
     "name": "it34",
     "testId": 34,
@@ -2813,7 +2870,7 @@
     "lineNumber": 349
   },
   {
-    "__docId__": 121,
+    "__docId__": 122,
     "kind": "test",
     "name": "describe35",
     "testId": 35,
@@ -2826,7 +2883,7 @@
     "lineNumber": 367
   },
   {
-    "__docId__": 122,
+    "__docId__": 123,
     "kind": "test",
     "name": "it36",
     "testId": 36,
@@ -2839,7 +2896,7 @@
     "lineNumber": 368
   },
   {
-    "__docId__": 123,
+    "__docId__": 124,
     "kind": "test",
     "name": "it37",
     "testId": 37,
@@ -2849,10 +2906,10 @@
     "longname": "tests/objectarray.spec.js~describe0.describe35.it37",
     "access": null,
     "description": "should create all needed keys",
-    "lineNumber": 374
+    "lineNumber": 375
   },
   {
-    "__docId__": 124,
+    "__docId__": 125,
     "kind": "test",
     "name": "it38",
     "testId": 38,
@@ -2862,10 +2919,10 @@
     "longname": "tests/objectarray.spec.js~describe0.describe35.it38",
     "access": null,
     "description": "should push or import ObjectArray without losing data",
-    "lineNumber": 389
+    "lineNumber": 390
   },
   {
-    "__docId__": 125,
+    "__docId__": 126,
     "kind": "test",
     "name": "it39",
     "testId": 39,
@@ -2875,10 +2932,10 @@
     "longname": "tests/objectarray.spec.js~describe0.describe35.it39",
     "access": null,
     "description": "should use pull as an alias to dataset",
-    "lineNumber": 439
+    "lineNumber": 440
   },
   {
-    "__docId__": 126,
+    "__docId__": 127,
     "kind": "test",
     "name": "it40",
     "testId": 40,
@@ -2888,10 +2945,10 @@
     "longname": "tests/objectarray.spec.js~describe0.describe35.it40",
     "access": null,
     "description": "should use pull as an alias to dataset with parent key",
-    "lineNumber": 459
+    "lineNumber": 460
   },
   {
-    "__docId__": 127,
+    "__docId__": 128,
     "kind": "test",
     "name": "it41",
     "testId": 41,
@@ -2901,10 +2958,10 @@
     "longname": "tests/objectarray.spec.js~describe0.describe35.it41",
     "access": null,
     "description": "should create all needed keys",
-    "lineNumber": 471
+    "lineNumber": 472
   },
   {
-    "__docId__": 128,
+    "__docId__": 129,
     "kind": "test",
     "name": "it42",
     "testId": 42,
@@ -2914,10 +2971,10 @@
     "longname": "tests/objectarray.spec.js~describe0.describe35.it42",
     "access": null,
     "description": "should create all needed keys",
-    "lineNumber": 493
+    "lineNumber": 494
   },
   {
-    "__docId__": 129,
+    "__docId__": 130,
     "kind": "test",
     "name": "it43",
     "testId": 43,
@@ -2927,10 +2984,10 @@
     "longname": "tests/objectarray.spec.js~describe0.describe35.it43",
     "access": null,
     "description": "should push simple data",
-    "lineNumber": 515
+    "lineNumber": 516
   },
   {
-    "__docId__": 130,
+    "__docId__": 131,
     "kind": "test",
     "name": "it44",
     "testId": 44,
@@ -2940,10 +2997,10 @@
     "longname": "tests/objectarray.spec.js~describe0.describe35.it44",
     "access": null,
     "description": "should remove simple data",
-    "lineNumber": 521
+    "lineNumber": 522
   },
   {
-    "__docId__": 131,
+    "__docId__": 132,
     "kind": "test",
     "name": "it45",
     "testId": 45,
@@ -2953,10 +3010,10 @@
     "longname": "tests/objectarray.spec.js~describe0.describe35.it45",
     "access": null,
     "description": "should push dotted data",
-    "lineNumber": 529
+    "lineNumber": 530
   },
   {
-    "__docId__": 132,
+    "__docId__": 133,
     "kind": "test",
     "name": "it46",
     "testId": 46,
@@ -2966,10 +3023,10 @@
     "longname": "tests/objectarray.spec.js~describe0.describe35.it46",
     "access": null,
     "description": "should remove dotted data",
-    "lineNumber": 537
+    "lineNumber": 538
   },
   {
-    "__docId__": 133,
+    "__docId__": 134,
     "kind": "test",
     "name": "it47",
     "testId": 47,
@@ -2979,10 +3036,10 @@
     "longname": "tests/objectarray.spec.js~describe0.describe35.it47",
     "access": null,
     "description": "should throw an exception if key not a string",
-    "lineNumber": 546
+    "lineNumber": 547
   },
   {
-    "__docId__": 134,
+    "__docId__": 135,
     "kind": "test",
     "name": "it48",
     "testId": 48,
@@ -2992,10 +3049,10 @@
     "longname": "tests/objectarray.spec.js~describe0.describe35.it48",
     "access": null,
     "description": "should throw an exception if parent key is not a string",
-    "lineNumber": 552
+    "lineNumber": 553
   },
   {
-    "__docId__": 135,
+    "__docId__": 136,
     "kind": "test",
     "name": "describe49",
     "testId": 49,
@@ -3004,11 +3061,11 @@
     "static": true,
     "longname": "tests/objectarray.spec.js~describe0.describe49",
     "access": null,
-    "description": "ObjectArray methods",
-    "lineNumber": 559
+    "description": "Fetch and getset",
+    "lineNumber": 560
   },
   {
-    "__docId__": 136,
+    "__docId__": 137,
     "kind": "test",
     "name": "it50",
     "testId": 50,
@@ -3017,11 +3074,11 @@
     "static": true,
     "longname": "tests/objectarray.spec.js~describe0.describe49.it50",
     "access": null,
-    "description": "should iterate a callback with forEach",
-    "lineNumber": 560
+    "description": "should getset data and throw an exception if inexistent key",
+    "lineNumber": 561
   },
   {
-    "__docId__": 137,
+    "__docId__": 138,
     "kind": "test",
     "name": "it51",
     "testId": 51,
@@ -3030,111 +3087,150 @@
     "static": true,
     "longname": "tests/objectarray.spec.js~describe0.describe49.it51",
     "access": null,
-    "description": "should iterate a callback with forEach on a dotted key",
-    "lineNumber": 580
-  },
-  {
-    "__docId__": 138,
-    "kind": "test",
-    "name": "it52",
-    "testId": 52,
-    "memberof": "tests/objectarray.spec.js~describe0.describe49",
-    "testDepth": 2,
-    "static": true,
-    "longname": "tests/objectarray.spec.js~describe0.describe49.it52",
-    "access": null,
-    "description": "should reduce the data",
-    "lineNumber": 602
+    "description": "should pull data and returns undefined if inexistent key",
+    "lineNumber": 592
   },
   {
     "__docId__": 139,
     "kind": "test",
-    "name": "it53",
-    "testId": 53,
-    "memberof": "tests/objectarray.spec.js~describe0.describe49",
-    "testDepth": 2,
+    "name": "describe52",
+    "testId": 52,
+    "memberof": "tests/objectarray.spec.js~describe0",
+    "testDepth": 1,
     "static": true,
-    "longname": "tests/objectarray.spec.js~describe0.describe49.it53",
+    "longname": "tests/objectarray.spec.js~describe0.describe52",
     "access": null,
-    "description": "should return a style type string",
-    "lineNumber": 615
+    "description": "ObjectArray iterations",
+    "lineNumber": 610
   },
   {
     "__docId__": 140,
     "kind": "test",
-    "name": "it54",
-    "testId": 54,
-    "memberof": "tests/objectarray.spec.js~describe0.describe49",
+    "name": "it53",
+    "testId": 53,
+    "memberof": "tests/objectarray.spec.js~describe0.describe52",
     "testDepth": 2,
     "static": true,
-    "longname": "tests/objectarray.spec.js~describe0.describe49.it54",
+    "longname": "tests/objectarray.spec.js~describe0.describe52.it53",
     "access": null,
-    "description": "should import a style type string",
-    "lineNumber": 625
+    "description": "should iterate a callback with forEach",
+    "lineNumber": 611
   },
   {
     "__docId__": 141,
     "kind": "test",
-    "name": "it55",
-    "testId": 55,
-    "memberof": "tests/objectarray.spec.js~describe0.describe49",
+    "name": "it54",
+    "testId": 54,
+    "memberof": "tests/objectarray.spec.js~describe0.describe52",
     "testDepth": 2,
     "static": true,
-    "longname": "tests/objectarray.spec.js~describe0.describe49.it55",
+    "longname": "tests/objectarray.spec.js~describe0.describe52.it54",
     "access": null,
-    "description": "should throw an exception if bad string provided",
-    "lineNumber": 655
+    "description": "should iterate a callback with forEach on a dotted key",
+    "lineNumber": 631
   },
   {
     "__docId__": 142,
     "kind": "test",
-    "name": "it56",
-    "testId": 56,
-    "memberof": "tests/objectarray.spec.js~describe0.describe49",
+    "name": "it55",
+    "testId": 55,
+    "memberof": "tests/objectarray.spec.js~describe0.describe52",
     "testDepth": 2,
     "static": true,
-    "longname": "tests/objectarray.spec.js~describe0.describe49.it56",
+    "longname": "tests/objectarray.spec.js~describe0.describe52.it55",
     "access": null,
-    "description": "should return a url encoded string",
-    "lineNumber": 662
+    "description": "should reduce the data",
+    "lineNumber": 653
   },
   {
     "__docId__": 143,
     "kind": "test",
-    "name": "it57",
-    "testId": 57,
-    "memberof": "tests/objectarray.spec.js~describe0.describe49",
+    "name": "it56",
+    "testId": 56,
+    "memberof": "tests/objectarray.spec.js~describe0.describe52",
     "testDepth": 2,
     "static": true,
-    "longname": "tests/objectarray.spec.js~describe0.describe49.it57",
+    "longname": "tests/objectarray.spec.js~describe0.describe52.it56",
     "access": null,
-    "description": "should return a form url encoded string",
-    "lineNumber": 673
+    "description": "should return a style type string",
+    "lineNumber": 666
   },
   {
     "__docId__": 144,
     "kind": "test",
-    "name": "describe58",
-    "testId": 58,
-    "memberof": "tests/objectarray.spec.js~describe0",
-    "testDepth": 1,
+    "name": "it57",
+    "testId": 57,
+    "memberof": "tests/objectarray.spec.js~describe0.describe52",
+    "testDepth": 2,
     "static": true,
-    "longname": "tests/objectarray.spec.js~describe0.describe58",
+    "longname": "tests/objectarray.spec.js~describe0.describe52.it57",
     "access": null,
-    "description": "Import JSON and change keys",
-    "lineNumber": 685
+    "description": "should import a style type string",
+    "lineNumber": 676
   },
   {
     "__docId__": 145,
     "kind": "test",
-    "name": "it59",
-    "testId": 59,
-    "memberof": "tests/objectarray.spec.js~describe0.describe58",
+    "name": "it58",
+    "testId": 58,
+    "memberof": "tests/objectarray.spec.js~describe0.describe52",
     "testDepth": 2,
     "static": true,
-    "longname": "tests/objectarray.spec.js~describe0.describe58.it59",
+    "longname": "tests/objectarray.spec.js~describe0.describe52.it58",
+    "access": null,
+    "description": "should throw an exception if bad string provided",
+    "lineNumber": 706
+  },
+  {
+    "__docId__": 146,
+    "kind": "test",
+    "name": "it59",
+    "testId": 59,
+    "memberof": "tests/objectarray.spec.js~describe0.describe52",
+    "testDepth": 2,
+    "static": true,
+    "longname": "tests/objectarray.spec.js~describe0.describe52.it59",
+    "access": null,
+    "description": "should return a url encoded string",
+    "lineNumber": 713
+  },
+  {
+    "__docId__": 147,
+    "kind": "test",
+    "name": "it60",
+    "testId": 60,
+    "memberof": "tests/objectarray.spec.js~describe0.describe52",
+    "testDepth": 2,
+    "static": true,
+    "longname": "tests/objectarray.spec.js~describe0.describe52.it60",
+    "access": null,
+    "description": "should return a form url encoded string",
+    "lineNumber": 724
+  },
+  {
+    "__docId__": 148,
+    "kind": "test",
+    "name": "describe61",
+    "testId": 61,
+    "memberof": "tests/objectarray.spec.js~describe0",
+    "testDepth": 1,
+    "static": true,
+    "longname": "tests/objectarray.spec.js~describe0.describe61",
+    "access": null,
+    "description": "Import JSON and change keys",
+    "lineNumber": 736
+  },
+  {
+    "__docId__": 149,
+    "kind": "test",
+    "name": "it62",
+    "testId": 62,
+    "memberof": "tests/objectarray.spec.js~describe0.describe61",
+    "testDepth": 2,
+    "static": true,
+    "longname": "tests/objectarray.spec.js~describe0.describe61.it62",
     "access": null,
     "description": "should import JSON and change keys",
-    "lineNumber": 686
+    "lineNumber": 737
   }
 ]

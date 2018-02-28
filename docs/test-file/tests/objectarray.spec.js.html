@@ -411,6 +411,7 @@ describe(&apos;dot-object-array Module&apos;, function () {
       i.data = {test: &apos;fixture&apos;};
       i.data.test.should.equal(&apos;fixture&apos;);
     });
+
     it(&apos;should create all needed keys&apos;, function () {
       let i = new ObjectArray();
 
@@ -596,7 +597,57 @@ describe(&apos;dot-object-array Module&apos;, function () {
     });
   });
 
-  describe(&apos;ObjectArray methods&apos;, function () {
+  describe(&apos;Fetch and getset&apos;, function () {
+    it(&apos;should getset data and throw an exception if inexistent key&apos;, function () {
+      let i = new ObjectArray({
+        test1: &apos;fixture&apos;,
+        test2: {
+          testx: { test2x: 0 },
+          testy: {
+            test2y1: true,
+            test2y2: &apos;fix&apos;
+          }
+        }
+      });
+
+      // getters
+      i.getset(&apos;test1&apos;)[&apos;get&apos;].should.equal(&apos;fixture&apos;);
+      i.getset(&apos;test2.testx.test2x&apos;)[&apos;get&apos;].should.equal(0);
+      i.getset(&apos;test2x&apos;, undefined, &apos;test2.testx&apos;)[&apos;get&apos;].should.equal(0);
+      i.getset(undefined, undefined, &apos;test2.testx&apos;)[&apos;get&apos;].should.eql({test2x: 0});
+      expect(i.getset.bind(i, &apos;test3&apos;)).to.throw(TypeError);
+      expect(i.getset.bind(i, &apos;testx&apos;, undefined, &apos;test3&apos;)).to.throw(TypeError);
+
+      // setters
+      i.getset(&apos;test1&apos;, &apos;fixture2&apos;)[&apos;set&apos;].should.be.true;
+      i.pull(&apos;test1&apos;).should.equal(&apos;fixture2&apos;);
+      i.getset(&apos;test2.testx&apos;, &apos;test1&apos;)[&apos;set&apos;].should.be.true;
+      i.pull(&apos;test2.testx&apos;).should.equal(&apos;test1&apos;);
+      i.getset(&apos;testx&apos;, &apos;test2&apos;, &apos;test2&apos;)[&apos;set&apos;].should.be.true;
+      i.pull(&apos;testx&apos;, &apos;test2&apos;).should.equal(&apos;test2&apos;);
+      i.getset({test3: &apos;test3&apos;})[&apos;set&apos;].should.be.true;
+      i.pull(&apos;test3&apos;).should.equal(&apos;test3&apos;);
+    });
+
+    it(&apos;should pull data and returns undefined if inexistent key&apos;, function () {
+      let i = new ObjectArray({
+        test1: &apos;fixture&apos;,
+        test2: {
+          testx: { test2x: 0 },
+          testy: {
+            test2y1: true,
+            test2y2: &apos;fix&apos;
+          }
+        }
+      });
+
+      expect(i.pull(&apos;test3&apos;, null, false)).to.be.undefined;
+      expect(i.pull(undefined, &apos;test3&apos;, false)).to.be.undefined;
+      expect(i.getset(&apos;test3&apos;, undefined, &apos;&apos;, false)[&apos;get&apos;]).to.be.undefined;
+    });
+  });
+
+  describe(&apos;ObjectArray iterations&apos;, function () {
     it(&apos;should iterate a callback with forEach&apos;, function () {
       let i = new ObjectArray();
       let ret = {};
