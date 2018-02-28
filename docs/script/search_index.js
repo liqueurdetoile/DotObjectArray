@@ -55,25 +55,25 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber37",
-    "dot-object-array Module Cloning ObjectArray should return a clone",
-    "test"
-  ],
-  [
-    "",
     "test-file/tests/objectarray.spec.js.html#lineNumber60",
     "dot-object-array Module Cloning ObjectArray should return a clone",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber76",
+    "test-file/tests/objectarray.spec.js.html#lineNumber44",
     "dot-object-array Module Cloning ObjectArray should return a clone",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber44",
+    "test-file/tests/objectarray.spec.js.html#lineNumber37",
+    "dot-object-array Module Cloning ObjectArray should return a clone",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber76",
     "dot-object-array Module Cloning ObjectArray should return a clone",
     "test"
   ],
@@ -307,7 +307,7 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber375",
+    "test-file/tests/objectarray.spec.js.html#lineNumber494",
     "dot-object-array Module Push and delete data should create all needed keys",
     "test"
   ],
@@ -319,7 +319,7 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber494",
+    "test-file/tests/objectarray.spec.js.html#lineNumber375",
     "dot-object-array Module Push and delete data should create all needed keys",
     "test"
   ],
@@ -861,6 +861,12 @@ window.esdocSearchIndex = [
     "src/typedef.jsdoc~foreachcallback",
     "typedef/index.html#static-typedef-ForEachCallback",
     "src/typedef.jsdoc~ForEachCallback",
+    "typedef"
+  ],
+  [
+    "src/typedef.jsdoc~getsetobject",
+    "typedef/index.html#static-typedef-GetSetObject",
+    "src/typedef.jsdoc~GetSetObject",
     "typedef"
   ],
   [

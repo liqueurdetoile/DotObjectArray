@@ -287,6 +287,39 @@ export default class ObjectArray {
     }
   }
 
+  /**
+  *  Shortcut for getter/setter syntax. It can also be used
+  *  to import data.
+  *
+  *  @example
+  *  // Getter mode
+  *  i.getset(); // returns all data
+  *  i.getset('a'); // returns data for key a
+  *  i.getset('c'); // will throw a TypeError exception if key c doesn't exist
+  *  i.getset('c', undefined, '', false) // returns undefined
+  *  // Better use
+  *  i.pull('c', '', false); // returns undefined
+  *  
+  *  // Setter mode
+  *  i.getset('a', 'valueA'); // Set 'valueA' to key a
+  *  i.getset('b', 'valueB', 'a'); // set 'valueB' to key a.b
+  *  
+  *  // Import mode
+  *  i.getset({a: 'valueA', 'a.b': 'valueB'}); // Import key/values at root level
+  *  i.getset({'b', 'valueB'}, 'a'); // Import key/values at key a
+  *
+  *  @since 2.1.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *
+  *  @param {dottedKey|Object}  [key] Key / Object to import
+  *  @param {number|string|array|object|dottedKey} [val] Value to push / Parent key to import into
+  *  @param {dottedKey}  [pKey] Parent Key
+  *  @param {boolean}    [throwable=true] If `true`, getset will throw
+  *  an exception if key doesn't exist in getter mode else it will return `undefined`
+  *  @returns {GetSetObject}  getset return
+  *  @throws  {TypeError} If key does not exist and throwable is `true`
+  */
   getset(key, val, pKey, throwable) {
     let ret = {
       'set': false

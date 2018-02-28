@@ -31,6 +31,7 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/index.js~ObjectArray.html">ObjectArray</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ForEachCallback">ForEachCallback</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GetSetObject">GetSetObject</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ReducerCallback">ReducerCallback</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-dottedKey">dottedKey</a></span></span></li>
 </ul>
@@ -327,6 +328,39 @@ export default class ObjectArray {
     }
   }
 
+  /**
+  *  Shortcut for getter/setter syntax. It can also be used
+  *  to import data.
+  *
+  *  @example
+  *  // Getter mode
+  *  i.getset(); // returns all data
+  *  i.getset(&apos;a&apos;); // returns data for key a
+  *  i.getset(&apos;c&apos;); // will throw a TypeError exception if key c doesn&apos;t exist
+  *  i.getset(&apos;c&apos;, undefined, &apos;&apos;, false) // returns undefined
+  *  // Better use
+  *  i.pull(&apos;c&apos;, &apos;&apos;, false); // returns undefined
+  *  
+  *  // Setter mode
+  *  i.getset(&apos;a&apos;, &apos;valueA&apos;); // Set &apos;valueA&apos; to key a
+  *  i.getset(&apos;b&apos;, &apos;valueB&apos;, &apos;a&apos;); // set &apos;valueB&apos; to key a.b
+  *  
+  *  // Import mode
+  *  i.getset({a: &apos;valueA&apos;, &apos;a.b&apos;: &apos;valueB&apos;}); // Import key/values at root level
+  *  i.getset({&apos;b&apos;, &apos;valueB&apos;}, &apos;a&apos;); // Import key/values at key a
+  *
+  *  @since 2.1.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile &lt;contact@liqueurdetoile.com&gt;
+  *
+  *  @param {dottedKey|Object}  [key] Key / Object to import
+  *  @param {number|string|array|object|dottedKey} [val] Value to push / Parent key to import into
+  *  @param {dottedKey}  [pKey] Parent Key
+  *  @param {boolean}    [throwable=true] If `true`, getset will throw
+  *  an exception if key doesn&apos;t exist in getter mode else it will return `undefined`
+  *  @returns {GetSetObject}  getset return
+  *  @throws  {TypeError} If key does not exist and throwable is `true`
+  */
   getset(key, val, pKey, throwable) {
     let ret = {
       &apos;set&apos;: false

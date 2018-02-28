@@ -49,3 +49,12 @@
 *  
 *  @typedef {Function} ReducerCallback
 */
+
+/**
+*  Returned object by getset
+*  
+*  @typedef {Object} GetSetObject
+*  @property {number|string|array|object} get Value returned by the getter
+*  @property  {boolean} set `true` if setter mode or `false`
+*/
+

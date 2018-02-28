@@ -1,28 +1,28 @@
 {
   "type": "File",
   "start": 0,
-  "end": 1558,
+  "end": 1770,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 52,
+      "line": 61,
       "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 1558,
+    "end": 1770,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 52,
+        "line": 61,
         "column": 0
       }
     },
@@ -78,6 +78,22 @@
             "column": 2
           }
         }
+      },
+      {
+        "type": "CommentBlock",
+        "value": "*\n*  Returned object by getset\n*  \n*  @typedef {Object} GetSetObject\n*  @property {number|string|array|object} get Value returned by the getter\n*  @property  {boolean} set `true` if setter mode or `false`\n",
+        "start": 1559,
+        "end": 1768,
+        "loc": {
+          "start": {
+            "line": 53,
+            "column": 0
+          },
+          "end": {
+            "line": 59,
+            "column": 2
+          }
+        }
       }
     ]
   },
@@ -126,6 +142,22 @@
         },
         "end": {
           "line": 51,
+          "column": 2
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n*  Returned object by getset\n*  \n*  @typedef {Object} GetSetObject\n*  @property {number|string|array|object} get Value returned by the getter\n*  @property  {boolean} set `true` if setter mode or `false`\n",
+      "start": 1559,
+      "end": 1768,
+      "loc": {
+        "start": {
+          "line": 53,
+          "column": 0
+        },
+        "end": {
+          "line": 59,
           "column": 2
         }
       }
@@ -181,6 +213,22 @@
       }
     },
     {
+      "type": "CommentBlock",
+      "value": "*\n*  Returned object by getset\n*  \n*  @typedef {Object} GetSetObject\n*  @property {number|string|array|object} get Value returned by the getter\n*  @property  {boolean} set `true` if setter mode or `false`\n",
+      "start": 1559,
+      "end": 1768,
+      "loc": {
+        "start": {
+          "line": 53,
+          "column": 0
+        },
+        "end": {
+          "line": 59,
+          "column": 2
+        }
+      }
+    },
+    {
       "type": {
         "label": "eof",
         "beforeExpr": false,
@@ -193,15 +241,15 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1558,
-      "end": 1558,
+      "start": 1770,
+      "end": 1770,
       "loc": {
         "start": {
-          "line": 52,
+          "line": 61,
           "column": 0
         },
         "end": {
-          "line": 52,
+          "line": 61,
           "column": 0
         }
       }

@@ -64,7 +64,11 @@ console.log(doa.pull('dat.long')) //Output {path: 'fixture1', dream: 'fixture2'}
 ```
 Calling `doa.dataset()` will return the whole data object.
 
-Using `doa.dataset('dat.stupid.path.to.things')` will return `undefined` because keys don't exist, while `doa.data.dat.stupid.path.to.things` will throw an error.
+Using `doa.dataset('dat.stupid.path.to.things')` will throw a TypeError because keys don't exist.
+
+### TypeError exception when key does not exist
+By default, all data queries methods with parameters (keys, values, dataset, ...) will throw a TypeError if key does not exist.
+With `pull` and `getset`, you can set the throwable parameter to `false` to disable throwing exception and return `undefined` instead.
 
 ### Push data
 As an array, you can push data by calling the `push` method of the ObjectArray. You can use dotted key notation and ObjectArray will take care to create all needed keys.
@@ -75,6 +79,7 @@ console.log(doa.data);
 // will output {dat:{really:{long:{path:"fixture"}}}}
 ```
 You can safely [import](#import-data) or [push](#push-data) an ObjectArray into another ObjectArray at any level. The data will be safe.
+
 ### Import data
 If you want to import multiple keys at once, you can do only one call to `import` :
 ```javascript
@@ -88,6 +93,7 @@ console.log(doa.data);
 // will output {dat:{really:{long:{path:"fixture1",dream:"fixture2"}},shorter:{path:"fixture3"}}}
 ```
 You can safely [import](#import-data) or [push](#push-data) an ObjectArray into another ObjectArray at any level. The data will be safe.
+
 ### Push and import in dataset
 You can easily push or import in dataset with an extra parameter.
 ```javascript
@@ -102,6 +108,7 @@ console.log(doa.data);
 // will output {dat:{really:{long:{path:"fixture1",dream:"fixture2"}},shorter:{path:"fixture3"}}}
 ```
 You can safely [import](#import-data) or [push](#push-data) an ObjectArray into another ObjectArray at any level. The data will be safe.
+
 ### Empty data and remove dataset
 To remove the data linked to a key, simply call `remove` method while providing the key to delete
 ```javascript
@@ -120,6 +127,10 @@ doa.remove('dat.long.dream');
 console.log(doa.dataset('dat.long')) //Output {path: 'fixture1'}
 ```
 Wider, the `empty` method is an alias to `remove` method if a key is provided but completely empty ObjectArray data if called without parameter.
+
+### Getset to pull/push/import in one method
+The getset method is a convenient shortcut that will get, set or import data given its parameters. See [getset reference](/class/src/index.js~ObjectArray.html#instance-method-getset) for examples.
+
 ## Utility methods
 ### Check key existence
 Use the `has` method
