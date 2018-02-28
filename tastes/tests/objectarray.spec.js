@@ -126,7 +126,7 @@ describe('dot-object-array Module', function () {
       i.length().should.equal(1);
       i.push('test2', 'fixture2');
       i.length().should.equal(2);
-      expect(i.length('dat.wrong.path')).to.equal(undefined);
+      expect(i.length.bind(i, 'dat.wrong.path')).to.throw(TypeError);
     });
     it('should returns keys', function () {
       let i = new ObjectArray();
@@ -136,7 +136,7 @@ describe('dot-object-array Module', function () {
       i.keys().should.eql(['test']);
       i.push('test2', 'fixture2');
       i.keys().should.eql(['test', 'test2']);
-      expect(i.keys('dat.wrong.path')).to.equal(undefined);
+      expect(i.keys.bind(i, 'dat.wrong.path')).to.throw(TypeError);
     });
     it('should returns values', function () {
       let i = new ObjectArray();
@@ -146,7 +146,7 @@ describe('dot-object-array Module', function () {
       i.values().should.eql(['fixture']);
       i.push('test2', 'fixture2');
       i.values().should.eql(['fixture', 'fixture2']);
-      expect(i.values('dat.wrong.path')).to.equal(undefined);
+      expect(i.values.bind(i, 'dat.wrong.path')).to.throw(TypeError);
     });
     it('should returns right keys and values for dotted object', function () {
       var i = new ObjectArray({
@@ -162,8 +162,8 @@ describe('dot-object-array Module', function () {
       i.values().should.eql([{long: {path: 'fixture1', dream: 'fixture2'}}]);
       i.keys('dat.long').should.eql(['path', 'dream']);
       i.values('dat.long').should.eql(['fixture1', 'fixture2']);
-      expect(i.keys('dat.short')).to.equal(undefined);
-      expect(i.values('dat.short')).to.equal(undefined);
+      expect(i.keys.bind(i, 'dat.short')).to.throw(TypeError);
+      expect(i.values.bind(i, 'dat.short')).to.throw(TypeError);
     });
   });
 
@@ -200,8 +200,9 @@ describe('dot-object-array Module', function () {
         test22: 'fixture22'
       });
       i.dataset('test2.test21').should.equal('fixture21');
-      expect(i.dataset('test3')).to.equal(undefined);
-      expect(i.dataset('test2.test23')).to.equal(undefined);
+      i.dataset('test21', 'test2').should.equal('fixture21');
+      expect(i.dataset.bind(i, 'test3')).to.throw(TypeError);
+      expect(i.dataset.bind(i, 'test23', 'test2')).to.throw(TypeError);
     });
 
     it('should find parent key', function () {
@@ -215,6 +216,40 @@ describe('dot-object-array Module', function () {
 
       expect(i.parentKey('test')).to.equal(undefined);
       i.parentKey('test2.test21').should.equal('test2');
+    });
+  });
+
+  describe('Check key/value', function () {
+    it('Strict equality', function () {
+      let i = new ObjectArray({
+        test: 'fixture',
+        test2: {
+          test21: 0,
+          test22: '0'
+        }
+      });
+
+      i.check('test2.test21', 0).should.be.true;
+      i.check('test2.test21', '0').should.be.false;
+      i.check('test2.test21', 'fixture').should.be.false;
+      i.check('test22', '0', 'test2').should.be.true;
+      i.check('test22', 0, 'test2').should.be.false;
+    });
+
+    it('Loose equality', function () {
+      let i = new ObjectArray({
+        test: 'fixture',
+        test2: {
+          test21: 0,
+          test22: '0'
+        }
+      });
+
+      i.check('test2.test21', 0).should.be.true;
+      i.check('test2.test21', '0').should.be.false;
+      i.check('test2.test21', 'fixture').should.be.false;
+      i.check('test22', '0', 'test2').should.be.true;
+      i.check('test22', 0, 'test2').should.be.false;
     });
   });
 
@@ -286,8 +321,12 @@ describe('dot-object-array Module', function () {
 
       i.flatten(false, 'test2').should.eql(i);
       i.data.should.eql({test1: 'fixture', test2: {test21: 0, test22: true}});
-      i.flatten(false, 'test3').should.eql(i);
-      i.data.should.eql({test1: 'fixture', test2: {test21: 0, test22: true}});
+    });
+
+    it('should throw an exception if key does not exist', function () {
+      let i = new ObjectArray();
+
+      expect(i.flatten.bind(i, true, 'test3')).to.throw(TypeError);
     });
 
     it('should flatten subdataset', function () {

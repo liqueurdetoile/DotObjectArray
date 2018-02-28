@@ -6,6 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 
 module.exports = merge(base, {
+  devtool: 'inline-source-map',
   output: {
     path: path.resolve('./coverage'),
     filename: 'objectarray.js'

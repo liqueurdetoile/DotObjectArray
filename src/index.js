@@ -64,6 +64,24 @@ export default class ObjectArray {
   }
 
   /**
+  *  Returns a joined dotted key from key and parent key
+  *
+  *  @since 2.0.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *
+  *  @param {dottedKey}   key     Key
+  *  @param {dottedKey}   [pKey]  Parent key
+  *  @returns {Boolean}  true if key exists, false otherwise
+  *  @throws  {TypeError} If key does not exist
+  */
+  _key(key, pKey) {
+    if (pKey) key = pKey + '.' + key;
+    if (this.has(key) || typeof key === 'undefined') return key;
+    throw new TypeError('Inexistent key, key : ' + key + ', Parent key : ' + pKey);
+  }
+
+  /**
   *  Returns a clone with same data of the current ObjectArray
   *
   *  @since 1.3.0
@@ -88,76 +106,78 @@ export default class ObjectArray {
   *  an alias for [remove method]{@link ObjectArray~remove}
   *
   *  @since 1.2.0
-  *  @version 1.0.0
+  *  @version 2.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey} key  Key to remove
+  *  @param {dottedKey}  [pKey] Parent key
   *  @returns {this} Chainable
+  *  @throws  {TypeError} If key does not exist
   */
-  empty(key) {
-    if (typeof key === 'undefined') this._data = {};
+  empty(key, pKey) {
+    key = this._key(key, pKey);
+    if (!key) this._data = {};
     else this.remove(key);
     return this;
   }
 
   /**
   *  Returns length of a given dataset in the ObjectArray
-  *  If no parent key is provided, it will output the length of
+  *  If no key is provided, it will output the length of
   *  the root data object
   *
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 2.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
-  *  @param {dottedKey} pKey  Parent key
-  *  @returns  {Number|undefined} Length of the dataset or undefined if key doesn't exist
+  *  @param {dottedKey} key  Key
+  *  @param {dottedKey}  [pKey] Parent key
+  *  @returns  {Number|undefined} Length of the dataset
+  *  @throws  {TypeError} If key does not exist
   */
-  length(pKey) {
-    let data = this.keys(pKey);
-
-    if (!data) return undefined;
-    return this.keys(pKey).length;
+  length(key, pKey) {
+    return this.keys(this._key(key, pKey)).length;
   }
 
   /**
   *  Returns keys of a given dataset in the ObjectArray
-  *  If no parent key is provided, it will output the keys of
+  *  If no key is provided, it will output the keys of
   *  the root data object
   *
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 2.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
-  *  @param {dottedKey} pKey  Parent key
+  *  @param {dottedKey} key  Key
+  *  @param {dottedKey}  [pKey] Parent key
   *  @returns  {Array|undefined} Array of keys for the dataset
-  *  or undefined if key doesn't exist
+  *  @throws  {TypeError} If key does not exist
   */
-  keys(pKey) {
-    let keys = [], data = this.dataset(pKey);
+  keys(key, pKey) {
+    let keys = [], data = this.dataset(this._key(key, pKey));
 
-    if (!data) return undefined;
-    for (let key in data) keys.push(key);
+    for (let k in data) keys.push(k);
     return keys;
   }
 
   /**
   *  Returns values of a given dataset in the ObjectArray
-  *  If no parent key is provided, it will output the keys of
+  *  If no key is provided, it will output the values of
   *  the root data object
   *
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 2.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
-  *  @param {dottedKey} pKey  Parent key
+  *  @param {dottedKey} key  Key
+  *  @param {dottedKey}  [pKey] Parent key
   *  @returns  {Array|undefined} Array of values for the dataset
-  *  or undefined if key doesn't exist
+  *  @throws  {TypeError} If key does not exist
   */
-  values(pKey) {
-    let values = [], data = this.dataset(pKey);
+  values(key, pKey) {
+    let values = [], data = this.dataset(this._key(key, pKey));
 
-    if (!data) return undefined;
-    for (let key in data) values.push(data[key]);
+    for (let k in data) values.push(data[k]);
     return values;
   }
 
@@ -165,16 +185,18 @@ export default class ObjectArray {
   *  Check if a given key exists in the ObjectArray
   *
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 1.1.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  key Key
+  *  @param {dottedKey}  [pKey] Parent key
   *  @returns {Boolean}  true if key exists, false otherwise
   */
-  has(key) {
-    let i, k, data = this.data;
+  has(key, pKey) {
+    let i, k, data = this._data;
 
     if (typeof key === 'undefined') return false;
+    if (typeof pKey !== 'undefined') key = pKey + '.' + key;
 
     key = key.split('.');
     for (i = 0; i < key.length; i++) {
@@ -187,24 +209,46 @@ export default class ObjectArray {
   }
 
   /**
+  *  Check the value for a given key in the ObjectArray
+  *
+  *  @since 2.0.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *
+  *  @param {dottedKey}  key Key
+  *  @param {Number|String|Array|Object} val Value
+  *  @param {dottedKey}  [pKey] Parent key
+  *  @param {boolean} [strict=true]  `true` to perform a strict comparison
+  *  (`===`) or false otherwise
+  *  @returns {Boolean}  true if key exists and is equal to val
+  */
+  check(key, val, pKey, strict = true) {
+    if (this.has(key, pKey)) {
+      let v = this.pull(key, pKey);
+
+      if (strict) return val === v;
+      else return val == v; //eslint-disable-line
+    }
+    return false;
+  }
+
+  /**
   *  Returns dataset for the key. If no key is provided,
-  *  the whole data is returned
+  *  the whole dataset is returned
   *
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 2.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  [key] Key
   *  @param {dottedKey}  [pKey] Parent Key
-  *  @returns {Object|undefined} Data object or undefined if key doesn't exist
+  *  @returns {Object|undefined} Data object
+  *  @throws  {TypeError} If key does not exist
   */
   dataset(key, pKey) {
     let i, k, data = this.data;
 
-    if (pKey !== undefined) {
-      if (!this.has(pKey)) return undefined;
-      key = pKey + '.' + key;
-    }
+    key = this._key(key, pKey);
 
     if (key !== undefined) {
       key = key.split('.');
@@ -229,7 +273,8 @@ export default class ObjectArray {
   *
   *  @param {dottedKey}  [key] Key
   *  @param {dottedKey}  [pKey] Parent Key
-  *  @returns {Object|undefined} Data object or undefined if key doesn't exist
+  *  @returns {Object|undefined} Data object
+  *  @throws  {TypeError} If key does not exist
   */
   pull(key, pKey) {
     return this.dataset(key, pKey);
@@ -326,23 +371,24 @@ export default class ObjectArray {
   *  Flatten may be run on a subdataset by providing a key as second parameter.
   *
   *  @since 1.3.0
-  *  @version 1.0.0
+  *  @version 2.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {Boolean} [dotted = false]
-  *  @param {dottedKey}  [pKey]  Key to flatten. If not provided, the whole
+  *  @param {dottedKey}  [key]  Key to flatten. If not provided, the whole
   *  dataset will flattened.
   *  @returns {this} Chainable
+  *  @throws  {TypeError} If key does not exist
   */
-  flatten(dotted = false, pKey) {
+  flatten(dotted = false, key) {
     let data;
 
-    if (typeof pKey === 'undefined') data = this._recurseFlatten({}, dotted);
-    else if (this.has(pKey)) data = this._recurseFlatten({}, dotted, pKey);
-    else return this;
+    if (typeof key === 'undefined') data = this._recurseFlatten({}, dotted);
+    else if (this.has(key)) data = this._recurseFlatten({}, dotted, key);
+    else throw new TypeError('Inexistent key, key : ' + key);
 
-    if (typeof pKey === 'undefined') this._data = data;
-    else this.push(pKey, data);
+    if (typeof key === 'undefined') this._data = data;
+    else this.push(key, data);
     return this;
   }
 
@@ -387,19 +433,24 @@ export default class ObjectArray {
   /**
   *  Remove key/value data
   *
-  *  @since 1.0.0
-  *  @version 1.0.0
+  *  @since 1.1.0
+  *  @version 2.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey} key Key of the added item
+  *  @param {dottedKey}  [pKey]  Parent key
   *  @returns {this} Chainable
+  *  @throws  {TypeError} If key does not exist
   */
-  remove(key) {
-    let pKey = this.parentKey(key);
-    let data = this.dataset(pKey);
+  remove(key, pKey) {
+    let p, data;
+    
+    key = this._key(key, pKey);
+    p = this.parentKey(key);
+    data = this.dataset(p);
 
     if (data) {
-      key = key.replace(pKey + '.', '');
+      key = key.replace(p + '.', '');
       delete data[key];
     }
     return this;
@@ -413,7 +464,7 @@ export default class ObjectArray {
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {Object} data Object to import
-  *  @param {dottedKey}  [pKey]  Dotted parent key to import into
+  *  @param {dottedKey}  [pKey]  Parent key
   *  @returns {this} Chainable
   */
   import(data, pKey) {
@@ -426,17 +477,21 @@ export default class ObjectArray {
   *  Runs a callback on each entry at the `key` level
   *
   *  @since 1.0.0
-  *  @version 1.0.1
+  *  @version 2.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {ForEachCallback} cb Callback to be run
   *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
+  *  @param {dottedKey}  [pKey]  Parent key
   *  @returns {void}
+  *  @throws  {TypeError} If key does not exist
   */
-  forEach(cb, key) {
-    let data = this.dataset(key);
-    let index = 0;
+  forEach(cb, key, pKey) {
+    let data, index = 0;
+    
+    key = this._key(key, pKey);
+    data = this.dataset(key);    
 
     for (let k in data) cb.call(this, data[k], k, index++, this.parentKey(key));
   }
@@ -445,18 +500,21 @@ export default class ObjectArray {
   *  Reduce the ObjectArray data given a callback
   *
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 2.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param   {ReducerCallback}  reducer   Callback to apply to each key/value (from left)
   *  @param   {Mixed}     [start]   Initial value for iteration
   *  @param   {dottedKey} [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
+  *  @param {dottedKey}  [pKey]  Parent key
   *  @returns {Mixed}     Callback iteration returned value
+  *  @throws  {TypeError} If key does not exist
   */
-  reduce(reducer, start, key) {
+  reduce(reducer, start, key, pKey) {
     var acc = start;
 
+    key = this._key(key, pKey);
     this.forEach(function (value, k) { acc = reducer(acc, value, k, this.parentKey(key)); }, key);
     return acc;
   }
@@ -466,18 +524,20 @@ export default class ObjectArray {
   *  ObjectArray will convert camel-cased key to dashed key.
   *
   *  @since 1.0.0
-  *  @version 1.1.0
+  *  @version 2.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
+  *  @param {dottedKey}  [pKey]  Parent key
   *  @returns {String}  style string
+  *  @throws  {TypeError} If key does not exist
   */
-  stylesToString(key) {
+  stylesToString(key, pKey) {
     let ret = this.reduce(function (str, value, k) {
       str += this.dashize(k) + ':' + value + ';';
       return str;
-    }.bind(this), '', key);
+    }.bind(this), '', key, pKey);
 
     return ret.substr(0, ret.length - 1);
   }
@@ -520,18 +580,20 @@ export default class ObjectArray {
   *  Returns a string suitable for a URI query string
   *
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 2.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
+  *  @param {dottedKey}  [pKey]  Parent key
   *  @returns {String}  style string
+  *  @throws  {TypeError} If key does not exist
   */
-  urlEncode(key) {
+  urlEncode(key, pKey) {
     let ret = this.reduce(function (str, value, key) {
       str += key + '=' + encodeURIComponent(value) + '&';
       return str;
-    }, '', key);
+    }, '', key, pKey);
 
     return ret.substr(0, ret.length - 1);
   }
@@ -540,15 +602,17 @@ export default class ObjectArray {
   *  Returns a string suitable for a `form-url-encoded` query string
   *
   *  @since 1.0.0
-  *  @version 1.0.0
+  *  @version 2.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
+  *  @param {dottedKey}  [pKey]  Parent key
   *  @returns {String}  style string
+  *  @throws  {TypeError} If key does not exist
   */
-  formUrlEncode(key) {
-    let ret = this.urlEncode(key);
+  formUrlEncode(key, pKey) {
+    let ret = this.urlEncode(key, pKey);
 
     return ret.replace('%20', '+');
   }

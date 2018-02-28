@@ -31,14 +31,26 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber36",
-    "dot-object-array Module Cloning ObjectArray",
+    "test-file/tests/objectarray.spec.js.html#lineNumber222",
+    "dot-object-array Module Check key/value",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber60",
-    "dot-object-array Module Cloning ObjectArray should return a clone",
+    "test-file/tests/objectarray.spec.js.html#lineNumber239",
+    "dot-object-array Module Check key/value Loose equality",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber223",
+    "dot-object-array Module Check key/value Strict equality",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber36",
+    "dot-object-array Module Cloning ObjectArray",
     "test"
   ],
   [
@@ -49,7 +61,7 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber76",
+    "test-file/tests/objectarray.spec.js.html#lineNumber60",
     "dot-object-array Module Cloning ObjectArray should return a clone",
     "test"
   ],
@@ -61,56 +73,68 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber221",
+    "test-file/tests/objectarray.spec.js.html#lineNumber76",
+    "dot-object-array Module Cloning ObjectArray should return a clone",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber256",
     "dot-object-array Module Flatten ObjectArray",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber229",
+    "test-file/tests/objectarray.spec.js.html#lineNumber264",
     "dot-object-array Module Flatten ObjectArray should change nothing if data already flattened",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber222",
+    "test-file/tests/objectarray.spec.js.html#lineNumber257",
     "dot-object-array Module Flatten ObjectArray should change nothing if data empty",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber239",
+    "test-file/tests/objectarray.spec.js.html#lineNumber274",
     "dot-object-array Module Flatten ObjectArray should flatten dataset",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber265",
+    "test-file/tests/objectarray.spec.js.html#lineNumber300",
     "dot-object-array Module Flatten ObjectArray should flatten dataset and dot keys",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber252",
+    "test-file/tests/objectarray.spec.js.html#lineNumber287",
     "dot-object-array Module Flatten ObjectArray should flatten dataset and replace",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber293",
+    "test-file/tests/objectarray.spec.js.html#lineNumber332",
     "dot-object-array Module Flatten ObjectArray should flatten subdataset",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber309",
+    "test-file/tests/objectarray.spec.js.html#lineNumber348",
     "dot-object-array Module Flatten ObjectArray should flatten subdataset and dot keys",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber278",
+    "test-file/tests/objectarray.spec.js.html#lineNumber313",
     "dot-object-array Module Flatten ObjectArray should flatten subdataset and no change",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber326",
+    "dot-object-array Module Flatten ObjectArray should throw an exception if key does not exist",
     "test"
   ],
   [
@@ -133,19 +157,19 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber207",
+    "test-file/tests/objectarray.spec.js.html#lineNumber208",
     "dot-object-array Module Has key, data fetch and parent data fetch should find parent key",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber643",
+    "test-file/tests/objectarray.spec.js.html#lineNumber682",
     "dot-object-array Module Import JSON and change keys",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber644",
+    "test-file/tests/objectarray.spec.js.html#lineNumber683",
     "dot-object-array Module Import JSON and change keys should import JSON and change keys",
     "test"
   ],
@@ -205,139 +229,139 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber517",
+    "test-file/tests/objectarray.spec.js.html#lineNumber556",
     "dot-object-array Module ObjectArray methods",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber583",
+    "test-file/tests/objectarray.spec.js.html#lineNumber622",
     "dot-object-array Module ObjectArray methods should import a style type string",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber518",
+    "test-file/tests/objectarray.spec.js.html#lineNumber557",
     "dot-object-array Module ObjectArray methods should iterate a callback with forEach",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber538",
+    "test-file/tests/objectarray.spec.js.html#lineNumber577",
     "dot-object-array Module ObjectArray methods should iterate a callback with forEach on a dotted key",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber560",
+    "test-file/tests/objectarray.spec.js.html#lineNumber599",
     "dot-object-array Module ObjectArray methods should reduce the data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber631",
+    "test-file/tests/objectarray.spec.js.html#lineNumber670",
     "dot-object-array Module ObjectArray methods should return a form url encoded string",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber573",
+    "test-file/tests/objectarray.spec.js.html#lineNumber612",
     "dot-object-array Module ObjectArray methods should return a style type string",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber620",
+    "test-file/tests/objectarray.spec.js.html#lineNumber659",
     "dot-object-array Module ObjectArray methods should return a url encoded string",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber613",
+    "test-file/tests/objectarray.spec.js.html#lineNumber652",
     "dot-object-array Module ObjectArray methods should throw an exception if bad string provided",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber327",
+    "test-file/tests/objectarray.spec.js.html#lineNumber366",
     "dot-object-array Module Push and delete data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber334",
+    "test-file/tests/objectarray.spec.js.html#lineNumber492",
     "dot-object-array Module Push and delete data should create all needed keys",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber453",
+    "test-file/tests/objectarray.spec.js.html#lineNumber470",
     "dot-object-array Module Push and delete data should create all needed keys",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber431",
+    "test-file/tests/objectarray.spec.js.html#lineNumber373",
     "dot-object-array Module Push and delete data should create all needed keys",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber328",
+    "test-file/tests/objectarray.spec.js.html#lineNumber367",
     "dot-object-array Module Push and delete data should get and set data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber488",
+    "test-file/tests/objectarray.spec.js.html#lineNumber527",
     "dot-object-array Module Push and delete data should push dotted data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber349",
+    "test-file/tests/objectarray.spec.js.html#lineNumber388",
     "dot-object-array Module Push and delete data should push or import ObjectArray without losing data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber475",
+    "test-file/tests/objectarray.spec.js.html#lineNumber514",
     "dot-object-array Module Push and delete data should push simple data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber495",
+    "test-file/tests/objectarray.spec.js.html#lineNumber534",
     "dot-object-array Module Push and delete data should remove dotted data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber481",
+    "test-file/tests/objectarray.spec.js.html#lineNumber520",
     "dot-object-array Module Push and delete data should remove simple data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber504",
+    "test-file/tests/objectarray.spec.js.html#lineNumber543",
     "dot-object-array Module Push and delete data should throw an exception if key not a string",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber510",
+    "test-file/tests/objectarray.spec.js.html#lineNumber549",
     "dot-object-array Module Push and delete data should throw an exception if parent key is not a string",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber399",
+    "test-file/tests/objectarray.spec.js.html#lineNumber438",
     "dot-object-array Module Push and delete data should use pull as an alias to dataset",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber419",
+    "test-file/tests/objectarray.spec.js.html#lineNumber458",
     "dot-object-array Module Push and delete data should use pull as an alias to dataset with parent key",
     "test"
   ],
@@ -636,6 +660,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/index.js~objectarray#_key",
+    "class/src/index.js~ObjectArray.html#instance-method-_key",
+    "src/index.js~ObjectArray#_key",
+    "method"
+  ],
+  [
     "src/index.js~objectarray#_recurseflatten",
     "class/src/index.js~ObjectArray.html#instance-method-_recurseFlatten",
     "src/index.js~ObjectArray#_recurseFlatten",
@@ -645,6 +675,12 @@ window.esdocSearchIndex = [
     "src/index.js~objectarray#camelize",
     "class/src/index.js~ObjectArray.html#instance-method-camelize",
     "src/index.js~ObjectArray#camelize",
+    "method"
+  ],
+  [
+    "src/index.js~objectarray#check",
+    "class/src/index.js~ObjectArray.html#instance-method-check",
+    "src/index.js~ObjectArray#check",
     "method"
   ],
   [

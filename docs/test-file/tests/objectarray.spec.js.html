@@ -166,7 +166,7 @@ describe(&apos;dot-object-array Module&apos;, function () {
       i.length().should.equal(1);
       i.push(&apos;test2&apos;, &apos;fixture2&apos;);
       i.length().should.equal(2);
-      expect(i.length(&apos;dat.wrong.path&apos;)).to.equal(undefined);
+      expect(i.length.bind(i, &apos;dat.wrong.path&apos;)).to.throw(TypeError);
     });
     it(&apos;should returns keys&apos;, function () {
       let i = new ObjectArray();
@@ -176,7 +176,7 @@ describe(&apos;dot-object-array Module&apos;, function () {
       i.keys().should.eql([&apos;test&apos;]);
       i.push(&apos;test2&apos;, &apos;fixture2&apos;);
       i.keys().should.eql([&apos;test&apos;, &apos;test2&apos;]);
-      expect(i.keys(&apos;dat.wrong.path&apos;)).to.equal(undefined);
+      expect(i.keys.bind(i, &apos;dat.wrong.path&apos;)).to.throw(TypeError);
     });
     it(&apos;should returns values&apos;, function () {
       let i = new ObjectArray();
@@ -186,7 +186,7 @@ describe(&apos;dot-object-array Module&apos;, function () {
       i.values().should.eql([&apos;fixture&apos;]);
       i.push(&apos;test2&apos;, &apos;fixture2&apos;);
       i.values().should.eql([&apos;fixture&apos;, &apos;fixture2&apos;]);
-      expect(i.values(&apos;dat.wrong.path&apos;)).to.equal(undefined);
+      expect(i.values.bind(i, &apos;dat.wrong.path&apos;)).to.throw(TypeError);
     });
     it(&apos;should returns right keys and values for dotted object&apos;, function () {
       var i = new ObjectArray({
@@ -202,8 +202,8 @@ describe(&apos;dot-object-array Module&apos;, function () {
       i.values().should.eql([{long: {path: &apos;fixture1&apos;, dream: &apos;fixture2&apos;}}]);
       i.keys(&apos;dat.long&apos;).should.eql([&apos;path&apos;, &apos;dream&apos;]);
       i.values(&apos;dat.long&apos;).should.eql([&apos;fixture1&apos;, &apos;fixture2&apos;]);
-      expect(i.keys(&apos;dat.short&apos;)).to.equal(undefined);
-      expect(i.values(&apos;dat.short&apos;)).to.equal(undefined);
+      expect(i.keys.bind(i, &apos;dat.short&apos;)).to.throw(TypeError);
+      expect(i.values.bind(i, &apos;dat.short&apos;)).to.throw(TypeError);
     });
   });
 
@@ -240,8 +240,9 @@ describe(&apos;dot-object-array Module&apos;, function () {
         test22: &apos;fixture22&apos;
       });
       i.dataset(&apos;test2.test21&apos;).should.equal(&apos;fixture21&apos;);
-      expect(i.dataset(&apos;test3&apos;)).to.equal(undefined);
-      expect(i.dataset(&apos;test2.test23&apos;)).to.equal(undefined);
+      i.dataset(&apos;test21&apos;, &apos;test2&apos;).should.equal(&apos;fixture21&apos;);
+      expect(i.dataset.bind(i, &apos;test3&apos;)).to.throw(TypeError);
+      expect(i.dataset.bind(i, &apos;test23&apos;, &apos;test2&apos;)).to.throw(TypeError);
     });
 
     it(&apos;should find parent key&apos;, function () {
@@ -255,6 +256,40 @@ describe(&apos;dot-object-array Module&apos;, function () {
 
       expect(i.parentKey(&apos;test&apos;)).to.equal(undefined);
       i.parentKey(&apos;test2.test21&apos;).should.equal(&apos;test2&apos;);
+    });
+  });
+
+  describe(&apos;Check key/value&apos;, function () {
+    it(&apos;Strict equality&apos;, function () {
+      let i = new ObjectArray({
+        test: &apos;fixture&apos;,
+        test2: {
+          test21: 0,
+          test22: &apos;0&apos;
+        }
+      });
+
+      i.check(&apos;test2.test21&apos;, 0).should.be.true;
+      i.check(&apos;test2.test21&apos;, &apos;0&apos;).should.be.false;
+      i.check(&apos;test2.test21&apos;, &apos;fixture&apos;).should.be.false;
+      i.check(&apos;test22&apos;, &apos;0&apos;, &apos;test2&apos;).should.be.true;
+      i.check(&apos;test22&apos;, 0, &apos;test2&apos;).should.be.false;
+    });
+
+    it(&apos;Loose equality&apos;, function () {
+      let i = new ObjectArray({
+        test: &apos;fixture&apos;,
+        test2: {
+          test21: 0,
+          test22: &apos;0&apos;
+        }
+      });
+
+      i.check(&apos;test2.test21&apos;, 0).should.be.true;
+      i.check(&apos;test2.test21&apos;, &apos;0&apos;).should.be.false;
+      i.check(&apos;test2.test21&apos;, &apos;fixture&apos;).should.be.false;
+      i.check(&apos;test22&apos;, &apos;0&apos;, &apos;test2&apos;).should.be.true;
+      i.check(&apos;test22&apos;, 0, &apos;test2&apos;).should.be.false;
     });
   });
 
@@ -326,8 +361,12 @@ describe(&apos;dot-object-array Module&apos;, function () {
 
       i.flatten(false, &apos;test2&apos;).should.eql(i);
       i.data.should.eql({test1: &apos;fixture&apos;, test2: {test21: 0, test22: true}});
-      i.flatten(false, &apos;test3&apos;).should.eql(i);
-      i.data.should.eql({test1: &apos;fixture&apos;, test2: {test21: 0, test22: true}});
+    });
+
+    it(&apos;should throw an exception if key does not exist&apos;, function () {
+      let i = new ObjectArray();
+
+      expect(i.flatten.bind(i, true, &apos;test3&apos;)).to.throw(TypeError);
     });
 
     it(&apos;should flatten subdataset&apos;, function () {
