@@ -41,8 +41,6 @@ Then simply require/import it :
 ```javascript
 import ObjectArray from 'dot-object-array';
 const ObjectArray = require('dot-object-array').default;
-// or
-const ObjectArray = require('dot-object-array').ObjectArray;
 ```
 ObjectArray have been built on a ECMA6 class with webpack a named default export.
 
