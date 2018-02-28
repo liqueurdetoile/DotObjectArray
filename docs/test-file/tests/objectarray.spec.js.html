@@ -154,6 +154,7 @@ describe(&apos;dot-object-array Module&apos;, function () {
       e.dashize(&apos;a longString&apos;).should.equal(&apos;a-long-string&apos;);
       e.dashize(&apos;backgroundColor&apos;).should.equal(&apos;background-color&apos;);
       e.dashize(&apos;paddingLeft&apos;).should.equal(&apos;padding-left&apos;);
+      e.dashize(&apos;PaddingLeft&apos;).should.equal(&apos;padding-left&apos;);
     });
   });
 
@@ -285,11 +286,11 @@ describe(&apos;dot-object-array Module&apos;, function () {
         }
       });
 
-      i.check(&apos;test2.test21&apos;, 0).should.be.true;
-      i.check(&apos;test2.test21&apos;, &apos;0&apos;).should.be.false;
-      i.check(&apos;test2.test21&apos;, &apos;fixture&apos;).should.be.false;
-      i.check(&apos;test22&apos;, &apos;0&apos;, &apos;test2&apos;).should.be.true;
-      i.check(&apos;test22&apos;, 0, &apos;test2&apos;).should.be.false;
+      i.check(&apos;test2.test21&apos;, 0, &apos;&apos;, false).should.be.true;
+      i.check(&apos;test2.test21&apos;, &apos;0&apos;, &apos;&apos;, false).should.be.true;
+      i.check(&apos;test22&apos;, &apos;0&apos;, &apos;test2&apos;, false).should.be.true;
+      i.check(&apos;test22&apos;, 0, &apos;test2&apos;, false).should.be.true;
+      i.check(&apos;test2.test21&apos;, &apos;fixture&apos;, &apos;&apos;, false).should.be.false;
     });
   });
 
@@ -564,6 +565,7 @@ describe(&apos;dot-object-array Module&apos;, function () {
       i.remove(&apos;test&apos;);
       i._data.should.eql({});
     });
+
     it(&apos;should push dotted data&apos;, function () {
       let i = new ObjectArray();
 
@@ -571,12 +573,13 @@ describe(&apos;dot-object-array Module&apos;, function () {
         .push(&apos;test.dot2&apos;, &apos;fixture2&apos;);
       i._data.should.eql({test: {dot: &apos;fixture&apos;, dot2: &apos;fixture2&apos;}});
     });
+
     it(&apos;should remove dotted data&apos;, function () {
       let i = new ObjectArray();
 
       i.push(&apos;test.dot&apos;, &apos;fixture&apos;)
         .push(&apos;test.dot2&apos;, &apos;fixture2&apos;)
-        .remove(&apos;test.dot2&apos;)
+        .empty(&apos;test.dot2&apos;)
         ._data.should.eql({test: {dot: &apos;fixture&apos;}});
     });
 

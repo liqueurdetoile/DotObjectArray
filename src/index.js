@@ -185,7 +185,7 @@ export default class ObjectArray {
   *  Check if a given key exists in the ObjectArray
   *
   *  @since 1.0.0
-  *  @version 1.1.0
+  *  @version 1.1.1
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  key Key
@@ -196,7 +196,7 @@ export default class ObjectArray {
     let i, k, data = this._data;
 
     if (typeof key === 'undefined') return false;
-    if (typeof pKey !== 'undefined') key = pKey + '.' + key;
+    if (pKey) key = pKey + '.' + key;
 
     key = key.split('.');
     for (i = 0; i < key.length; i++) {
@@ -223,12 +223,14 @@ export default class ObjectArray {
   *  @returns {Boolean}  true if key exists and is equal to val
   */
   check(key, val, pKey, strict = true) {
+    /* istanbul ignore else */
     if (this.has(key, pKey)) {
       let v = this.pull(key, pKey);
 
       if (strict) return val === v;
       else return val == v; //eslint-disable-line
     }
+    /* istanbul ignore next */
     return false;
   }
 
@@ -237,7 +239,7 @@ export default class ObjectArray {
   *  the whole dataset is returned
   *
   *  @since 1.0.0
-  *  @version 2.0.0
+  *  @version 2.0.1
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  [key] Key
@@ -254,8 +256,6 @@ export default class ObjectArray {
       key = key.split('.');
       for (i = 0; i < key.length; i++) {
         k = key[i];
-
-        if (typeof data[k] === 'undefined') return undefined;
         data = data[k];
       }
     }
@@ -449,6 +449,7 @@ export default class ObjectArray {
     p = this.parentKey(key);
     data = this.dataset(p);
 
+    /* istanbul ignore else */
     if (data) {
       key = key.replace(p + '.', '');
       delete data[key];
@@ -650,5 +651,4 @@ export default class ObjectArray {
   }
 }
 
-if (window) window.ObjectArray = ObjectArray;
-
+if (typeof window !== 'undefined') window.ObjectArray = ObjectArray;

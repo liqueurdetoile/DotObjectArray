@@ -114,6 +114,7 @@ describe('dot-object-array Module', function () {
       e.dashize('a longString').should.equal('a-long-string');
       e.dashize('backgroundColor').should.equal('background-color');
       e.dashize('paddingLeft').should.equal('padding-left');
+      e.dashize('PaddingLeft').should.equal('padding-left');
     });
   });
 
@@ -245,11 +246,11 @@ describe('dot-object-array Module', function () {
         }
       });
 
-      i.check('test2.test21', 0).should.be.true;
-      i.check('test2.test21', '0').should.be.false;
-      i.check('test2.test21', 'fixture').should.be.false;
-      i.check('test22', '0', 'test2').should.be.true;
-      i.check('test22', 0, 'test2').should.be.false;
+      i.check('test2.test21', 0, '', false).should.be.true;
+      i.check('test2.test21', '0', '', false).should.be.true;
+      i.check('test22', '0', 'test2', false).should.be.true;
+      i.check('test22', 0, 'test2', false).should.be.true;
+      i.check('test2.test21', 'fixture', '', false).should.be.false;
     });
   });
 
@@ -524,6 +525,7 @@ describe('dot-object-array Module', function () {
       i.remove('test');
       i._data.should.eql({});
     });
+
     it('should push dotted data', function () {
       let i = new ObjectArray();
 
@@ -531,12 +533,13 @@ describe('dot-object-array Module', function () {
         .push('test.dot2', 'fixture2');
       i._data.should.eql({test: {dot: 'fixture', dot2: 'fixture2'}});
     });
+
     it('should remove dotted data', function () {
       let i = new ObjectArray();
 
       i.push('test.dot', 'fixture')
         .push('test.dot2', 'fixture2')
-        .remove('test.dot2')
+        .empty('test.dot2')
         ._data.should.eql({test: {dot: 'fixture'}});
     });
 
