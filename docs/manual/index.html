@@ -32,8 +32,12 @@
     <ul class="manual-toc">
       
     <li data-ice="manualNav" class="indent-h2" data-link="manual/index.html"><a href="manual/index.html#installation" data-ice="link">Installation</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/index.html"><a href="manual/index.html#as-a-module" data-ice="link">As a module</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/index.html"><a href="manual/index.html#in-browser" data-ice="link">In browser</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/index.html"><a href="manual/index.html#module" data-ice="link">Module</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/index.html"><a href="manual/index.html#browser" data-ice="link">Browser</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/index.html"><a href="manual/index.html#bundle" data-ice="link">Bundle</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/index.html"><a href="manual/index.html#jsdelivr" data-ice="link">JsDelivr</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/index.html"><a href="manual/index.html#unpkg" data-ice="link">Unpkg</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/index.html"><a href="manual/index.html#local-install" data-ice="link">Local install</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/index.html"><a href="manual/index.html#create-an-instance" data-ice="link">Create an instance</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/index.html"><a href="manual/index.html#data-managemement" data-ice="link">Data managemement</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/index.html"><a href="manual/index.html#raw-data-getter-and-setter" data-ice="link">Raw data getter and setter</a></li>
@@ -67,14 +71,23 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h2 id="installation">Installation</h2><h3 id="as-a-module">As a module</h3><p>The ObjectArray class is provided as a UMD module available on NPM.</p>
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h2 id="installation">Installation</h2><h3 id="module">Module</h3><p>The ObjectArray class is provided as a UMD module.</p>
 <pre><code><code class="source-code prettyprint">npm install dot-object-array</code>
+</code></pre><p>or</p>
+<pre><code><code class="source-code prettyprint">yarn add dot-object-array</code>
 </code></pre><p>Then simply require/import it :</p>
 <pre><code class="lang-javascript"><code class="source-code prettyprint">import ObjectArray from &apos;dot-object-array&apos;;
 const ObjectArray = require(&apos;dot-object-array&apos;).default;</code>
 </code></pre>
-<p>ObjectArray have been built on a ECMA6 class with a default export. that&apos;s the reason why one must append <code>default</code> to the require call.</p>
-<h3 id="in-browser">In browser</h3><p>For browser install, you can simply fetch <code>dist/objectarray.min.js</code> in this repo and load it :</p>
+<p>ObjectArray have been built on a ECMA6 class with webpack a named default export.</p>
+<h3 id="browser">Browser</h3><p>DOA is available as CDN external link or can easily be installed locally.</p>
+<h4 id="bundle">Bundle</h4><pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;https://bundle.run/dot-object-array@latest&quot;&gt;&lt;/script&gt;</code>
+</code></pre>
+<h4 id="jsdelivr">JsDelivr</h4><pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.jsdelivr.net/npm/dot-object-array@latest&quot;&gt;&lt;/script&gt;</code>
+</code></pre>
+<h4 id="unpkg">Unpkg</h4><pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;https://unpkg.com/dot-object-array@latest&quot;&gt;&lt;/script&gt;</code>
+</code></pre>
+<h4 id="local-install">Local install</h4><p>For browser install, you can simply fetch file <code>dist/objectarray.min.js</code> in this repo or clone it and load it :</p>
 <pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;myJsFolder/objectarray.min.js&quot;&gt;&lt;/script&gt;</code>
 </code></pre>
 <p>An ObjectArray constructor will be added to global (window) scope.</p>

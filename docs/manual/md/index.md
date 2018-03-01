@@ -1,18 +1,36 @@
 ## Installation
-### As a module
-The ObjectArray class is provided as a UMD module available on NPM.
+### Module
+The ObjectArray class is provided as a UMD module.
 ```
 npm install dot-object-array
+```
+or
+```
+yarn add dot-object-array
 ```
 Then simply require/import it :
 ```javascript
 import ObjectArray from 'dot-object-array';
 const ObjectArray = require('dot-object-array').default;
 ```
-ObjectArray have been built on a ECMA6 class with a default export. that's the reason why one must append `default` to the require call.
+ObjectArray have been built on a ECMA6 class with webpack a named default export.
 
-### In browser
-For browser install, you can simply fetch `dist/objectarray.min.js` in this repo and load it :
+### Browser
+DOA is available as CDN external link or can easily be installed locally.
+#### Bundle
+```html
+<script type="text/javascript" src="https://bundle.run/dot-object-array@latest"></script>
+```
+#### JsDelivr
+```html
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/dot-object-array@latest"></script>
+```
+#### Unpkg
+```html
+<script type="text/javascript" src="https://unpkg.com/dot-object-array@latest"></script>
+```
+#### Local install
+For browser install, you can simply fetch file `dist/objectarray.min.js` in this repo or clone it and load it :
 ```html
 <script type="text/javascript" src="myJsFolder/objectarray.min.js"></script>
 ```
