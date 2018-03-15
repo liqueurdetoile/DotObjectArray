@@ -14,7 +14,8 @@ module.exports = merge(base, {
   plugins: [
     new CleanWebpackPlugin(['dist'], {root: path.resolve('./')}),
     new UglifyJsPlugin({
-      sourceMap: false
+      sourceMap: false,
+      output: {comments: false}
     })
   ]
 });

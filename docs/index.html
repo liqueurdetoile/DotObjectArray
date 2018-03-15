@@ -38,8 +38,8 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><p><a href="https://nodei.co/npm/dot-object-array/"><img src="https://nodei.co/npm/dot-object-array.png?downloads=true&amp;downloadRank=true&amp;stars=true" alt="NPM"></a></p>
-<p><a href="https://www.npmjs.com/package/dot-object-array"><img src="https://img.shields.io/github/release/liqueurdetoile/objectarray.svg" alt="GitHub release"></a>
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><p><a href="https://www.npmjs.com/package/dot-object-array"><img src="https://nodei.co/npm/dot-object-array.png?downloads=true&amp;downloadRank=true&amp;stars=true" alt="NPM"></a></p>
+<p><a href="https://github.com/liqueurdetoile/DotObjectArray"><img src="https://img.shields.io/github/release/liqueurdetoile/objectarray.svg" alt="GitHub release"></a>
 <a href="https://travis-ci.org/liqueurdetoile/DotObjectArray"><img src="https://travis-ci.org/liqueurdetoile/DotObjectArray.svg?branch=master" alt="Build Status"></a>
 <a href="https://coveralls.io/github/liqueurdetoile/DotObjectArray?branch=master"><img src="https://coveralls.io/repos/github/liqueurdetoile/DotObjectArray/badge.svg?branch=master" alt="Coverage Status"></a>
 <a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="semantic-release"></a>
@@ -124,6 +124,11 @@ doa.pull(&apos;dat.long.and.far.away.key&apos;);
 
 // And many more !</code>
 </code></pre>
+<h2 id="configuring-objectarray-behaviour-when-a-required-key-doesn--39-t-exist">Configuring ObjectArray behaviour when a required key doesn&apos;t exist</h2><p>In version 1.x, a non-existent key yields to an <code>undefined</code> returned value.</p>
+<p>In version 2.x, a non-existent key data request raises an exception except for some methods that can leverage a throwable trigger.</p>
+<p>Since version 3.x, the behaviour can be configure per method call or override globally. Each data request have a predefined behaviour
+given its goal. For instance, the empty method will throw an exception by default and a dataset call will return undefined by default.</p>
+<p>Please check <a href="https://liqueurdetoile.github.io/DotObjectArray/docs/identifiers.html">API reference</a> for details.</p>
 <h2 id="playground">Playground</h2><p>If you want to go further and try a bit, you <a href="https://jsfiddle.net/dx03k9sL/19/">can go to the playground</a>.</p>
 <h2 id="documentation">Documentation</h2><p>A full documentation (manual and API reference) set is available : <a href="https://liqueurdetoile.github.io/DotObjectArray">https://liqueurdetoile.github.io/DotObjectArray</a></p>
 <h2 id="json-support">JSON support</h2><p>You can easily use ObjectArrays to manipulate JSON data. Just rely on JSON native object to import your JSON structure, manipulate it with ObjectArray ease and get it back at the end :wink:</p>

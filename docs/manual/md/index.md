@@ -51,7 +51,18 @@ var test = {
 
 var doa = new ObjectArray(test);
 ```
+## Configuring ObjectArray behaviour when a required key doesn't exist
+In version 1.x, a non-existent key yields to an `undefined` returned value.
+
+In version 2.x, a non-existent key data request raises an exception except for some methods that can leverage a throwable trigger.
+
+Since version 3.x, the behaviour can be configure per method call or override globally. Each data request have a predefined behaviour
+given its goal. For instance, the empty method will throw an exception by default and a dataset call will return undefined by default.
+
+Please check [API reference](https://liqueurdetoile.github.io/DotObjectArray/docs/identifiers.html) for details.
+
 ## Data managemement
+
 ### Raw data getter and setter
 The whole data object will be accessible and mutable through the `data` property :
 ```javascript
@@ -83,10 +94,6 @@ console.log(doa.pull('dat.long')) //Output {path: 'fixture1', dream: 'fixture2'}
 Calling `doa.dataset()` will return the whole data object.
 
 Using `doa.dataset('dat.stupid.path.to.things')` will throw a TypeError because keys don't exist.
-
-### TypeError exception when key does not exist
-By default, all data queries methods with parameters (keys, values, dataset, ...) will throw a TypeError if key does not exist.
-With `pull` and `getset`, you can set the throwable parameter to `false` to disable throwing exception and return `undefined` instead.
 
 ### Push data
 As an array, you can push data by calling the `push` method of the ObjectArray. You can use dotted key notation and ObjectArray will take care to create all needed keys.

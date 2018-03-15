@@ -40,748 +40,943 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">tests/objectarray.spec.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ObjectArray from &apos;index&apos;;
+var beforeEach = window.beforeEach;
+// var aftereach = window.afterEach;
 
-describe(&apos;dot-object-array Module&apos;, function () {
-  describe(&apos;ObjectArray Instance creation&apos;, function () {
-    it(&apos;should create a void instance of ObjectArray&apos;, function () {
-      let i = new ObjectArray();
+/**
+*  @test {ObjectArray#data}
+*/
+describe(&apos;Data getter and setter&apos;, function () {
+  it(&apos;should get and set data&apos;, function () {
+    let i = new ObjectArray();
 
-      expect(i instanceof ObjectArray).to.equal(true);
-    });
-    it(&apos;should create a data instance of ObjectArray&apos;, function () {
-      let i = new ObjectArray({
-        test: &apos;fixture&apos;,
-        test2: &apos;fixture2&apos;
-      });
+    i.data = {test: &apos;fixture&apos;};
+    i.data.test.should.equal(&apos;fixture&apos;);
+  });
+});
 
-      i.data.should.eql({
-        test: &apos;fixture&apos;,
-        test2: &apos;fixture2&apos;
-      });
-    });
-    it(&apos;should preserve ObjectArray data if ObjectArray is given in arguments&apos;, function () {
-      let i = new ObjectArray({
-        test: &apos;fixture&apos;,
-        test2: &apos;fixture2&apos;
-      });
+/**
+*  @test {ObjectArray#throwing}
+*/
+describe(&apos;Global throwing behaviour override&apos;, function () {
+  it(&apos;should always throw an exception&apos;, function () {
+    let i = new ObjectArray();
 
-      let j = new ObjectArray(i);
-
-      j.data.should.eql({
-        test: &apos;fixture&apos;,
-        test2: &apos;fixture2&apos;
-      });
-    });
+    i.throwing(true);
+    expect(i.pull.bind(i, &apos;key&apos;)).to.throw(TypeError);
+    expect(i.dataset.bind(i, &apos;key&apos;, undefined, false)).to.throw(TypeError);
   });
 
-  describe(&apos;Cloning ObjectArray&apos;, function () {
-    it(&apos;should return a clone&apos;, function () {
-      let i = new ObjectArray();
+  it(&apos;should never throw an exception&apos;, function () {
+    let i = new ObjectArray();
 
-      i.clone().should.not.equal(i);
-      i.clone().data.should.eql(i.data);
+    i.throwing(false);
+    expect(i.pull(&apos;key&apos;)).to.be.undefined;
+    expect(i.dataset(&apos;key&apos;, undefined, false)).to.be.undefined;
+  });
+});
+
+/**
+*  @test {ObjectArray#pKey}
+*/
+describe(&apos;Parent key memorizer&apos;, function () {
+
+  it(&apos;should use memorizer when using data read/write methods&apos;, function () {
+    let i = new ObjectArray();
+
+    i.pKey(&apos;test1&apos;);
+    i.push(&apos;test11&apos;, &apos;fixture&apos;);
+    i.pull(&apos;test11&apos;).should.equal(&apos;fixture&apos;);
+    i._data.should.eql({test1: { test11: &apos;fixture&apos;}});
+  });
+
+});
+
+/**
+*  @test {ObjectArray#_key}
+*/
+describe(&apos;Key constructor&apos;, function () {
+
+  it(&apos;should return dotted key&apos;, function () {
+    let i = new ObjectArray();
+
+    i.push(&apos;test1.test21&apos;, &apos;fixture&apos;);
+    i._key(&apos;test1&apos;).should.equal(&apos;test1&apos;);
+    i._key(&apos;test21&apos;, &apos;test1&apos;).should.equal(&apos;test1.test21&apos;);
+  });
+
+  it(&apos;should return undefined&apos;, function () {
+    let i = new ObjectArray();
+
+    i.push(&apos;test1.test21&apos;, &apos;fixture&apos;);
+    expect(i._key(&apos;test2&apos;, undefined, false)).to.be.undefined;
+    expect(i._key(&apos;test22&apos;, &apos;test1&apos;, false)).to.be.undefined;
+  });
+
+  it(&apos;should throw exception&apos;, function () {
+    let i = new ObjectArray();
+
+    i.push(&apos;test1.test21&apos;, &apos;fixture&apos;);
+    expect(i._key.bind(i, &apos;test2&apos;, undefined, true)).to.throw(TypeError);
+    expect(i._key.bind(i, &apos;test22&apos;, &apos;test2&apos;, true)).to.throw(TypeError);
+  });
+});
+
+/**
+*  @test {ObjectArray#clone}
+*  @test {ObjectArray#flatten}
+*/
+describe(&apos;Cloning ObjectArray&apos;, function () {
+
+  it(&apos;should return a clone with empty data&apos;, function () {
+    let i = new ObjectArray();
+
+    i.clone().should.not.equal(i);
+    i.clone().data.should.eql(i.data);
+  });
+
+  it(&apos;should return a clone with nested data&apos;, function () {
+    let i = new ObjectArray({
+      test1: &apos;fixture&apos;,
+      test2: {
+        testx: { test2x: 0 },
+        testy: {
+          test2y1: true,
+          test2y2: &apos;fix&apos;
+        }
+      }
     });
 
-    it(&apos;should return a clone&apos;, function () {
-      let i = new ObjectArray({
-        test1: &apos;fixture&apos;,
-        test2: {
-          testx: { test2x: 0 },
-          testy: {
-            test2y1: true,
-            test2y2: &apos;fix&apos;
+    i.clone().should.not.equal(i);
+    i.clone().data.should.eql(i.data);
+  });
+
+  it(&apos;should restore data in clone after flattening original&apos;, function () {
+    let i = new ObjectArray({
+      test1: &apos;fixture&apos;,
+      test2: {
+        testx: { test2x: 0 },
+        testy: {
+          test2y1: true,
+          test2y2: &apos;fix&apos;
+        }
+      }
+    });
+
+    i.flatten().clone().should.not.equal(i);
+    i.clone().data.should.eql(i.data);
+  });
+
+  it(&apos;should restore data in clone after dotted flattening original&apos;, function () {
+    let i = new ObjectArray({
+      test1: &apos;fixture&apos;,
+      test2: {
+        test21: 0,
+        test22: true
+      }
+    });
+
+    i.flatten(true).clone(false).should.not.equal(i);
+    i.clone(false).data.should.eql({
+      test1: &apos;fixture&apos;,
+      test2: {
+        test21: 0,
+        test22: true
+      }
+    });
+  });
+});
+
+/**
+*  @test {ObjectArray#empty}
+*/
+describe(&apos;Empty ObjectArray or remove subset&apos;, function () {
+  let i;
+  let data = {
+    test1: &apos;fixture&apos;,
+    test2: {
+      test21: 0,
+      test22: true
+    }
+  };
+
+  beforeEach(function () {
+    i = new ObjectArray(data);
+  });
+
+  it(&apos;should empty all data&apos;, function () {
+    i.empty();
+    i._data.should.eql({});
+  });
+
+  it(&apos;should empty subset&apos;, function () {
+    i.empty(&apos;test2&apos;);
+    i._data.should.eql({test1: &apos;fixture&apos;});
+  });
+
+  it(&apos;should throw an exception if key missing&apos;, function () {
+    expect(i.empty.bind(i, &apos;test3&apos;)).to.throw(TypeError);
+  });
+
+  it(&apos;should do nothing if key missing&apos;, function () {
+    i.empty(&apos;test3&apos;, undefined, false);
+    i._data.should.eql(data);
+  });
+});
+
+/**
+*  @test {ObjectArray#length}
+*/
+describe(&apos;Length&apos;, function () {
+  let i = new ObjectArray();
+
+  it(&apos;should returns length&apos;, function () {
+    i.length().should.equal(0);
+    i.push(&apos;test&apos;, &apos;fixture&apos;);
+    i.length().should.equal(1);
+    i.push(&apos;test2&apos;, &apos;fixture2&apos;);
+    i.length().should.equal(2);
+  });
+
+  it(&apos;should throw an exception if key missing&apos;, function () {
+    expect(i.length.bind(i, &apos;dat.wrong.path&apos;)).to.throw(TypeError);
+  });
+
+  it(&apos;should return undefined if key missing&apos;, function () {
+    expect(i.length(&apos;dat.wrong.path&apos;, undefined, false)).to.be.undefined;
+  });
+});
+
+describe(&apos;ObjectArray keys and values&apos;, function () {
+
+  it(&apos;should returns keys&apos;, function () {
+    let i = new ObjectArray();
+
+    i.keys().should.eql([]);
+    i.push(&apos;test&apos;, &apos;fixture&apos;);
+    i.keys().should.eql([&apos;test&apos;]);
+    i.push(&apos;test2&apos;, &apos;fixture2&apos;);
+    i.keys().should.eql([&apos;test&apos;, &apos;test2&apos;]);
+    expect(i.keys.bind(i, &apos;dat.wrong.path&apos;)).to.throw(TypeError);
+  });
+
+  it(&apos;should returns values&apos;, function () {
+    let i = new ObjectArray();
+
+    i.values().should.eql([]);
+    i.push(&apos;test&apos;, &apos;fixture&apos;);
+    i.values().should.eql([&apos;fixture&apos;]);
+    i.push(&apos;test2&apos;, &apos;fixture2&apos;);
+    i.values().should.eql([&apos;fixture&apos;, &apos;fixture2&apos;]);
+    expect(i.values.bind(i, &apos;dat.wrong.path&apos;)).to.throw(TypeError);
+    expect(i.values(&apos;dat.wrong.path&apos;, undefined, false)).to.eql([]);
+  });
+  it(&apos;should returns right keys and values for dotted object&apos;, function () {
+    var i = new ObjectArray({
+      dat: {
+        long: {
+          path: &apos;fixture1&apos;,
+          dream: &apos;fixture2&apos;
+        }
+      }
+    });
+
+    i.keys().should.eql([&apos;dat&apos;]);
+    i.values().should.eql([{long: {path: &apos;fixture1&apos;, dream: &apos;fixture2&apos;}}]);
+    i.keys(&apos;dat.long&apos;).should.eql([&apos;path&apos;, &apos;dream&apos;]);
+    i.values(&apos;dat.long&apos;).should.eql([&apos;fixture1&apos;, &apos;fixture2&apos;]);
+    expect(i.keys.bind(i, &apos;dat.short&apos;)).to.throw(TypeError);
+    expect(i.values.bind(i, &apos;dat.short&apos;)).to.throw(TypeError);
+  });
+});
+
+describe(&apos;Has key, data fetch and parent data fetch&apos;, function () {
+  it(&apos;should find key&apos;, function () {
+    let i = new ObjectArray({
+      test: &apos;fixture&apos;,
+      test2: {
+        test21: &apos;fixture21&apos;,
+        test22: &apos;fixture22&apos;
+      }
+    });
+
+    i.has(&apos;test&apos;).should.equal(true);
+    i.has(&apos;test2&apos;).should.equal(true);
+    i.has(&apos;test2.test21&apos;).should.equal(true);
+    i.has(&apos;test2.test22&apos;).should.equal(true);
+    i.has(&apos;test3&apos;).should.equal(false);
+    i.has(&apos;test2.test23&apos;).should.equal(false);
+  });
+
+  it(&apos;should find data&apos;, function () {
+    let i = new ObjectArray({
+      test: &apos;fixture&apos;,
+      test2: {
+        test21: &apos;fixture21&apos;,
+        test22: &apos;fixture22&apos;
+      }
+    });
+
+    i.dataset(&apos;test&apos;).should.equal(&apos;fixture&apos;);
+    i.dataset(&apos;test2&apos;).should.eql({
+      test21: &apos;fixture21&apos;,
+      test22: &apos;fixture22&apos;
+    });
+    i.dataset(&apos;test2.test21&apos;).should.equal(&apos;fixture21&apos;);
+    i.dataset(&apos;test21&apos;, &apos;test2&apos;).should.equal(&apos;fixture21&apos;);
+    expect(i.dataset(i, &apos;test3&apos;)).to.be.undefined;
+    expect(i.dataset(&apos;test23&apos;, &apos;test2&apos;)).to.be.undefined;
+    expect(i.dataset.bind(i, &apos;test3&apos;, undefined, true)).to.throw(TypeError);
+    expect(i.dataset.bind(i, &apos;test23&apos;, &apos;test2&apos;, true)).to.throw(TypeError);
+    i.throwing(false);
+    expect(i.dataset(&apos;test3&apos;)).to.be.undefined;
+    expect(i.dataset(&apos;test23&apos;, &apos;test2&apos;)).to.be.undefined;
+    expect(i.dataset(&apos;test3&apos;, undefined, true)).to.be.undefined;
+    expect(i.dataset(&apos;test23&apos;, &apos;test2&apos;, true)).to.be.undefined;
+    i.throwing(true);
+    expect(i.dataset.bind(i, &apos;test3&apos;)).to.throw(TypeError);
+    expect(i.dataset.bind(i, &apos;test23&apos;, &apos;test2&apos;)).to.throw(TypeError);
+    expect(i.dataset.bind(i, &apos;test3&apos;, undefined, false)).to.throw(TypeError);
+    expect(i.dataset.bind(i, &apos;test23&apos;, &apos;test2&apos;, false)).to.throw(TypeError);
+  });
+
+  it(&apos;should find parent key&apos;, function () {
+    let i = new ObjectArray({
+      test: &apos;fixture&apos;,
+      test2: {
+        test21: &apos;fixture21&apos;,
+        test22: &apos;fixture22&apos;
+      }
+    });
+
+    expect(i.parentKey(&apos;test&apos;)).to.equal(undefined);
+    i.parentKey(&apos;test2.test21&apos;).should.equal(&apos;test2&apos;);
+  });
+});
+
+describe(&apos;Check key/value&apos;, function () {
+  it(&apos;Strict equality&apos;, function () {
+    let i = new ObjectArray({
+      test: &apos;fixture&apos;,
+      test2: {
+        test21: 0,
+        test22: &apos;0&apos;
+      }
+    });
+
+    i.check(&apos;test2.test21&apos;, 0).should.be.true;
+    i.check(&apos;test2.test21&apos;, &apos;0&apos;).should.be.false;
+    i.check(&apos;test2.test21&apos;, &apos;fixture&apos;).should.be.false;
+    i.check(&apos;test22&apos;, &apos;0&apos;, &apos;test2&apos;).should.be.true;
+    i.check(&apos;test22&apos;, 0, &apos;test2&apos;).should.be.false;
+  });
+
+  it(&apos;Loose equality&apos;, function () {
+    let i = new ObjectArray({
+      test: &apos;fixture&apos;,
+      test2: {
+        test21: 0,
+        test22: &apos;0&apos;
+      }
+    });
+
+    i.check(&apos;test2.test21&apos;, 0, &apos;&apos;, false).should.be.true;
+    i.check(&apos;test2.test21&apos;, &apos;0&apos;, &apos;&apos;, false).should.be.true;
+    i.check(&apos;test22&apos;, &apos;0&apos;, &apos;test2&apos;, false).should.be.true;
+    i.check(&apos;test22&apos;, 0, &apos;test2&apos;, false).should.be.true;
+    i.check(&apos;test2.test21&apos;, &apos;fixture&apos;, &apos;&apos;, false).should.be.false;
+  });
+});
+
+describe(&apos;Flatten ObjectArray&apos;, function () {
+  it(&apos;should change nothing if data empty&apos;, function () {
+    let i = new ObjectArray();
+
+    i.flatten().should.eql(i);
+    i.data.should.eql({});
+  });
+
+  it(&apos;should change nothing if data already flattened&apos;, function () {
+    let i = new ObjectArray({
+      test1: &apos;fixture&apos;,
+      test2: 0
+    });
+
+    i.flatten().should.eql(i);
+    i.data.should.eql({test1: &apos;fixture&apos;, test2: 0});
+  });
+
+  it(&apos;should flatten dataset&apos;, function () {
+    let i = new ObjectArray({
+      test1: &apos;fixture&apos;,
+      test2: {
+        test21: 0,
+        test22: true
+      }
+    });
+
+    i.flatten().should.eql(i);
+    i.data.should.eql({test1: &apos;fixture&apos;, test21: 0, test22: true});
+  });
+
+  it(&apos;should flatten dataset and replace&apos;, function () {
+    let i = new ObjectArray({
+      test1: &apos;fixture&apos;,
+      test2: {
+        test1: 0,
+        test2: true
+      }
+    });
+
+    i.flatten().should.eql(i);
+    i.data.should.eql({test1: 0, test2: true});
+  });
+
+  it(&apos;should flatten dataset and dot keys&apos;, function () {
+    let i = new ObjectArray({
+      test1: &apos;fixture&apos;,
+      test2: {
+        test1: 0,
+        test2: true
+      }
+    });
+
+    i.flatten(true).should.eql(i);
+    i.data.should.eql({test1: &apos;fixture&apos;, &apos;test2.test1&apos;: 0, &apos;test2.test2&apos;: true});
+  });
+
+  it(&apos;should flatten subdataset and no change&apos;, function () {
+    let i = new ObjectArray({
+      test1: &apos;fixture&apos;,
+      test2: {
+        test21: 0,
+        test22: true
+      }
+    });
+
+    i.flatten(false, &apos;test2&apos;).should.eql(i);
+    i.data.should.eql({test1: &apos;fixture&apos;, test2: {test21: 0, test22: true}});
+  });
+
+  it(&apos;should throw an exception if key does not exist&apos;, function () {
+    let i = new ObjectArray();
+
+    expect(i.flatten.bind(i, true, &apos;test3&apos;)).to.throw(TypeError);
+  });
+
+  it(&apos;should flatten subdataset&apos;, function () {
+    let i = new ObjectArray({
+      test1: &apos;fixture&apos;,
+      test2: {
+        testx: { test2x: 0 },
+        testy: {
+          test2y1: true,
+          test2y2: &apos;fix&apos;
+        }
+      }
+    });
+
+    i.flatten(false, &apos;test2&apos;).should.eql(i);
+    i.data.should.eql({test1: &apos;fixture&apos;, test2: {test2x: 0, test2y1: true, test2y2: &apos;fix&apos;}});
+  });
+
+  it(&apos;should flatten subdataset and dot keys&apos;, function () {
+    let i = new ObjectArray({
+      test1: &apos;fixture&apos;,
+      test2: {
+        testx: { test2x: 0 },
+        testy: {
+          test2y1: true,
+          test2y2: &apos;fix&apos;
+        }
+      }
+    });
+
+    i.flatten(true, &apos;test2&apos;).should.eql(i);
+    i.data.should.eql({test1: &apos;fixture&apos;, test2: {&apos;testx.test2x&apos;: 0, &apos;testy.test2y1&apos;: true, &apos;testy.test2y2&apos;: &apos;fix&apos;}});
+  });
+
+});
+
+describe(&apos;Data manipulation&apos;, function () {
+
+  it(&apos;should create all needed keys&apos;, function () {
+    let i = new ObjectArray();
+
+    i.push(&apos;dat.really.long.path&apos;, &apos;fixture&apos;);
+    i.data.should.eql({
+      dat: {
+        really: {
+          long: {
+            path: &apos;fixture&apos;
           }
         }
-      });
-
-      i.clone().should.not.equal(i);
-      i.clone().data.should.eql(i.data);
-    });
-
-    it(&apos;should return a clone&apos;, function () {
-      let i = new ObjectArray({
-        test1: &apos;fixture&apos;,
-        test2: {
-          testx: { test2x: 0 },
-          testy: {
-            test2y1: true,
-            test2y2: &apos;fix&apos;
-          }
-        }
-      });
-
-      i.flatten().clone().should.not.equal(i);
-      i.clone().data.should.eql(i.data);
-    });
-
-    it(&apos;should return a clone&apos;, function () {
-      let i = new ObjectArray({
-        test1: &apos;fixture&apos;,
-        test2: {
-          test21: 0,
-          test22: true
-        }
-      });
-
-      i.flatten(true).clone(false).should.not.equal(i);
-      i.clone(false).data.should.eql({
-        test1: &apos;fixture&apos;,
-        test2: {
-          test21: 0,
-          test22: true
-        }
-      });
+      }
     });
   });
 
-  describe(&apos;Camel and dash&apos;, function () {
-    it(&apos;should camelize space and dashed strings&apos;, function () {
-      let e = new ObjectArray();
-
-      e.camelize(&apos;a long string&apos;).should.equal(&apos;aLongString&apos;);
-      e.camelize(&apos;a LonG string&apos;).should.equal(&apos;aLonGString&apos;);
-      e.camelize(&apos;a-long-string&apos;).should.equal(&apos;aLongString&apos;);
-      e.camelize(&apos;a long-string&apos;).should.equal(&apos;aLongString&apos;);
-      e.camelize(&apos;background-color&apos;).should.equal(&apos;backgroundColor&apos;);
-      e.camelize(&apos;padding-left&apos;).should.equal(&apos;paddingLeft&apos;);
+  it(&apos;should push or import ObjectArray without losing data&apos;, function () {
+    let o = new ObjectArray({
+      test: &apos;fixture&apos;,
+      test2: {
+        test21: &apos;fixture21&apos;,
+        test22: &apos;fixture22&apos;
+      }
     });
 
-    it(&apos;should dashize space and uppercase letter&apos;, function () {
-      let e = new ObjectArray();
+    let i = new ObjectArray().push(&apos;itest&apos;, o);
 
-      e.dashize(&apos;a long string&apos;).should.equal(&apos;a-long-string&apos;);
-      e.dashize(&apos;aLongString&apos;).should.equal(&apos;a-long-string&apos;);
-      e.dashize(&apos;a LongString&apos;).should.equal(&apos;a-long-string&apos;);
-      e.dashize(&apos;a longString&apos;).should.equal(&apos;a-long-string&apos;);
-      e.dashize(&apos;backgroundColor&apos;).should.equal(&apos;background-color&apos;);
-      e.dashize(&apos;paddingLeft&apos;).should.equal(&apos;padding-left&apos;);
-      e.dashize(&apos;PaddingLeft&apos;).should.equal(&apos;padding-left&apos;);
+    i.data.should.eql({itest: {
+      test: &apos;fixture&apos;,
+      test2: {
+        test21: &apos;fixture21&apos;,
+        test22: &apos;fixture22&apos;
+      }
+    }});
+
+    i = new ObjectArray().push(&apos;itest&apos;, o, &apos;dat.path&apos;);
+
+    i.data.should.eql({dat: {path: {itest: {
+      test: &apos;fixture&apos;,
+      test2: {
+        test21: &apos;fixture21&apos;,
+        test22: &apos;fixture22&apos;
+      }
+    }}}});
+
+    i = new ObjectArray().import(o);
+
+    i.data.should.eql({
+      test: &apos;fixture&apos;,
+      test2: {
+        test21: &apos;fixture21&apos;,
+        test22: &apos;fixture22&apos;
+      }
     });
+
+    i = new ObjectArray().import(o, &apos;dat.path&apos;);
+
+    i.data.should.eql({dat: {path: {
+      test: &apos;fixture&apos;,
+      test2: {
+        test21: &apos;fixture21&apos;,
+        test22: &apos;fixture22&apos;
+      }
+    }}});
   });
 
-  describe(&apos;ObjectArray length, keys and values&apos;, function () {
-    it(&apos;should returns length&apos;, function () {
-      let i = new ObjectArray();
-
-      i.length().should.equal(0);
-      i.push(&apos;test&apos;, &apos;fixture&apos;);
-      i.length().should.equal(1);
-      i.push(&apos;test2&apos;, &apos;fixture2&apos;);
-      i.length().should.equal(2);
-      expect(i.length.bind(i, &apos;dat.wrong.path&apos;)).to.throw(TypeError);
+  it(&apos;should use pull as an alias to dataset&apos;, function () {
+    let o = new ObjectArray({
+      test: &apos;fixture&apos;,
+      test2: {
+        test21: &apos;fixture21&apos;,
+        test22: &apos;fixture22&apos;
+      }
     });
-    it(&apos;should returns keys&apos;, function () {
-      let i = new ObjectArray();
 
-      i.keys().should.eql([]);
-      i.push(&apos;test&apos;, &apos;fixture&apos;);
-      i.keys().should.eql([&apos;test&apos;]);
-      i.push(&apos;test2&apos;, &apos;fixture2&apos;);
-      i.keys().should.eql([&apos;test&apos;, &apos;test2&apos;]);
-      expect(i.keys.bind(i, &apos;dat.wrong.path&apos;)).to.throw(TypeError);
+    o.pull().should.eql({
+      test: &apos;fixture&apos;,
+      test2: {
+        test21: &apos;fixture21&apos;,
+        test22: &apos;fixture22&apos;
+      }
     });
-    it(&apos;should returns values&apos;, function () {
-      let i = new ObjectArray();
 
-      i.values().should.eql([]);
-      i.push(&apos;test&apos;, &apos;fixture&apos;);
-      i.values().should.eql([&apos;fixture&apos;]);
-      i.push(&apos;test2&apos;, &apos;fixture2&apos;);
-      i.values().should.eql([&apos;fixture&apos;, &apos;fixture2&apos;]);
-      expect(i.values.bind(i, &apos;dat.wrong.path&apos;)).to.throw(TypeError);
+    o.pull(&apos;test2.test22&apos;).should.equal(&apos;fixture22&apos;);
+  });
+
+  it(&apos;should use pull as an alias to dataset with parent key&apos;, function () {
+    let o = new ObjectArray({
+      test: &apos;fixture&apos;,
+      test2: {
+        test21: &apos;fixture21&apos;,
+        test22: &apos;fixture22&apos;
+      }
     });
-    it(&apos;should returns right keys and values for dotted object&apos;, function () {
-      var i = new ObjectArray({
-        dat: {
+
+    o.pull(&apos;test21&apos;, &apos;test2&apos;).should.equal(&apos;fixture21&apos;);
+  });
+
+  it(&apos;should create all needed keys&apos;, function () {
+    let i = new ObjectArray();
+
+    i.import({
+      &apos;dat.really.long.path&apos;: &apos;fixture1&apos;,
+      &apos;dat.really.long.dream&apos;: &apos;fixture2&apos;,
+      &apos;dat.shorter.path&apos;: &apos;fixture3&apos;
+    });
+    i.data.should.eql({
+      dat: {
+        really: {
           long: {
             path: &apos;fixture1&apos;,
             dream: &apos;fixture2&apos;
           }
+        },
+        shorter: {
+          path: &apos;fixture3&apos;
         }
-      });
-
-      i.keys().should.eql([&apos;dat&apos;]);
-      i.values().should.eql([{long: {path: &apos;fixture1&apos;, dream: &apos;fixture2&apos;}}]);
-      i.keys(&apos;dat.long&apos;).should.eql([&apos;path&apos;, &apos;dream&apos;]);
-      i.values(&apos;dat.long&apos;).should.eql([&apos;fixture1&apos;, &apos;fixture2&apos;]);
-      expect(i.keys.bind(i, &apos;dat.short&apos;)).to.throw(TypeError);
-      expect(i.values.bind(i, &apos;dat.short&apos;)).to.throw(TypeError);
+      }
     });
   });
+  it(&apos;should create all needed keys&apos;, function () {
+    let i = new ObjectArray();
 
-  describe(&apos;Has key, data fetch and parent data fetch&apos;, function () {
-    it(&apos;should find key&apos;, function () {
-      let i = new ObjectArray({
-        test: &apos;fixture&apos;,
-        test2: {
-          test21: &apos;fixture21&apos;,
-          test22: &apos;fixture22&apos;
+    i.push(&apos;dat.really.long.path&apos;, &apos;fixture1&apos;);
+    i.push(&apos;dream&apos;, &apos;fixture2&apos;, &apos;dat.really.long&apos;);
+    i.import({
+      &apos;shorter.path&apos;: &apos;fixture3&apos;
+    }, &apos;dat&apos;);
+    i.data.should.eql({
+      dat: {
+        really: {
+          long: {
+            path: &apos;fixture1&apos;,
+            dream: &apos;fixture2&apos;
+          }
+        },
+        shorter: {
+          path: &apos;fixture3&apos;
         }
-      });
-
-      i.has(&apos;test&apos;).should.equal(true);
-      i.has(&apos;test2&apos;).should.equal(true);
-      i.has(&apos;test2.test21&apos;).should.equal(true);
-      i.has(&apos;test2.test22&apos;).should.equal(true);
-      i.has(&apos;test3&apos;).should.equal(false);
-      i.has(&apos;test2.test23&apos;).should.equal(false);
-    });
-
-    it(&apos;should find data&apos;, function () {
-      let i = new ObjectArray({
-        test: &apos;fixture&apos;,
-        test2: {
-          test21: &apos;fixture21&apos;,
-          test22: &apos;fixture22&apos;
-        }
-      });
-
-      i.dataset(&apos;test&apos;).should.equal(&apos;fixture&apos;);
-      i.dataset(&apos;test2&apos;).should.eql({
-        test21: &apos;fixture21&apos;,
-        test22: &apos;fixture22&apos;
-      });
-      i.dataset(&apos;test2.test21&apos;).should.equal(&apos;fixture21&apos;);
-      i.dataset(&apos;test21&apos;, &apos;test2&apos;).should.equal(&apos;fixture21&apos;);
-      expect(i.dataset.bind(i, &apos;test3&apos;)).to.throw(TypeError);
-      expect(i.dataset.bind(i, &apos;test23&apos;, &apos;test2&apos;)).to.throw(TypeError);
-    });
-
-    it(&apos;should find parent key&apos;, function () {
-      let i = new ObjectArray({
-        test: &apos;fixture&apos;,
-        test2: {
-          test21: &apos;fixture21&apos;,
-          test22: &apos;fixture22&apos;
-        }
-      });
-
-      expect(i.parentKey(&apos;test&apos;)).to.equal(undefined);
-      i.parentKey(&apos;test2.test21&apos;).should.equal(&apos;test2&apos;);
+      }
     });
   });
+  it(&apos;should push simple data&apos;, function () {
+    let i = new ObjectArray();
 
-  describe(&apos;Check key/value&apos;, function () {
-    it(&apos;Strict equality&apos;, function () {
-      let i = new ObjectArray({
-        test: &apos;fixture&apos;,
-        test2: {
-          test21: 0,
-          test22: &apos;0&apos;
-        }
-      });
+    i.push(&apos;test&apos;, &apos;fixture&apos;);
+    i._data.should.eql({test: &apos;fixture&apos;});
+  });
+  it(&apos;should remove simple data&apos;, function () {
+    let i = new ObjectArray();
 
-      i.check(&apos;test2.test21&apos;, 0).should.be.true;
-      i.check(&apos;test2.test21&apos;, &apos;0&apos;).should.be.false;
-      i.check(&apos;test2.test21&apos;, &apos;fixture&apos;).should.be.false;
-      i.check(&apos;test22&apos;, &apos;0&apos;, &apos;test2&apos;).should.be.true;
-      i.check(&apos;test22&apos;, 0, &apos;test2&apos;).should.be.false;
-    });
-
-    it(&apos;Loose equality&apos;, function () {
-      let i = new ObjectArray({
-        test: &apos;fixture&apos;,
-        test2: {
-          test21: 0,
-          test22: &apos;0&apos;
-        }
-      });
-
-      i.check(&apos;test2.test21&apos;, 0, &apos;&apos;, false).should.be.true;
-      i.check(&apos;test2.test21&apos;, &apos;0&apos;, &apos;&apos;, false).should.be.true;
-      i.check(&apos;test22&apos;, &apos;0&apos;, &apos;test2&apos;, false).should.be.true;
-      i.check(&apos;test22&apos;, 0, &apos;test2&apos;, false).should.be.true;
-      i.check(&apos;test2.test21&apos;, &apos;fixture&apos;, &apos;&apos;, false).should.be.false;
-    });
+    i.push(&apos;test&apos;, &apos;fixture&apos;);
+    i.remove(&apos;test&apos;);
+    i._data.should.eql({});
   });
 
-  describe(&apos;Flatten ObjectArray&apos;, function () {
-    it(&apos;should change nothing if data empty&apos;, function () {
-      let i = new ObjectArray();
+  it(&apos;should push dotted data&apos;, function () {
+    let i = new ObjectArray();
 
-      i.flatten().should.eql(i);
-      i.data.should.eql({});
-    });
-
-    it(&apos;should change nothing if data already flattened&apos;, function () {
-      let i = new ObjectArray({
-        test1: &apos;fixture&apos;,
-        test2: 0
-      });
-
-      i.flatten().should.eql(i);
-      i.data.should.eql({test1: &apos;fixture&apos;, test2: 0});
-    });
-
-    it(&apos;should flatten dataset&apos;, function () {
-      let i = new ObjectArray({
-        test1: &apos;fixture&apos;,
-        test2: {
-          test21: 0,
-          test22: true
-        }
-      });
-
-      i.flatten().should.eql(i);
-      i.data.should.eql({test1: &apos;fixture&apos;, test21: 0, test22: true});
-    });
-
-    it(&apos;should flatten dataset and replace&apos;, function () {
-      let i = new ObjectArray({
-        test1: &apos;fixture&apos;,
-        test2: {
-          test1: 0,
-          test2: true
-        }
-      });
-
-      i.flatten().should.eql(i);
-      i.data.should.eql({test1: 0, test2: true});
-    });
-
-    it(&apos;should flatten dataset and dot keys&apos;, function () {
-      let i = new ObjectArray({
-        test1: &apos;fixture&apos;,
-        test2: {
-          test1: 0,
-          test2: true
-        }
-      });
-
-      i.flatten(true).should.eql(i);
-      i.data.should.eql({test1: &apos;fixture&apos;, &apos;test2.test1&apos;: 0, &apos;test2.test2&apos;: true});
-    });
-
-    it(&apos;should flatten subdataset and no change&apos;, function () {
-      let i = new ObjectArray({
-        test1: &apos;fixture&apos;,
-        test2: {
-          test21: 0,
-          test22: true
-        }
-      });
-
-      i.flatten(false, &apos;test2&apos;).should.eql(i);
-      i.data.should.eql({test1: &apos;fixture&apos;, test2: {test21: 0, test22: true}});
-    });
-
-    it(&apos;should throw an exception if key does not exist&apos;, function () {
-      let i = new ObjectArray();
-
-      expect(i.flatten.bind(i, true, &apos;test3&apos;)).to.throw(TypeError);
-    });
-
-    it(&apos;should flatten subdataset&apos;, function () {
-      let i = new ObjectArray({
-        test1: &apos;fixture&apos;,
-        test2: {
-          testx: { test2x: 0 },
-          testy: {
-            test2y1: true,
-            test2y2: &apos;fix&apos;
-          }
-        }
-      });
-
-      i.flatten(false, &apos;test2&apos;).should.eql(i);
-      i.data.should.eql({test1: &apos;fixture&apos;, test2: {test2x: 0, test2y1: true, test2y2: &apos;fix&apos;}});
-    });
-
-    it(&apos;should flatten subdataset and dot keys&apos;, function () {
-      let i = new ObjectArray({
-        test1: &apos;fixture&apos;,
-        test2: {
-          testx: { test2x: 0 },
-          testy: {
-            test2y1: true,
-            test2y2: &apos;fix&apos;
-          }
-        }
-      });
-
-      i.flatten(true, &apos;test2&apos;).should.eql(i);
-      i.data.should.eql({test1: &apos;fixture&apos;, test2: {&apos;testx.test2x&apos;: 0, &apos;testy.test2y1&apos;: true, &apos;testy.test2y2&apos;: &apos;fix&apos;}});
-    });
-
+    i.push(&apos;test.dot&apos;, &apos;fixture&apos;)
+      .push(&apos;test.dot2&apos;, &apos;fixture2&apos;);
+    i._data.should.eql({test: {dot: &apos;fixture&apos;, dot2: &apos;fixture2&apos;}});
   });
 
-  describe(&apos;Push and delete data&apos;, function () {
-    it(&apos;should get and set data&apos;, function () {
-      let i = new ObjectArray();
+  it(&apos;should remove dotted data&apos;, function () {
+    let i = new ObjectArray();
 
-      i.data = {test: &apos;fixture&apos;};
-      i.data.test.should.equal(&apos;fixture&apos;);
-    });
-
-    it(&apos;should create all needed keys&apos;, function () {
-      let i = new ObjectArray();
-
-      i.push(&apos;dat.really.long.path&apos;, &apos;fixture&apos;);
-      i.data.should.eql({
-        dat: {
-          really: {
-            long: {
-              path: &apos;fixture&apos;
-            }
-          }
-        }
-      });
-    });
-
-    it(&apos;should push or import ObjectArray without losing data&apos;, function () {
-      let o = new ObjectArray({
-        test: &apos;fixture&apos;,
-        test2: {
-          test21: &apos;fixture21&apos;,
-          test22: &apos;fixture22&apos;
-        }
-      });
-
-      let i = new ObjectArray().push(&apos;itest&apos;, o);
-
-      i.data.should.eql({itest: {
-        test: &apos;fixture&apos;,
-        test2: {
-          test21: &apos;fixture21&apos;,
-          test22: &apos;fixture22&apos;
-        }
-      }});
-
-      i = new ObjectArray().push(&apos;itest&apos;, o, &apos;dat.path&apos;);
-
-      i.data.should.eql({dat: {path: {itest: {
-        test: &apos;fixture&apos;,
-        test2: {
-          test21: &apos;fixture21&apos;,
-          test22: &apos;fixture22&apos;
-        }
-      }}}});
-
-      i = new ObjectArray().import(o);
-
-      i.data.should.eql({
-        test: &apos;fixture&apos;,
-        test2: {
-          test21: &apos;fixture21&apos;,
-          test22: &apos;fixture22&apos;
-        }
-      });
-
-      i = new ObjectArray().import(o, &apos;dat.path&apos;);
-
-      i.data.should.eql({dat: {path: {
-        test: &apos;fixture&apos;,
-        test2: {
-          test21: &apos;fixture21&apos;,
-          test22: &apos;fixture22&apos;
-        }
-      }}});
-    });
-
-    it(&apos;should use pull as an alias to dataset&apos;, function () {
-      let o = new ObjectArray({
-        test: &apos;fixture&apos;,
-        test2: {
-          test21: &apos;fixture21&apos;,
-          test22: &apos;fixture22&apos;
-        }
-      });
-
-      o.pull().should.eql({
-        test: &apos;fixture&apos;,
-        test2: {
-          test21: &apos;fixture21&apos;,
-          test22: &apos;fixture22&apos;
-        }
-      });
-
-      o.pull(&apos;test2.test22&apos;).should.equal(&apos;fixture22&apos;);
-    });
-
-    it(&apos;should use pull as an alias to dataset with parent key&apos;, function () {
-      let o = new ObjectArray({
-        test: &apos;fixture&apos;,
-        test2: {
-          test21: &apos;fixture21&apos;,
-          test22: &apos;fixture22&apos;
-        }
-      });
-
-      o.pull(&apos;test21&apos;, &apos;test2&apos;).should.equal(&apos;fixture21&apos;);
-    });
-
-    it(&apos;should create all needed keys&apos;, function () {
-      let i = new ObjectArray();
-
-      i.import({
-        &apos;dat.really.long.path&apos;: &apos;fixture1&apos;,
-        &apos;dat.really.long.dream&apos;: &apos;fixture2&apos;,
-        &apos;dat.shorter.path&apos;: &apos;fixture3&apos;
-      });
-      i.data.should.eql({
-        dat: {
-          really: {
-            long: {
-              path: &apos;fixture1&apos;,
-              dream: &apos;fixture2&apos;
-            }
-          },
-          shorter: {
-            path: &apos;fixture3&apos;
-          }
-        }
-      });
-    });
-    it(&apos;should create all needed keys&apos;, function () {
-      let i = new ObjectArray();
-
-      i.push(&apos;dat.really.long.path&apos;, &apos;fixture1&apos;);
-      i.push(&apos;dream&apos;, &apos;fixture2&apos;, &apos;dat.really.long&apos;);
-      i.import({
-        &apos;shorter.path&apos;: &apos;fixture3&apos;
-      }, &apos;dat&apos;);
-      i.data.should.eql({
-        dat: {
-          really: {
-            long: {
-              path: &apos;fixture1&apos;,
-              dream: &apos;fixture2&apos;
-            }
-          },
-          shorter: {
-            path: &apos;fixture3&apos;
-          }
-        }
-      });
-    });
-    it(&apos;should push simple data&apos;, function () {
-      let i = new ObjectArray();
-
-      i.push(&apos;test&apos;, &apos;fixture&apos;);
-      i._data.should.eql({test: &apos;fixture&apos;});
-    });
-    it(&apos;should remove simple data&apos;, function () {
-      let i = new ObjectArray();
-
-      i.push(&apos;test&apos;, &apos;fixture&apos;);
-      i.remove(&apos;test&apos;);
-      i._data.should.eql({});
-    });
-
-    it(&apos;should push dotted data&apos;, function () {
-      let i = new ObjectArray();
-
-      i.push(&apos;test.dot&apos;, &apos;fixture&apos;)
-        .push(&apos;test.dot2&apos;, &apos;fixture2&apos;);
-      i._data.should.eql({test: {dot: &apos;fixture&apos;, dot2: &apos;fixture2&apos;}});
-    });
-
-    it(&apos;should remove dotted data&apos;, function () {
-      let i = new ObjectArray();
-
-      i.push(&apos;test.dot&apos;, &apos;fixture&apos;)
-        .push(&apos;test.dot2&apos;, &apos;fixture2&apos;)
-        .empty(&apos;test.dot2&apos;)
-        ._data.should.eql({test: {dot: &apos;fixture&apos;}});
-    });
-
-    it(&apos;should throw an exception if key not a string&apos;, function () {
-      let i = new ObjectArray();
-
-      expect(i.push.bind(i, new ObjectArray())).to.throw(TypeError);
-    });
-
-    it(&apos;should throw an exception if parent key is not a string&apos;, function () {
-      let i = new ObjectArray();
-
-      expect(i.push.bind(i, &apos;a&apos;, 0, new ObjectArray())).to.throw(TypeError);
-    });
+    i.push(&apos;test.dot&apos;, &apos;fixture&apos;)
+      .push(&apos;test.dot2&apos;, &apos;fixture2&apos;)
+      .empty(&apos;test.dot2&apos;)
+      ._data.should.eql({test: {dot: &apos;fixture&apos;}});
   });
 
-  describe(&apos;Fetch and getset&apos;, function () {
-    it(&apos;should getset data and throw an exception if inexistent key&apos;, function () {
-      let i = new ObjectArray({
-        test1: &apos;fixture&apos;,
-        test2: {
-          testx: { test2x: 0 },
-          testy: {
-            test2y1: true,
-            test2y2: &apos;fix&apos;
-          }
-        }
-      });
+  it(&apos;should throw an exception if key not a string&apos;, function () {
+    let i = new ObjectArray();
 
-      // getters
-      i.getset(&apos;test1&apos;)[&apos;get&apos;].should.equal(&apos;fixture&apos;);
-      i.getset(&apos;test2.testx.test2x&apos;)[&apos;get&apos;].should.equal(0);
-      i.getset(&apos;test2x&apos;, undefined, &apos;test2.testx&apos;)[&apos;get&apos;].should.equal(0);
-      i.getset(undefined, undefined, &apos;test2.testx&apos;)[&apos;get&apos;].should.eql({test2x: 0});
-      expect(i.getset.bind(i, &apos;test3&apos;)).to.throw(TypeError);
-      expect(i.getset.bind(i, &apos;testx&apos;, undefined, &apos;test3&apos;)).to.throw(TypeError);
-
-      // setters
-      i.getset(&apos;test1&apos;, &apos;fixture2&apos;)[&apos;set&apos;].should.be.true;
-      i.pull(&apos;test1&apos;).should.equal(&apos;fixture2&apos;);
-      i.getset(&apos;test2.testx&apos;, &apos;test1&apos;)[&apos;set&apos;].should.be.true;
-      i.pull(&apos;test2.testx&apos;).should.equal(&apos;test1&apos;);
-      i.getset(&apos;testx&apos;, &apos;test2&apos;, &apos;test2&apos;)[&apos;set&apos;].should.be.true;
-      i.pull(&apos;testx&apos;, &apos;test2&apos;).should.equal(&apos;test2&apos;);
-      i.getset({test3: &apos;test3&apos;})[&apos;set&apos;].should.be.true;
-      i.pull(&apos;test3&apos;).should.equal(&apos;test3&apos;);
-    });
-
-    it(&apos;should pull data and returns undefined if inexistent key&apos;, function () {
-      let i = new ObjectArray({
-        test1: &apos;fixture&apos;,
-        test2: {
-          testx: { test2x: 0 },
-          testy: {
-            test2y1: true,
-            test2y2: &apos;fix&apos;
-          }
-        }
-      });
-
-      expect(i.pull(&apos;test3&apos;, null, false)).to.be.undefined;
-      expect(i.pull(undefined, &apos;test3&apos;, false)).to.be.undefined;
-      expect(i.getset(&apos;test3&apos;, undefined, &apos;&apos;, false)[&apos;get&apos;]).to.be.undefined;
-    });
+    expect(i.push.bind(i, new ObjectArray())).to.throw(TypeError);
   });
 
-  describe(&apos;ObjectArray iterations&apos;, function () {
-    it(&apos;should iterate a callback with forEach&apos;, function () {
-      let i = new ObjectArray();
-      let ret = {};
-      let indexes = [];
+  it(&apos;should throw an exception if parent key is not a string&apos;, function () {
+    let i = new ObjectArray();
 
-      i.import({
+    expect(i.push.bind(i, &apos;a&apos;, 0, new ObjectArray())).to.throw(TypeError);
+  });
+});
+
+describe(&apos;Fetch and getset&apos;, function () {
+  it(&apos;should getset data and throw an exception if inexistent key&apos;, function () {
+    let i = new ObjectArray({
+      test1: &apos;fixture&apos;,
+      test2: {
+        testx: { test2x: 0 },
+        testy: {
+          test2y1: true,
+          test2y2: &apos;fix&apos;
+        }
+      }
+    });
+
+    // getters
+    i.getset(&apos;test1&apos;)[&apos;get&apos;].should.equal(&apos;fixture&apos;);
+    i.getset(&apos;test2.testx.test2x&apos;)[&apos;get&apos;].should.equal(0);
+    i.getset(&apos;test2x&apos;, undefined, &apos;test2.testx&apos;)[&apos;get&apos;].should.equal(0);
+    i.getset(undefined, undefined, &apos;test2.testx&apos;)[&apos;get&apos;].should.eql({test2x: 0});
+    expect(i.getset.bind(i, &apos;test3&apos;)).to.throw(TypeError);
+    expect(i.getset.bind(i, &apos;testx&apos;, undefined, &apos;test3&apos;)).to.throw(TypeError);
+
+    // setters
+    i.getset(&apos;test1&apos;, &apos;fixture2&apos;)[&apos;set&apos;].should.be.true;
+    i.pull(&apos;test1&apos;).should.equal(&apos;fixture2&apos;);
+    i.getset(&apos;test2.testx&apos;, &apos;test1&apos;)[&apos;set&apos;].should.be.true;
+    i.pull(&apos;test2.testx&apos;).should.equal(&apos;test1&apos;);
+    i.getset(&apos;testx&apos;, &apos;test2&apos;, &apos;test2&apos;)[&apos;set&apos;].should.be.true;
+    i.pull(&apos;testx&apos;, &apos;test2&apos;).should.equal(&apos;test2&apos;);
+    i.getset({test3: &apos;test3&apos;})[&apos;set&apos;].should.be.true;
+    i.pull(&apos;test3&apos;).should.equal(&apos;test3&apos;);
+  });
+
+  it(&apos;should pull data and returns undefined if inexistent key&apos;, function () {
+    let i = new ObjectArray({
+      test1: &apos;fixture&apos;,
+      test2: {
+        testx: { test2x: 0 },
+        testy: {
+          test2y1: true,
+          test2y2: &apos;fix&apos;
+        }
+      }
+    });
+
+    expect(i.pull(&apos;test3&apos;, null, false)).to.be.undefined;
+    expect(i.getset(&apos;test3&apos;, undefined, &apos;&apos;, false)[&apos;get&apos;]).to.be.undefined;
+  });
+});
+
+/**
+*  @test {ObjectArray#forEach}
+*  @test {ObjectArray#reduce}
+*/
+describe(&apos;ObjectArray iterations&apos;, function () {
+  it(&apos;should iterate a callback with forEach&apos;, function () {
+    let i = new ObjectArray();
+    let ret = {};
+    let indexes = [];
+
+    i.import({
+      test: &apos;fixture&apos;,
+      test2: &apos;fixture2&apos;
+    });
+
+    i.forEach(function (value, key, index) {
+      ret[key] = value;
+      indexes.push(index);
+    });
+
+    ret.should.eql({
+      test: &apos;fixture&apos;,
+      test2: &apos;fixture2&apos;
+    });
+
+    indexes.should.eql([0, 1]);
+  });
+
+  it(&apos;should iterate a callback with forEach on a dotted key&apos;, function () {
+    let i = new ObjectArray();
+    let ret = {};
+    let indexes = [];
+
+    i.import({
+      test: {
         test: &apos;fixture&apos;,
         test2: &apos;fixture2&apos;
-      });
-      i.forEach(function (value, key, index) {
-        ret[key] = value;
-        indexes.push(index);
-      });
-      ret.should.eql({
-        test: &apos;fixture&apos;,
-        test2: &apos;fixture2&apos;
-      });
-      indexes.should.eql([0, 1]);
+      }
     });
 
-    it(&apos;should iterate a callback with forEach on a dotted key&apos;, function () {
-      let i = new ObjectArray();
-      let ret = {};
-      let indexes = [];
+    i.forEach(function (value, key, index) {
+      ret[key] = value;
+      indexes.push(index);
+    }, &apos;test&apos;);
 
-      i.import({
-        test: {
-          test: &apos;fixture&apos;,
-          test2: &apos;fixture2&apos;
-        }
-      });
-      i.forEach(function (value, key, index) {
-        ret[key] = value;
-        indexes.push(index);
-      }, &apos;test&apos;);
-      ret.should.eql({
-        test: &apos;fixture&apos;,
-        test2: &apos;fixture2&apos;
-      });
-      indexes.should.eql([0, 1]);
+    ret.should.eql({
+      test: &apos;fixture&apos;,
+      test2: &apos;fixture2&apos;
     });
 
-    it(&apos;should reduce the data&apos;, function () {
-      let i = new ObjectArray({
+    indexes.should.eql([0, 1]);
+  });
+
+  it(&apos;should throw an exception with forEach&apos;, function () {
+    var i = new ObjectArray({
+      test: {
+        test: &apos;fixture&apos;,
+        test2: &apos;fixture2&apos;
+      }
+    });
+
+    expect(i.forEach.bind(i, (v, k) =&gt; { i.remove(k); }, &apos;test3&apos;)).to.throw(TypeError);
+  });
+
+  it(&apos;should do nothing with forEach and bad key&apos;, function () {
+    var i = new ObjectArray({
+      test: {
+        test: &apos;fixture&apos;,
+        test2: &apos;fixture2&apos;
+      }
+    });
+
+    i.forEach((v, k) =&gt; { i.remove(k); }, &apos;test3&apos;, undefined, false);
+    i._data.should.eql({
+      test: {
+        test: &apos;fixture&apos;,
+        test2: &apos;fixture2&apos;
+      }
+    });
+  });
+
+  it(&apos;should reduce the data&apos;, function () {
+    let i = new ObjectArray({
+      position: &apos;absolute&apos;,
+      display: &apos;flex&apos;
+    });
+
+    let ret = i.reduce(function (str, value, key) {
+      str += key + &apos;:&apos; + value + &apos;;&apos;;
+      return str;
+    }, &apos;&apos;);
+
+    ret.should.equal(&apos;position:absolute;display:flex;&apos;);
+  });
+
+  it(&apos;should reduce the data of a subset&apos;, function () {
+    let i = new ObjectArray({
+      style: {
         position: &apos;absolute&apos;,
         display: &apos;flex&apos;
-      });
-      let ret = i.reduce(function (str, value, key) {
-        str += key + &apos;:&apos; + value + &apos;;&apos;;
-        return str;
-      }, &apos;&apos;);
-
-      ret.should.equal(&apos;position:absolute;display:flex;&apos;);
+      }
     });
 
-    it(&apos;should return a style type string&apos;, function () {
-      let i = new ObjectArray({
+    let ret = i.reduce(function (str, value, key) {
+      str += key + &apos;:&apos; + value + &apos;;&apos;;
+      return str;
+    }, &apos;&apos;, &apos;style&apos;);
+
+    ret.should.equal(&apos;position:absolute;display:flex;&apos;);
+  });
+});
+
+describe(&apos;Serializers&apos;, function () {
+  it(&apos;should return a style type string&apos;, function () {
+    let i = new ObjectArray({
+      position: &apos;absolute&apos;,
+      display: &apos;flex&apos;,
+      paddingLeft: &apos;1em&apos;
+    });
+
+    i.stylesToString().should.equal(&apos;position:absolute;display:flex;padding-left:1em&apos;);
+  });
+
+  it(&apos;should return a style type string from subset or undefined&apos;, function () {
+    let i = new ObjectArray({
+      css: {
+        position: &apos;absolute&apos;,
+        display: &apos;flex&apos;,
+        paddingLeft: &apos;1em&apos;
+      }
+    });
+
+    i.stylesToString(&apos;css&apos;).should.equal(&apos;position:absolute;display:flex;padding-left:1em&apos;);
+    expect(i.stylesToString(&apos;wrongcss&apos;, &apos;dat&apos;, false)).to.be.undefined;
+  });
+
+  it(&apos;should import a style type string&apos;, function () {
+    let i = new ObjectArray();
+
+    i.stringToStyles(undefined).data.should.eql({});
+    i.stringToStyles(null).data.should.eql({});
+
+    i.stringToStyles(&apos;position:absolute;display:flex;padding-left:1em&apos;)
+      .data.should.eql({
         position: &apos;absolute&apos;,
         display: &apos;flex&apos;,
         paddingLeft: &apos;1em&apos;
       });
 
-      i.stylesToString().should.equal(&apos;position:absolute;display:flex;padding-left:1em&apos;);
-    });
+    i.empty();
 
-    it(&apos;should import a style type string&apos;, function () {
-      let i = new ObjectArray();
-
-      i.stringToStyles(undefined).data.should.eql({});
-      i.stringToStyles(null).data.should.eql({});
-
-      i.stringToStyles(&apos;position:absolute;display:flex;padding-left:1em&apos;)
-        .data.should.eql({
-          position: &apos;absolute&apos;,
-          display: &apos;flex&apos;,
-          paddingLeft: &apos;1em&apos;
-        });
-
-      i.empty();
-
-      i.stringToStyles(&apos;position:absolute;display:flex;padding-left:1em&apos;, &apos;dat.path.to.subkey&apos;)
-        .dataset(&apos;dat.path.to.subkey&apos;).should.eql({
-          position: &apos;absolute&apos;,
-          display: &apos;flex&apos;,
-          paddingLeft: &apos;1em&apos;
-        });
-
-      i.stringToStyles(&apos;position:absolute;display:flex;padding-left:1em;&apos;, &apos;dat.path.to.subkey&apos;)
-        .dataset(&apos;dat.path.to.subkey&apos;).should.eql({
-          position: &apos;absolute&apos;,
-          display: &apos;flex&apos;,
-          paddingLeft: &apos;1em&apos;
-        });
-    });
-
-    it(&apos;should throw an exception if bad string provided&apos;, function () {
-      let i = new ObjectArray();
-
-      expect(i.stringToStyles.bind(i, &apos;databadword&apos;)).to.throw(&apos;Malformed string for stringToStyles&apos;);
-      expect(i.stringToStyles.bind(i, &apos;:databadword;peanuts&apos;)).to.throw(&apos;Malformed string for stringToStyles&apos;);
-    });
-
-    it(&apos;should return a url encoded string&apos;, function () {
-      let i = new ObjectArray({
-        input: &apos;test&apos;,
-        glob: &apos;**/*&apos;,
-        alias: &apos;test fixture&apos;
+    i.stringToStyles(&apos;position:absolute;display:flex;padding-left:1em&apos;, &apos;dat.path.to.subkey&apos;)
+      .dataset(&apos;dat.path.to.subkey&apos;).should.eql({
+        position: &apos;absolute&apos;,
+        display: &apos;flex&apos;,
+        paddingLeft: &apos;1em&apos;
       });
-      let ret = i.urlEncode();
 
-      ret.should.equal(&apos;input=test&amp;glob=**%2F*&amp;alias=test%20fixture&apos;);
-    });
-
-    it(&apos;should return a form url encoded string&apos;, function () {
-      let i = new ObjectArray({
-        input: &apos;test&apos;,
-        glob: &apos;**/*&apos;,
-        alias: &apos;test fixture&apos;
+    i.stringToStyles(&apos;position:absolute;display:flex;padding-left:1em;&apos;, &apos;dat.path.to.subkey&apos;)
+      .dataset(&apos;dat.path.to.subkey&apos;).should.eql({
+        position: &apos;absolute&apos;,
+        display: &apos;flex&apos;,
+        paddingLeft: &apos;1em&apos;
       });
-      let ret = i.formUrlEncode();
-
-      ret.should.equal(&apos;input=test&amp;glob=**%2F*&amp;alias=test+fixture&apos;);
-    });
   });
 
-  describe(&apos;Import JSON and change keys&apos;, function () {
-    it(&apos;should import JSON and change keys&apos;, function () {
-      var jstring = &apos;{&quot;dat&quot;: {&quot;long&quot;: {&quot;path&quot;: &quot;foo&quot;, &quot;dream&quot;: &quot;baz&quot;}}}&apos;;
-      var doa = new ObjectArray(JSON.parse(jstring));
+  it(&apos;should throw an exception if bad string provided&apos;, function () {
+    let i = new ObjectArray();
 
-      doa.push(&apos;short&apos;, doa.dataset(&apos;dat.long&apos;)).remove(&apos;dat&apos;);
-      JSON.stringify(doa.data).should.equal(&apos;{&quot;short&quot;:{&quot;path&quot;:&quot;foo&quot;,&quot;dream&quot;:&quot;baz&quot;}}&apos;);
+    expect(i.stringToStyles.bind(i, &apos;databadword&apos;)).to.throw(&apos;Malformed string for stringToStyles&apos;);
+    expect(i.stringToStyles.bind(i, &apos;:databadword;peanuts&apos;)).to.throw(&apos;Malformed string for stringToStyles&apos;);
+  });
+
+  it(&apos;should return a url encoded string&apos;, function () {
+    let i = new ObjectArray({
+      input: &apos;test&apos;,
+      glob: &apos;**/*&apos;,
+      alias: &apos;test fixture&apos;
     });
+    let ret = i.urlEncode();
+
+    ret.should.equal(&apos;input=test&amp;glob=**%2F*&amp;alias=test%20fixture&apos;);
+  });
+
+  it(&apos;should return a form url encoded string&apos;, function () {
+    let i = new ObjectArray({
+      input: &apos;test&apos;,
+      glob: &apos;**/*&apos;,
+      alias: &apos;test fixture&apos;
+    });
+    let ret = i.formUrlEncode();
+
+    ret.should.equal(&apos;input=test&amp;glob=**%2F*&amp;alias=test+fixture&apos;);
+  });
+
+  it(&apos;should return undefined as form url encoded string with unknown key&apos;, function () {
+    let i = new ObjectArray({
+      input: &apos;test&apos;,
+      glob: &apos;**/*&apos;,
+      alias: &apos;test fixture&apos;
+    });
+    let ret = i.formUrlEncode(&apos;dat.bad.key&apos;, undefined, false);
+
+    expect(ret).to.be.undefined;
+  });
+});
+
+describe(&apos;Import JSON and change keys&apos;, function () {
+  it(&apos;should import JSON and change keys&apos;, function () {
+    var jstring = &apos;{&quot;dat&quot;: {&quot;long&quot;: {&quot;path&quot;: &quot;foo&quot;, &quot;dream&quot;: &quot;baz&quot;}}}&apos;;
+    var doa = new ObjectArray(JSON.parse(jstring));
+
+    doa.push(&apos;short&apos;, doa.dataset(&apos;dat.long&apos;)).remove(&apos;dat&apos;);
+    JSON.stringify(doa.data).should.equal(&apos;{&quot;short&quot;:{&quot;path&quot;:&quot;foo&quot;,&quot;dream&quot;:&quot;baz&quot;}}&apos;);
+  });
+});
+
+/**
+* @test {ObjectArray#camelize}
+* @test {ObjectArray#dashize}
+*/
+describe(&apos;Camel and dash&apos;, function () {
+  it(&apos;should camelize space and dashed strings&apos;, function () {
+    let e = new ObjectArray();
+
+    e.camelize(&apos;a long string&apos;).should.equal(&apos;aLongString&apos;);
+    e.camelize(&apos;a LonG string&apos;).should.equal(&apos;aLonGString&apos;);
+    e.camelize(&apos;a-long-string&apos;).should.equal(&apos;aLongString&apos;);
+    e.camelize(&apos;a long-string&apos;).should.equal(&apos;aLongString&apos;);
+    e.camelize(&apos;background-color&apos;).should.equal(&apos;backgroundColor&apos;);
+    e.camelize(&apos;padding-left&apos;).should.equal(&apos;paddingLeft&apos;);
+  });
+
+  it(&apos;should dashize space and uppercase letter&apos;, function () {
+    let e = new ObjectArray();
+
+    e.dashize(&apos;a long string&apos;).should.equal(&apos;a-long-string&apos;);
+    e.dashize(&apos;aLongString&apos;).should.equal(&apos;a-long-string&apos;);
+    e.dashize(&apos;a LongString&apos;).should.equal(&apos;a-long-string&apos;);
+    e.dashize(&apos;a longString&apos;).should.equal(&apos;a-long-string&apos;);
+    e.dashize(&apos;backgroundColor&apos;).should.equal(&apos;background-color&apos;);
+    e.dashize(&apos;paddingLeft&apos;).should.equal(&apos;padding-left&apos;);
+    e.dashize(&apos;PaddingLeft&apos;).should.equal(&apos;padding-left&apos;);
   });
 });
 </code></pre>

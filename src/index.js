@@ -38,6 +38,29 @@ export default class ObjectArray {
     *  @since 1.0.0
     */
     this._data = {};
+
+    /**
+    *  Global switcher for defining if ObjectArray should return undefined
+    *  or throw an exception when an undefined key is requested.
+    *
+    *  It is not set at ObjectArray initialization.
+    *
+    *  @type {boolean}
+    *  @since 3.0.0
+    */
+    this._throw = undefined;
+
+    /**
+    *  Global memorizer for automated working on a subset.
+    *
+    *  It defaults to false.
+    *
+    *  @type {boolean}
+    *  @since 3.0.0
+    */
+    this._pKey = undefined;
+
+    // import data
     this.import(data);
   }
 
@@ -64,21 +87,75 @@ export default class ObjectArray {
   }
 
   /**
-  *  Returns a joined dotted key from key and parent key
+  *  Overrides all throwable params settings of the object array
+  *
+  *  You can revert back to no effect by setting it to `undefined`
+  *
+  *  @since 3.0.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *
+  *  @param {Boolean|undefined} v
+  *  Set to :
+  *  - `true` to enable always throwing behaviour
+  *  - `false` to enable always returning `undefined`
+  *  - `undefined` to revert to a per method behaviour setting
+  *
+  *  @returns {ObjectArray} Chainable
+  */
+  throwing(v) {
+    this._throw = v;
+    return this;
+  }
+
+  /**
+  *  Set the parent key global memorizer. it works like
+  *  giving a pKey argument to methods
+  *
+  *  @since 3.0.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *
+  *  @param {dottedKey} pKey Parent key to define working subset
+  *  @returns {ObjectArray} Chainable
+  */
+  pKey(pKey) {
+    this._pKey = pKey;
+    return this;
+  }
+
+  /**
+  *  Returns a joined dotted key from key and parent key.
+  *
+  *  If not parent key is provided, it will try to use global
+  *  parent key memorizer
+  *
+  *  If the global _throw trigger is set, it will overrides
+  *  any throwable parameter. Use it with care !
   *
   *  @since 2.0.0
-  *  @version 1.0.0
+  *  @version 2.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}   key     Key
   *  @param {dottedKey}   [pKey]  Parent key
-  *  @returns {dottedKey}  Joined dotted key
-  *  @throws  {TypeError} If key does not exist
+  *  @param {boolean}     [throwable]  Wether to trigger an exception if key doesn't exist
+  *  @returns {dottedKey}
+  *  Joined dotted key
+  *  @throws  {TypeError}
+  *  If key does not exist and throwable set to `true` or global _throw set to `true`
+  *  @see {@link pKey}
+  *  @see {@link throwing}
   */
-  _key(key, pKey) {
+  _key(key, pKey, throwable) {
+    pKey = pKey || this._pKey;
+    throwable = (typeof this._throw !== 'undefined') ? this._throw : throwable;
+
     if (pKey) key = pKey + '.' + key;
-    if (this.has(key) || typeof key === 'undefined') return key;
-    throw new TypeError('Inexistent key, key : ' + key + ', Parent key : ' + pKey);
+    if (this.has(key)) return key;
+    if (throwable) {
+      throw new TypeError('Inexistent key, key : ' + key + ', Parent key : ' + pKey);
+    } else return undefined;
   }
 
   /**
@@ -103,21 +180,21 @@ export default class ObjectArray {
 
   /**
   *  Empty the ObjectArray data. It can also be used as
-  *  an alias for [remove method]{@link ObjectArray~remove}
+  *  an alias for {@link ObjectArray~remove}
   *
   *  @since 1.2.0
-  *  @version 2.0.0
+  *  @version 3.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey} key  Key to remove
   *  @param {dottedKey}  [pKey] Parent key
+  *  @param {boolean} [throwable=true] Wether to throw an exception if key doesn't exist
   *  @returns {this} Chainable
   *  @throws  {TypeError} If key does not exist
   */
-  empty(key, pKey) {
-    key = this._key(key, pKey);
-    if (!key) this._data = {};
-    else this.remove(key);
+  empty(key, pKey, throwable = true) {
+    if (typeof key === 'undefined') this._data = {};
+    else this.remove(key, pKey, throwable);
     return this;
   }
 
@@ -127,16 +204,20 @@ export default class ObjectArray {
   *  the root data object
   *
   *  @since 1.0.0
-  *  @version 2.0.0
+  *  @version 3.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey} key  Key
   *  @param {dottedKey}  [pKey] Parent key
+  *  @param {boolean} [throwable=true] Wether to throw an exception if key doesn't exist
   *  @returns  {Number|undefined} Length of the dataset
   *  @throws  {TypeError} If key does not exist
   */
-  length(key, pKey) {
-    return this.keys(this._key(key, pKey)).length;
+  length(key, pKey, throwable = true) {
+    let l = this.keys(key, pKey, throwable).length;
+
+    if (l === 0 && key) return undefined;
+    return l;
   }
 
   /**
@@ -145,17 +226,21 @@ export default class ObjectArray {
   *  the root data object
   *
   *  @since 1.0.0
-  *  @version 2.0.0
+  *  @version 3.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey} key  Key
   *  @param {dottedKey}  [pKey] Parent key
-  *  @returns  {Array|undefined} Array of keys for the dataset
+  *  @param {boolean} [throwable=true] Wether to throw an exception if key doesn't exist
+  *  @returns  {Array} Array of keys for the dataset
+  *  or empty array if key is not defined
   *  @throws  {TypeError} If key does not exist
   */
-  keys(key, pKey) {
-    let keys = [], data = this.dataset(this._key(key, pKey));
+  keys(key, pKey, throwable = true) {
+    let keys = [], data;
 
+    if (typeof key === 'undefined') data = this._data;
+    else data = this.dataset(key, pKey, throwable);
     for (let k in data) keys.push(k);
     return keys;
   }
@@ -166,17 +251,21 @@ export default class ObjectArray {
   *  the root data object
   *
   *  @since 1.0.0
-  *  @version 2.0.0
+  *  @version 3.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey} key  Key
   *  @param {dottedKey}  [pKey] Parent key
-  *  @returns  {Array|undefined} Array of values for the dataset
+  *  @param {boolean} [throwable=true] Wether to throw an exception if key doesn't exist
+  *  @returns  {Array} Array of values for the dataset
+  *  or empty array if key is not defined
   *  @throws  {TypeError} If key does not exist
   */
-  values(key, pKey) {
-    let values = [], data = this.dataset(this._key(key, pKey));
+  values(key, pKey, throwable = true) {
+    let values = [], data;
 
+    if (typeof key === 'undefined') data = this._data;
+    else data = this.dataset(key, pKey, throwable);
     for (let k in data) values.push(data[k]);
     return values;
   }
@@ -239,52 +328,50 @@ export default class ObjectArray {
   *  the whole dataset is returned
   *
   *  @since 1.0.0
-  *  @version 2.0.1
+  *  @version 2.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  [key] Key
   *  @param {dottedKey}  [pKey] Parent Key
+  *  @param {boolean} [throwable=false] Wether to throw an exception if key doesn't exist
   *  @returns {Object|undefined} Data object
   *  @throws  {TypeError} If key does not exist
   */
-  dataset(key, pKey) {
+  dataset(key, pKey, throwable = false) {
     let i, k, data = this.data;
 
-    key = this._key(key, pKey);
+    if (typeof key === 'undefined') return data;
 
-    if (key !== undefined) {
+    key = this._key(key, pKey, throwable);
+
+    if (typeof key !== 'undefined') {
       key = key.split('.');
       for (i = 0; i < key.length; i++) {
         k = key[i];
         data = data[k];
       }
+      return data;
     }
-    return data;
+    return undefined;
+
   }
 
   /**
   *  Alias for {@link dataset} method.
-  *  Returns dataset for the key.
-  *  If no key is provided, the whole data is returned
   *
   *  @since 1.4.0
-  *  @version 1.1.0
+  *  @version 2.0.0
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  [key] Key
   *  @param {dottedKey}  [pKey] Parent Key
-  *  @param {boolean}    [throwable=true] If `true`, pull will throw
-  *  an exception if key doesn't exist else it will return undefined
+  *  @param {boolean} [throwable=false] Wether to throw an exception if key doesn't exist
   *  @returns {Object|undefined} Data object
-  *  @throws  {TypeError} If key does not exist and throwable is `true`
+  *  @throws  {TypeError} If key does not exist
+  *  @see {@link dataset}
   */
-  pull(key, pKey, throwable = true) {
-    try {
-      return this.dataset(key, pKey);
-    } catch (e) {
-      if (throwable) throw e;
-      return undefined;
-    }
+  pull(key, pKey, throwable = false) {
+    return this.dataset(key, pKey, throwable);
   }
 
   /**
@@ -299,17 +386,17 @@ export default class ObjectArray {
   *  i.getset('c', undefined, '', false) // returns undefined
   *  // Better use
   *  i.pull('c', '', false); // returns undefined
-  *  
+  *
   *  // Setter mode
   *  i.getset('a', 'valueA'); // Set 'valueA' to key a
   *  i.getset('b', 'valueB', 'a'); // set 'valueB' to key a.b
-  *  
+  *
   *  // Import mode
   *  i.getset({a: 'valueA', 'a.b': 'valueB'}); // Import key/values at root level
   *  i.getset({'b', 'valueB'}, 'a'); // Import key/values at key a
   *
   *  @since 2.1.0
-  *  @version 1.0.0
+  *  @version 1.0.1
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey|Object}  [key] Key / Object to import
@@ -320,7 +407,7 @@ export default class ObjectArray {
   *  @returns {GetSetObject}  getset return
   *  @throws  {TypeError} If key does not exist and throwable is `true`
   */
-  getset(key, val, pKey, throwable) {
+  getset(key, val, pKey, throwable = true) {
     let ret = {
       'set': false
     };
@@ -341,7 +428,7 @@ export default class ObjectArray {
   }
 
   /**
-  *  Returns the parent key for a given key
+  *  Returns e level up key for a given dotted key
   *
   *  @since 1.0.0
   *  @version 1.0.1
@@ -364,7 +451,7 @@ export default class ObjectArray {
   }
 
   /**
-  *  Returns the child key for a given key
+  *  Returns the delevl down key for a given dotted key
   *
   *  @since 1.3.0
   *  @version 1.0.0
@@ -468,6 +555,7 @@ export default class ObjectArray {
   push(key, val, pKey) {
     let k, data;
 
+    pKey = pKey || this._pKey;
     if (typeof key !== 'string') throw new TypeError('Key must be a string');
     if (pKey && typeof pKey !== 'string') throw new TypeError('Parent key must be a string');
 
@@ -499,14 +587,22 @@ export default class ObjectArray {
   *
   *  @param {dottedKey} key Key of the added item
   *  @param {dottedKey}  [pKey]  Parent key
+  *  @param {boolean} [throwable=true] Wether to throw an exception if key doesn't exist
   *  @returns {this} Chainable
   *  @throws  {TypeError} If key does not exist
   */
-  remove(key, pKey) {
+  remove(key, pKey, throwable = true) {
     let p, data;
 
-    key = this._key(key, pKey);
+    key = this._key(key, pKey, throwable);
     p = this.parentKey(key);
+    if (typeof p === 'undefined') {
+      if (typeof key === 'undefined') return this; // Unknown key
+
+      delete this._data[key]; // root key
+      return this;
+    }
+
     data = this.dataset(p);
 
     /* istanbul ignore else */
@@ -515,6 +611,7 @@ export default class ObjectArray {
       delete data[key];
     }
     return this;
+
   }
 
   /**
@@ -545,14 +642,15 @@ export default class ObjectArray {
   *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
   *  @param {dottedKey}  [pKey]  Parent key
+  *  @param {boolean} [throwable=true] Wether to throw an exception if key doesn't exist
   *  @returns {void}
   *  @throws  {TypeError} If key does not exist
   */
-  forEach(cb, key, pKey) {
+  forEach(cb, key, pKey, throwable = true) {
     let data, index = 0;
 
-    key = this._key(key, pKey);
-    data = this.dataset(key);
+    if (typeof key === 'undefined') data = this._data;
+    else data = this.dataset(key, pKey, throwable);
 
     for (let k in data) cb.call(this, data[k], k, index++, this.parentKey(key));
   }
@@ -569,14 +667,21 @@ export default class ObjectArray {
   *  @param   {dottedKey} [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
   *  @param {dottedKey}  [pKey]  Parent key
+  *  @param {boolean} [throwable=true] Wether to throw an exception if key doesn't exist
   *  @returns {Mixed}     Callback iteration returned value
   *  @throws  {TypeError} If key does not exist
   */
-  reduce(reducer, start, key, pKey) {
+  reduce(reducer, start, key, pKey, throwable = true) {
     var acc = start;
 
-    key = this._key(key, pKey);
-    this.forEach(function (value, k) { acc = reducer(acc, value, k, this.parentKey(key)); }, key);
+    if (typeof key !== 'undefined') {
+      key = this._key(key, pKey, throwable);
+      if (typeof key === 'undefined') return undefined;
+    }
+
+    this.forEach(function (value, k) {
+      acc = reducer(acc, value, k, this.parentKey(key));
+    }, key);
     return acc;
   }
 
@@ -591,16 +696,17 @@ export default class ObjectArray {
   *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
   *  @param {dottedKey}  [pKey]  Parent key
-  *  @returns {String}  style string
+  *  @param {boolean} [throwable=true] Wether to throw an exception if key doesn't exist
+  *  @returns {String|undefined}  style string
   *  @throws  {TypeError} If key does not exist
   */
-  stylesToString(key, pKey) {
+  stylesToString(key, pKey, throwable = true) {
     let ret = this.reduce(function (str, value, k) {
       str += this.dashize(k) + ':' + value + ';';
       return str;
-    }.bind(this), '', key, pKey);
+    }.bind(this), '', key, pKey, throwable);
 
-    return ret.substr(0, ret.length - 1);
+    return typeof ret !== 'undefined' ? ret.substr(0, ret.length - 1) : undefined;
   }
 
   /**
@@ -647,16 +753,17 @@ export default class ObjectArray {
   *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
   *  @param {dottedKey}  [pKey]  Parent key
-  *  @returns {String}  style string
+  *  @param {boolean} [throwable=true] Wether to throw an exception if key doesn't exist
+  *  @returns {String|undefined}  style string
   *  @throws  {TypeError} If key does not exist
   */
-  urlEncode(key, pKey) {
+  urlEncode(key, pKey, throwable = true) {
     let ret = this.reduce(function (str, value, key) {
       str += key + '=' + encodeURIComponent(value) + '&';
       return str;
-    }, '', key, pKey);
+    }, '', key, pKey, throwable);
 
-    return ret.substr(0, ret.length - 1);
+    return typeof ret !== 'undefined' ? ret.substr(0, ret.length - 1) : undefined;
   }
 
   /**
@@ -669,13 +776,14 @@ export default class ObjectArray {
   *  @param {dottedKey}  [key]  Dotted key to limit iterations through its subset
   *  if empty, the global data object will be used
   *  @param {dottedKey}  [pKey]  Parent key
-  *  @returns {String}  style string
+  *  @param {boolean} [throwable=true] Wether to throw an exception if key doesn't exist
+  *  @returns {String|undefined}  style string
   *  @throws  {TypeError} If key does not exist
   */
-  formUrlEncode(key, pKey) {
-    let ret = this.urlEncode(key, pKey);
+  formUrlEncode(key, pKey, throwable = true) {
+    let ret = this.urlEncode(key, pKey, throwable);
 
-    return ret.replace('%20', '+');
+    return typeof ret === 'undefined' ? undefined : ret.replace('%20', '+');
   }
 
   /**
@@ -710,5 +818,3 @@ export default class ObjectArray {
       .replace(/ /g, (m, o, s) => s[o + 1] === '-' ? '' : '-');
   }
 }
-
-// if (typeof window !== 'undefined') window.ObjectArray = ObjectArray;

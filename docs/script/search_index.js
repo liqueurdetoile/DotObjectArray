@@ -6,381 +6,525 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber3",
-    "dot-object-array Module",
+    "objectarray#camelize objectarray#dashize src/index.js~objectarray#camelize,objectarray#camelize src/index.js~objectarray#dashize,objectarray#dashize",
+    "test-file/tests/objectarray.spec.js.html#lineNumber917",
+    "Camel and dash",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber96",
-    "dot-object-array Module Camel and dash",
+    "test-file/tests/objectarray.spec.js.html#lineNumber918",
+    "Camel and dash should camelize space and dashed strings",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber97",
-    "dot-object-array Module Camel and dash should camelize space and dashed strings",
+    "test-file/tests/objectarray.spec.js.html#lineNumber929",
+    "Camel and dash should dashize space and uppercase letter",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber108",
-    "dot-object-array Module Camel and dash should dashize space and uppercase letter",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber223",
-    "dot-object-array Module Check key/value",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber240",
-    "dot-object-array Module Check key/value Loose equality",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber224",
-    "dot-object-array Module Check key/value Strict equality",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber36",
-    "dot-object-array Module Cloning ObjectArray",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber60",
-    "dot-object-array Module Cloning ObjectArray should return a clone",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber44",
-    "dot-object-array Module Cloning ObjectArray should return a clone",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber37",
-    "dot-object-array Module Cloning ObjectArray should return a clone",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber76",
-    "dot-object-array Module Cloning ObjectArray should return a clone",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber560",
-    "dot-object-array Module Fetch and getset",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber561",
-    "dot-object-array Module Fetch and getset should getset data and throw an exception if inexistent key",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber592",
-    "dot-object-array Module Fetch and getset should pull data and returns undefined if inexistent key",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber257",
-    "dot-object-array Module Flatten ObjectArray",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber265",
-    "dot-object-array Module Flatten ObjectArray should change nothing if data already flattened",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber258",
-    "dot-object-array Module Flatten ObjectArray should change nothing if data empty",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber275",
-    "dot-object-array Module Flatten ObjectArray should flatten dataset",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber301",
-    "dot-object-array Module Flatten ObjectArray should flatten dataset and dot keys",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber288",
-    "dot-object-array Module Flatten ObjectArray should flatten dataset and replace",
+    "test-file/tests/objectarray.spec.js.html#lineNumber316",
+    "Check key/value",
     "test"
   ],
   [
     "",
     "test-file/tests/objectarray.spec.js.html#lineNumber333",
-    "dot-object-array Module Flatten ObjectArray should flatten subdataset",
+    "Check key/value Loose equality",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber349",
-    "dot-object-array Module Flatten ObjectArray should flatten subdataset and dot keys",
+    "test-file/tests/objectarray.spec.js.html#lineNumber317",
+    "Check key/value Strict equality",
+    "test"
+  ],
+  [
+    "objectarray#clone objectarray#flatten src/index.js~objectarray#clone,objectarray#clone src/index.js~objectarray#flatten,objectarray#flatten",
+    "test-file/tests/objectarray.spec.js.html#lineNumber88",
+    "Cloning ObjectArray",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber314",
-    "dot-object-array Module Flatten ObjectArray should flatten subdataset and no change",
+    "test-file/tests/objectarray.spec.js.html#lineNumber129",
+    "Cloning ObjectArray should restore data in clone after dotted flattening original",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber327",
-    "dot-object-array Module Flatten ObjectArray should throw an exception if key does not exist",
+    "test-file/tests/objectarray.spec.js.html#lineNumber113",
+    "Cloning ObjectArray should restore data in clone after flattening original",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber171",
-    "dot-object-array Module Has key, data fetch and parent data fetch",
+    "test-file/tests/objectarray.spec.js.html#lineNumber90",
+    "Cloning ObjectArray should return a clone with empty data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber189",
-    "dot-object-array Module Has key, data fetch and parent data fetch should find data",
+    "test-file/tests/objectarray.spec.js.html#lineNumber97",
+    "Cloning ObjectArray should return a clone with nested data",
+    "test"
+  ],
+  [
+    "objectarray#data src/index.js~objectarray#data,objectarray#data",
+    "test-file/tests/objectarray.spec.js.html#lineNumber8",
+    "Data getter and setter",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber172",
-    "dot-object-array Module Has key, data fetch and parent data fetch should find key",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber209",
-    "dot-object-array Module Has key, data fetch and parent data fetch should find parent key",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber736",
-    "dot-object-array Module Import JSON and change keys",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber737",
-    "dot-object-array Module Import JSON and change keys should import JSON and change keys",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber4",
-    "dot-object-array Module ObjectArray Instance creation",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber10",
-    "dot-object-array Module ObjectArray Instance creation should create a data instance of ObjectArray",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber5",
-    "dot-object-array Module ObjectArray Instance creation should create a void instance of ObjectArray",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber21",
-    "dot-object-array Module ObjectArray Instance creation should preserve ObjectArray data if ObjectArray is given in arguments",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber610",
-    "dot-object-array Module ObjectArray iterations",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber676",
-    "dot-object-array Module ObjectArray iterations should import a style type string",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber611",
-    "dot-object-array Module ObjectArray iterations should iterate a callback with forEach",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber631",
-    "dot-object-array Module ObjectArray iterations should iterate a callback with forEach on a dotted key",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber653",
-    "dot-object-array Module ObjectArray iterations should reduce the data",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber724",
-    "dot-object-array Module ObjectArray iterations should return a form url encoded string",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber666",
-    "dot-object-array Module ObjectArray iterations should return a style type string",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber713",
-    "dot-object-array Module ObjectArray iterations should return a url encoded string",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber706",
-    "dot-object-array Module ObjectArray iterations should throw an exception if bad string provided",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber121",
-    "dot-object-array Module ObjectArray length, keys and values",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber132",
-    "dot-object-array Module ObjectArray length, keys and values should returns keys",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber122",
-    "dot-object-array Module ObjectArray length, keys and values should returns length",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber152",
-    "dot-object-array Module ObjectArray length, keys and values should returns right keys and values for dotted object",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber142",
-    "dot-object-array Module ObjectArray length, keys and values should returns values",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber367",
-    "dot-object-array Module Push and delete data",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber494",
-    "dot-object-array Module Push and delete data should create all needed keys",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber472",
-    "dot-object-array Module Push and delete data should create all needed keys",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber375",
-    "dot-object-array Module Push and delete data should create all needed keys",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber368",
-    "dot-object-array Module Push and delete data should get and set data",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber530",
-    "dot-object-array Module Push and delete data should push dotted data",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber390",
-    "dot-object-array Module Push and delete data should push or import ObjectArray without losing data",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber516",
-    "dot-object-array Module Push and delete data should push simple data",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber538",
-    "dot-object-array Module Push and delete data should remove dotted data",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber522",
-    "dot-object-array Module Push and delete data should remove simple data",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber547",
-    "dot-object-array Module Push and delete data should throw an exception if key not a string",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber553",
-    "dot-object-array Module Push and delete data should throw an exception if parent key is not a string",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber440",
-    "dot-object-array Module Push and delete data should use pull as an alias to dataset",
+    "test-file/tests/objectarray.spec.js.html#lineNumber9",
+    "Data getter and setter should get and set data",
     "test"
   ],
   [
     "",
     "test-file/tests/objectarray.spec.js.html#lineNumber460",
-    "dot-object-array Module Push and delete data should use pull as an alias to dataset with parent key",
+    "Data manipulation",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber581",
+    "Data manipulation should create all needed keys",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber462",
+    "Data manipulation should create all needed keys",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber559",
+    "Data manipulation should create all needed keys",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber617",
+    "Data manipulation should push dotted data",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber477",
+    "Data manipulation should push or import ObjectArray without losing data",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber603",
+    "Data manipulation should push simple data",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber625",
+    "Data manipulation should remove dotted data",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber609",
+    "Data manipulation should remove simple data",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber634",
+    "Data manipulation should throw an exception if key not a string",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber640",
+    "Data manipulation should throw an exception if parent key is not a string",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber527",
+    "Data manipulation should use pull as an alias to dataset",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber547",
+    "Data manipulation should use pull as an alias to dataset with parent key",
+    "test"
+  ],
+  [
+    "objectarray#empty src/index.js~objectarray#empty,objectarray#empty",
+    "test-file/tests/objectarray.spec.js.html#lineNumber152",
+    "Empty ObjectArray or remove subset",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber180",
+    "Empty ObjectArray or remove subset should do nothing if key missing",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber166",
+    "Empty ObjectArray or remove subset should empty all data",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber171",
+    "Empty ObjectArray or remove subset should empty subset",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber176",
+    "Empty ObjectArray or remove subset should throw an exception if key missing",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber647",
+    "Fetch and getset",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber648",
+    "Fetch and getset should getset data and throw an exception if inexistent key",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber679",
+    "Fetch and getset should pull data and returns undefined if inexistent key",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber350",
+    "Flatten ObjectArray",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber358",
+    "Flatten ObjectArray should change nothing if data already flattened",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber351",
+    "Flatten ObjectArray should change nothing if data empty",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber368",
+    "Flatten ObjectArray should flatten dataset",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber394",
+    "Flatten ObjectArray should flatten dataset and dot keys",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber381",
+    "Flatten ObjectArray should flatten dataset and replace",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber426",
+    "Flatten ObjectArray should flatten subdataset",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber442",
+    "Flatten ObjectArray should flatten subdataset and dot keys",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber407",
+    "Flatten ObjectArray should flatten subdataset and no change",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber420",
+    "Flatten ObjectArray should throw an exception if key does not exist",
+    "test"
+  ],
+  [
+    "objectarray#throwing src/index.js~objectarray#throwing,objectarray#throwing",
+    "test-file/tests/objectarray.spec.js.html#lineNumber20",
+    "Global throwing behaviour override",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber21",
+    "Global throwing behaviour override should always throw an exception",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber29",
+    "Global throwing behaviour override should never throw an exception",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber252",
+    "Has key, data fetch and parent data fetch",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber270",
+    "Has key, data fetch and parent data fetch should find data",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber253",
+    "Has key, data fetch and parent data fetch should find key",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber302",
+    "Has key, data fetch and parent data fetch should find parent key",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber903",
+    "Import JSON and change keys",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber904",
+    "Import JSON and change keys should import JSON and change keys",
+    "test"
+  ],
+  [
+    "objectarray#_key src/index.js~objectarray#_key,objectarray#_key",
+    "test-file/tests/objectarray.spec.js.html#lineNumber57",
+    "Key constructor",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber59",
+    "Key constructor should return dotted key",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber67",
+    "Key constructor should return undefined",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber75",
+    "Key constructor should throw exception",
+    "test"
+  ],
+  [
+    "objectarray#length src/index.js~objectarray#length,objectarray#length",
+    "test-file/tests/objectarray.spec.js.html#lineNumber189",
+    "Length",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber204",
+    "Length should return undefined if key missing",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber192",
+    "Length should returns length",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber200",
+    "Length should throw an exception if key missing",
+    "test"
+  ],
+  [
+    "objectarray#constructor src/index.js~objectarray#constructor,objectarray#constructor",
+    "test-file/tests/constructor.spec.js.html#lineNumber6",
+    "ObjectArray constructor",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/constructor.spec.js.html#lineNumber13",
+    "ObjectArray constructor should create a data instance of ObjectArray",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/constructor.spec.js.html#lineNumber25",
+    "ObjectArray constructor should create a nested data instance of ObjectArray",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/constructor.spec.js.html#lineNumber7",
+    "ObjectArray constructor should create a void instance of ObjectArray",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/constructor.spec.js.html#lineNumber43",
+    "ObjectArray constructor should preserve ObjectArray data if ObjectArray is given in arguments",
+    "test"
+  ],
+  [
+    "objectarray#foreach objectarray#reduce src/index.js~objectarray#foreach,objectarray#foreach src/index.js~objectarray#reduce,objectarray#reduce",
+    "test-file/tests/objectarray.spec.js.html#lineNumber700",
+    "ObjectArray iterations",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber760",
+    "ObjectArray iterations should do nothing with forEach and bad key",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber701",
+    "ObjectArray iterations should iterate a callback with forEach",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber724",
+    "ObjectArray iterations should iterate a callback with forEach on a dotted key",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber777",
+    "ObjectArray iterations should reduce the data",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber791",
+    "ObjectArray iterations should reduce the data of a subset",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber749",
+    "ObjectArray iterations should throw an exception with forEach",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber209",
+    "ObjectArray keys and values",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber211",
+    "ObjectArray keys and values should returns keys",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber233",
+    "ObjectArray keys and values should returns right keys and values for dotted object",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber222",
+    "ObjectArray keys and values should returns values",
+    "test"
+  ],
+  [
+    "objectarray#pkey src/index.js~objectarray#pkey,objectarray#pkey",
+    "test-file/tests/objectarray.spec.js.html#lineNumber41",
+    "Parent key memorizer",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber43",
+    "Parent key memorizer should use memorizer when using data read/write methods",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber808",
+    "Serializers",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber832",
+    "Serializers should import a style type string",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber880",
+    "Serializers should return a form url encoded string",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber809",
+    "Serializers should return a style type string",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber819",
+    "Serializers should return a style type string from subset or undefined",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber869",
+    "Serializers should return a url encoded string",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber891",
+    "Serializers should return undefined as form url encoded string with unknown key",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber862",
+    "Serializers should throw an exception if bad string provided",
     "test"
   ],
   [
@@ -684,10 +828,22 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/index.js~objectarray#_pkey",
+    "class/src/index.js~ObjectArray.html#instance-member-_pKey",
+    "src/index.js~ObjectArray#_pKey",
+    "member"
+  ],
+  [
     "src/index.js~objectarray#_recurseflatten",
     "class/src/index.js~ObjectArray.html#instance-method-_recurseFlatten",
     "src/index.js~ObjectArray#_recurseFlatten",
     "method"
+  ],
+  [
+    "src/index.js~objectarray#_throw",
+    "class/src/index.js~ObjectArray.html#instance-member-_throw",
+    "src/index.js~ObjectArray#_throw",
+    "member"
   ],
   [
     "src/index.js~objectarray#camelize",
@@ -798,6 +954,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/index.js~objectarray#pkey",
+    "class/src/index.js~ObjectArray.html#instance-method-pKey",
+    "src/index.js~ObjectArray#pKey",
+    "method"
+  ],
+  [
     "src/index.js~objectarray#parentkey",
     "class/src/index.js~ObjectArray.html#instance-method-parentKey",
     "src/index.js~ObjectArray#parentKey",
@@ -837,6 +999,12 @@ window.esdocSearchIndex = [
     "src/index.js~objectarray#stylestostring",
     "class/src/index.js~ObjectArray.html#instance-method-stylesToString",
     "src/index.js~ObjectArray#stylesToString",
+    "method"
+  ],
+  [
+    "src/index.js~objectarray#throwing",
+    "class/src/index.js~ObjectArray.html#instance-method-throwing",
+    "src/index.js~ObjectArray#throwing",
     "method"
   ],
   [
@@ -880,6 +1048,12 @@ window.esdocSearchIndex = [
     "typedef/index.html#static-typedef-dottedKey",
     "src/typedef.jsdoc~dottedKey",
     "typedef"
+  ],
+  [
+    "tests/constructor.spec.js",
+    "test-file/tests/constructor.spec.js.html",
+    "tests/constructor.spec.js",
+    "testFile"
   ],
   [
     "tests/objectarray.spec.js",

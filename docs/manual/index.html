@@ -39,10 +39,10 @@
 <li data-ice="manualNav" class="indent-h4" data-link="manual/index.html"><a href="manual/index.html#unpkg" data-ice="link">Unpkg</a></li>
 <li data-ice="manualNav" class="indent-h4" data-link="manual/index.html"><a href="manual/index.html#local-install" data-ice="link">Local install</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/index.html"><a href="manual/index.html#create-an-instance" data-ice="link">Create an instance</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/index.html"><a href="manual/index.html#configuring-objectarray-behaviour-when-a-required-key-doesn--39-t-exist" data-ice="link">Configuring ObjectArray behaviour when a required key doesn&apos;t exist</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/index.html"><a href="manual/index.html#data-managemement" data-ice="link">Data managemement</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/index.html"><a href="manual/index.html#raw-data-getter-and-setter" data-ice="link">Raw data getter and setter</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/index.html"><a href="manual/index.html#fetch-dataset" data-ice="link">Fetch dataset</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/index.html"><a href="manual/index.html#typeerror-exception-when-key-does-not-exist" data-ice="link">TypeError exception when key does not exist</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/index.html"><a href="manual/index.html#push-data" data-ice="link">Push data</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/index.html"><a href="manual/index.html#import-data" data-ice="link">Import data</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/index.html"><a href="manual/index.html#push-and-import-in-dataset" data-ice="link">Push and import in dataset</a></li>
@@ -103,6 +103,11 @@ var test = {
 
 var doa = new ObjectArray(test);</code>
 </code></pre>
+<h2 id="configuring-objectarray-behaviour-when-a-required-key-doesn--39-t-exist">Configuring ObjectArray behaviour when a required key doesn&apos;t exist</h2><p>In version 1.x, a non-existent key yields to an <code>undefined</code> returned value.</p>
+<p>In version 2.x, a non-existent key data request raises an exception except for some methods that can leverage a throwable trigger.</p>
+<p>Since version 3.x, the behaviour can be configure per method call or override globally. Each data request have a predefined behaviour
+given its goal. For instance, the empty method will throw an exception by default and a dataset call will return undefined by default.</p>
+<p>Please check <a href="https://liqueurdetoile.github.io/DotObjectArray/docs/identifiers.html">API reference</a> for details.</p>
 <h2 id="data-managemement">Data managemement</h2><h3 id="raw-data-getter-and-setter">Raw data getter and setter</h3><p>The whole data object will be accessible and mutable through the <code>data</code> property :</p>
 <pre><code class="lang-javascript"><code class="source-code prettyprint">var doa = new ObjectArray();
 // Set the data
@@ -128,8 +133,6 @@ console.log(doa.pull(&apos;dat.long&apos;)) //Output {path: &apos;fixture1&apos;
 </code></pre>
 <p>Calling <code>doa.dataset()</code> will return the whole data object.</p>
 <p>Using <code>doa.dataset(&apos;dat.stupid.path.to.things&apos;)</code> will throw a TypeError because keys don&apos;t exist.</p>
-<h3 id="typeerror-exception-when-key-does-not-exist">TypeError exception when key does not exist</h3><p>By default, all data queries methods with parameters (keys, values, dataset, ...) will throw a TypeError if key does not exist.
-With <code>pull</code> and <code>getset</code>, you can set the throwable parameter to <code>false</code> to disable throwing exception and return <code>undefined</code> instead.</p>
 <h3 id="push-data">Push data</h3><p>As an array, you can push data by calling the <code>push</code> method of the ObjectArray. You can use dotted key notation and ObjectArray will take care to create all needed keys.</p>
 <pre><code class="lang-javascript"><code class="source-code prettyprint">var doa = new ObjectArray();
 doa.push(&apos;dat.really.long.path&apos;, &apos;fixture&apos;);

@@ -108,6 +108,16 @@ doa.pull('dat.long.and.far.away.key');
 
 // And many more !
 ```
+## Configuring ObjectArray behaviour when a required key doesn't exist
+In version 1.x, a non-existent key yields to an `undefined` returned value.
+
+In version 2.x, a non-existent key data request raises an exception except for some methods that can leverage a throwable trigger.
+
+Since version 3.x, the behaviour can be configure per method call or override globally. Each data request have a predefined behaviour
+given its goal. For instance, the empty method will throw an exception by default and a dataset call will return undefined by default.
+
+Please check [API reference](https://liqueurdetoile.github.io/DotObjectArray/docs/identifiers.html) for details.
+
 ## Playground
 If you want to go further and try a bit, you [can go to the playground](https://jsfiddle.net/dx03k9sL/19/).
 
