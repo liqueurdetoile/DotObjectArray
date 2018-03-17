@@ -82,10 +82,10 @@
 
 h3 .right-info {
   font-size: 0.6em;
+  position: relative;
+  display: block;
   text-align: right;
-  float: right;
-  margin-left: 1em;
-  padding-top: 1em;
+  padding-top: 0.5em;
 }
 
 .version, .since {

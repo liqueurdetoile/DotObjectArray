@@ -25,10 +25,56 @@ For three reasons :
 ## Features
 DOA is an object with a set of methods to :
 - Check, push, get and store data with ease regardless of its level
-- Brings some array-like behaviours for convenience (you know <tt>forEach</tt>, eh ?)
-- Easy to use data serializers and parsers
+- Bring some array-like behaviours for convenience (you know `forEach` for arrays, eh ?)
+- Provide data serializers and parsers
 - Work as well on a whole dataset or a key-based sub-selection of the dataset
+- Ease management of options default values
 
+## Quick examples
+```javascript
+// Import data at creation
+var doa = new ObjectArray({
+	item1: 3,
+ item2: 12,
+ item3: 5
+});
+
+// Add data
+doa.push('item4', 4); // Single item or dataset
+doa.import({
+  item5: 5,
+  item6: 6
+});
+
+// Add data with dotted notations
+doa.push('dat.long.darn.key','isntIt?'); // Will automatically create each keys
+
+// Define default values
+// Will keep value if existent or create keys with value if not
+doa.define('options.section1.item14', true);
+
+//Iterate on keys at root level or in sub dataset
+doa.forEach(function(value, key, index) {
+ [...]
+});
+doa.forEach(function(value, key, index) {
+ [...]
+}, 'dat.path.to.data');
+
+// Sub dataset import
+doa.import({
+ subitem1: 1,
+ subitem2: 'astring',
+ subitem3: {obj: really}
+}, 'dat.long.and.far.away.key');
+
+// sub dataset access
+doa.dataset('dat.long.and.far.away.key');
+// or
+doa.pull('dat.long.and.far.away.key');
+
+// And many more !
+```
 ## Installation
 ### Module
 The ObjectArray class is provided as a UMD module.
@@ -44,7 +90,7 @@ Then simply require/import it :
 import ObjectArray from 'dot-object-array';
 const ObjectArray = require('dot-object-array').default;
 ```
-ObjectArray have been built on a ECMA6 class with webpack a named default export.
+ObjectArray have been coded with ECMA6 class standard.
 
 ### Browser
 DOA is available as CDN external link or can easily be installed locally.
@@ -67,47 +113,6 @@ For browser install, you can simply fetch file `dist/objectarray.min.js` in this
 ```
 An ObjectArray constructor will be added to global (window) scope.
 
-## Quick examples
-```javascript
-// Import data at creation
-var doa = new ObjectArray({
-	item1: 3,
- item2: 12,
- item3: 5
-});
-
-//Add data
-doa.push('item4', 4); // Single item or dataset
-doa.import({
-  item5: 5,
-  item6: 6
-});
-
-//Add data with dotted notations
-doa.push('dat.long.darn.key','isntIt?'); // Will automatically create each keys
-
-//Iterate on keys at root level or in sub dataset
-doa.forEach(function(value, key, index) {
- [...]
-});
-doa.forEach(function(value, key, index) {
- [...]
-}, 'dat.path.to.data');
-
-// Sub dataset import
-doa.import({
- subitem1: 1,
- subitem2: 'astring',
- subitem3: {obj: really}
-}, 'dat.long.and.far.away.key');
-
-//sub dataset access
-doa.dataset('dat.long.and.far.away.key');
-// or
-doa.pull('dat.long.and.far.away.key');
-
-// And many more !
-```
 ## Configuring ObjectArray behaviour when a required key doesn't exist
 In version 1.x, a non-existent key yields to an `undefined` returned value.
 
@@ -122,7 +127,9 @@ Please check [API reference](https://liqueurdetoile.github.io/DotObjectArray/doc
 If you want to go further and try a bit, you [can go to the playground](https://jsfiddle.net/dx03k9sL/19/).
 
 ## Documentation
-A full documentation (manual and API reference) set is available : [https://liqueurdetoile.github.io/DotObjectArray](https://liqueurdetoile.github.io/DotObjectArray)
+A full documentation (manual and API reference) set is available :
+- [Manual](https://liqueurdetoile.github.io/DotObjectArray/manual/index.html)
+- [API reference](https://liqueurdetoile.github.io/DotObjectArray/identifiers.html)
 
 ## JSON support
 You can easily use ObjectArrays to manipulate JSON data. Just rely on JSON native object to import your JSON structure, manipulate it with ObjectArray ease and get it back at the end :wink:

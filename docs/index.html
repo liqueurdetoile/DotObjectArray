@@ -61,30 +61,11 @@
 <h2 id="features">Features</h2><p>DOA is an object with a set of methods to :</p>
 <ul>
 <li>Check, push, get and store data with ease regardless of its level</li>
-<li>Brings some array-like behaviours for convenience (you know &lt;tt&gt;forEach&lt;/tt&gt;, eh ?)</li>
-<li>Easy to use data serializers and parsers</li>
+<li>Bring some array-like behaviours for convenience (you know <code>forEach</code> for arrays, eh ?)</li>
+<li>Provide data serializers and parsers</li>
 <li>Work as well on a whole dataset or a key-based sub-selection of the dataset</li>
+<li>Ease management of options default values</li>
 </ul>
-<h2 id="installation">Installation</h2><h3 id="module">Module</h3><p>The ObjectArray class is provided as a UMD module.</p>
-<pre><code><code class="source-code prettyprint">npm install dot-object-array</code>
-</code></pre><p>or</p>
-<pre><code><code class="source-code prettyprint">yarn add dot-object-array</code>
-</code></pre><p>Then simply require/import it :</p>
-<pre><code class="lang-javascript"><code class="source-code prettyprint">import ObjectArray from &apos;dot-object-array&apos;;
-const ObjectArray = require(&apos;dot-object-array&apos;).default;</code>
-</code></pre>
-<p>ObjectArray have been built on a ECMA6 class with webpack a named default export.</p>
-<h3 id="browser">Browser</h3><p>DOA is available as CDN external link or can easily be installed locally.</p>
-<h4 id="bundle">Bundle</h4><pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;https://bundle.run/dot-object-array@latest&quot;&gt;&lt;/script&gt;</code>
-</code></pre>
-<h4 id="jsdelivr">JsDelivr</h4><pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.jsdelivr.net/npm/dot-object-array@latest&quot;&gt;&lt;/script&gt;</code>
-</code></pre>
-<h4 id="unpkg">Unpkg</h4><pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;https://unpkg.com/dot-object-array@latest&quot;&gt;&lt;/script&gt;</code>
-</code></pre>
-<h4 id="local-install">Local install</h4><p>For browser install, you can simply fetch file <code>dist/objectarray.min.js</code> in this repo or clone it and load it :</p>
-<pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;myJsFolder/objectarray.min.js&quot;&gt;&lt;/script&gt;</code>
-</code></pre>
-<p>An ObjectArray constructor will be added to global (window) scope.</p>
 <h2 id="quick-examples">Quick examples</h2><pre><code class="lang-javascript"><code class="source-code prettyprint">// Import data at creation
 var doa = new ObjectArray({
     item1: 3,
@@ -92,15 +73,19 @@ var doa = new ObjectArray({
  item3: 5
 });
 
-//Add data
+// Add data
 doa.push(&apos;item4&apos;, 4); // Single item or dataset
 doa.import({
   item5: 5,
   item6: 6
 });
 
-//Add data with dotted notations
+// Add data with dotted notations
 doa.push(&apos;dat.long.darn.key&apos;,&apos;isntIt?&apos;); // Will automatically create each keys
+
+// Define default values
+// Will keep value if existent or create keys with value if not
+doa.define(&apos;options.section1.item14&apos;, true);
 
 //Iterate on keys at root level or in sub dataset
 doa.forEach(function(value, key, index) {
@@ -117,20 +102,44 @@ doa.import({
  subitem3: {obj: really}
 }, &apos;dat.long.and.far.away.key&apos;);
 
-//sub dataset access
+// sub dataset access
 doa.dataset(&apos;dat.long.and.far.away.key&apos;);
 // or
 doa.pull(&apos;dat.long.and.far.away.key&apos;);
 
 // And many more !</code>
 </code></pre>
+<h2 id="installation">Installation</h2><h3 id="module">Module</h3><p>The ObjectArray class is provided as a UMD module.</p>
+<pre><code><code class="source-code prettyprint">npm install dot-object-array</code>
+</code></pre><p>or</p>
+<pre><code><code class="source-code prettyprint">yarn add dot-object-array</code>
+</code></pre><p>Then simply require/import it :</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">import ObjectArray from &apos;dot-object-array&apos;;
+const ObjectArray = require(&apos;dot-object-array&apos;).default;</code>
+</code></pre>
+<p>ObjectArray have been coded with ECMA6 class standard.</p>
+<h3 id="browser">Browser</h3><p>DOA is available as CDN external link or can easily be installed locally.</p>
+<h4 id="bundle">Bundle</h4><pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;https://bundle.run/dot-object-array@latest&quot;&gt;&lt;/script&gt;</code>
+</code></pre>
+<h4 id="jsdelivr">JsDelivr</h4><pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.jsdelivr.net/npm/dot-object-array@latest&quot;&gt;&lt;/script&gt;</code>
+</code></pre>
+<h4 id="unpkg">Unpkg</h4><pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;https://unpkg.com/dot-object-array@latest&quot;&gt;&lt;/script&gt;</code>
+</code></pre>
+<h4 id="local-install">Local install</h4><p>For browser install, you can simply fetch file <code>dist/objectarray.min.js</code> in this repo or clone it and load it :</p>
+<pre><code class="lang-html"><code class="source-code prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;myJsFolder/objectarray.min.js&quot;&gt;&lt;/script&gt;</code>
+</code></pre>
+<p>An ObjectArray constructor will be added to global (window) scope.</p>
 <h2 id="configuring-objectarray-behaviour-when-a-required-key-doesn--39-t-exist">Configuring ObjectArray behaviour when a required key doesn&apos;t exist</h2><p>In version 1.x, a non-existent key yields to an <code>undefined</code> returned value.</p>
 <p>In version 2.x, a non-existent key data request raises an exception except for some methods that can leverage a throwable trigger.</p>
 <p>Since version 3.x, the behaviour can be configure per method call or override globally. Each data request have a predefined behaviour
 given its goal. For instance, the empty method will throw an exception by default and a dataset call will return undefined by default.</p>
 <p>Please check <a href="https://liqueurdetoile.github.io/DotObjectArray/docs/identifiers.html">API reference</a> for details.</p>
 <h2 id="playground">Playground</h2><p>If you want to go further and try a bit, you <a href="https://jsfiddle.net/dx03k9sL/19/">can go to the playground</a>.</p>
-<h2 id="documentation">Documentation</h2><p>A full documentation (manual and API reference) set is available : <a href="https://liqueurdetoile.github.io/DotObjectArray">https://liqueurdetoile.github.io/DotObjectArray</a></p>
+<h2 id="documentation">Documentation</h2><p>A full documentation (manual and API reference) set is available :</p>
+<ul>
+<li><a href="https://liqueurdetoile.github.io/DotObjectArray/manual/index.html">Manual</a></li>
+<li><a href="https://liqueurdetoile.github.io/DotObjectArray/identifiers.html">API reference</a></li>
+</ul>
 <h2 id="json-support">JSON support</h2><p>You can easily use ObjectArrays to manipulate JSON data. Just rely on JSON native object to import your JSON structure, manipulate it with ObjectArray ease and get it back at the end :wink:</p>
 <pre><code class="lang-javascript"><code class="source-code prettyprint">var jstring = &apos;{&quot;dat&quot;: {&quot;long&quot;: {&quot;path&quot;: &quot;foo&quot;, &quot;dream&quot;: &quot;baz&quot;}}}&apos;;
 var doa = new ObjectArray(JSON.parse(jstring));

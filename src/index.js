@@ -17,7 +17,7 @@
 *  @license MIT {@https://github.com/liqueurdetoile/DotObjectArray/blob/master/LICENSE}
 */
 
-export default class ObjectArray {
+export class ObjectArray {
   /**
   *  @param {Object}  [data={}] Initial data to import
   *  @example
@@ -579,6 +579,31 @@ export default class ObjectArray {
   }
 
   /**
+  *  Coalesce method to define a default value if a key is not set.
+  *
+  *  Never use if you want to store `undefined` as values.
+  *
+  *  __This method is obviously useless if the ObjectArray is set
+  *  to throw an exception when encountering an undefined key__
+  *
+  *  @since 3.1.0
+  *  @version 1.0.0
+  *  @author Liqueur de Toile <contact@liqueurdetoile.com>
+  *
+  *  @param {dottedKey} key Key to define
+  *  @param {Number|String|Array|Object} val Default value for the key
+  *  @param {dottedKey} [pKey] Description for pKey
+  *
+  *  @returns {this} Chainable
+  */
+  define(key, val, pKey) {
+    let v = this.pull(key, pKey);
+
+    if (typeof v === 'undefined') return this.push(key, val, pKey);
+    return this;
+  }
+
+  /**
   *  Remove key/value data
   *
   *  @since 1.1.0
@@ -818,3 +843,5 @@ export default class ObjectArray {
       .replace(/ /g, (m, o, s) => s[o + 1] === '-' ? '' : '-');
   }
 }
+
+export default ObjectArray;

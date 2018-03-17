@@ -39,7 +39,7 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import ObjectArray from &apos;<span><a href="file/src/index.js.html#lineNumber20">dot-object-array/src/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {ObjectArray} from &apos;<span><a href="file/src/index.js.html#lineNumber20">dot-object-array/src/index.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
@@ -455,6 +455,35 @@
     <td>
       <span class="version" data-ice="version">version 2.0.0</span>
       <span class="since" data-ice="since">since 1.0.0</span>
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/index.js~ObjectArray.html#instance-method-define">define</a></span></span><span class="code" data-ice="signature">(key: <span><a href="typedef/index.html#static-typedef-dottedKey">dottedKey</a></span>, val: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, pKey: <span><a href="typedef/index.html#static-typedef-dottedKey">dottedKey</a></span>): <span>this</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p> Coalesce method to define a default value if a key is not set.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      <span class="version" data-ice="version">version 1.0.0</span>
+      <span class="since" data-ice="since">since 3.1.0</span>
     </td>
   </tr>
 <tr data-ice="target">
@@ -1458,7 +1487,7 @@
     <span class="right-info">
       <span class="version" data-ice="version">version 1.0.0</span>
       <span class="since" data-ice="since">since 1.2.0</span>
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber800">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber825">source</a></span></span>
     </span>
   </h3>
 
@@ -1792,7 +1821,7 @@
     <span class="right-info">
       <span class="version" data-ice="version">version 1.0.0</span>
       <span class="since" data-ice="since">since 1.2.0</span>
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber815">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber840">source</a></span></span>
     </span>
   </h3>
 
@@ -1959,6 +1988,103 @@
   
 
   
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-define">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">define</span><span class="code" data-ice="signature">(key: <span><a href="typedef/index.html#static-typedef-dottedKey">dottedKey</a></span>, val: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, pKey: <span><a href="typedef/index.html#static-typedef-dottedKey">dottedKey</a></span>): <span>this</span></span>
+    <span class="right-info">
+      <span class="version" data-ice="version">version 1.0.0</span>
+      <span class="since" data-ice="since">since 3.1.0</span>
+      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber599">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p> Coalesce method to define a default value if a key is not set.</p>
+<p> Never use if you want to store <code>undefined</code> as values.</p>
+<p> <strong>This method is obviously useless if the ObjectArray is set
+ to throw an exception when encountering an undefined key</strong></p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">key</td>
+      <td data-ice="type" class="code"><span><a href="typedef/index.html#static-typedef-dottedKey">dottedKey</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Key to define</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">val</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Default value for the key</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">pKey</td>
+      <td data-ice="type" class="code"><span><a href="typedef/index.html#static-typedef-dottedKey">dottedKey</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>Description for pKey</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span>this</span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>Chainable</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <div data-ice="tests">
+    <h4>Test:</h4>
+    <ul>
+      
+    <li data-ice="test"><span><a href="test-file/tests/objectarray.fallback.spec.js.html#lineNumber6">ObjectArray define function</a></span></li>
+</ul>
+  </div>
 
   
   
@@ -2192,7 +2318,7 @@
     <span class="right-info">
       <span class="version" data-ice="version">version 2.0.0</span>
       <span class="since" data-ice="since">since 1.0.0</span>
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber649">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber674">source</a></span></span>
     </span>
   </h3>
 
@@ -2306,7 +2432,7 @@
     <span class="right-info">
       <span class="version" data-ice="version">version 2.0.0</span>
       <span class="since" data-ice="since">since 1.0.0</span>
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber783">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber808">source</a></span></span>
     </span>
   </h3>
 
@@ -2620,7 +2746,7 @@
     <span class="right-info">
       <span class="version" data-ice="version">version 1.1.0</span>
       <span class="since" data-ice="since">since 1.0.0</span>
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber628">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber653">source</a></span></span>
     </span>
   </h3>
 
@@ -3270,7 +3396,7 @@
     <span class="right-info">
       <span class="version" data-ice="version">version 2.0.0</span>
       <span class="since" data-ice="since">since 1.0.0</span>
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber674">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber699">source</a></span></span>
     </span>
   </h3>
 
@@ -3392,7 +3518,7 @@
     <span class="right-info">
       <span class="version" data-ice="version">version 2.0.0</span>
       <span class="since" data-ice="since">since 1.1.0</span>
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber594">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber619">source</a></span></span>
     </span>
   </h3>
 
@@ -3493,7 +3619,7 @@
     <span class="right-info">
       <span class="version" data-ice="version">version 1.0.3</span>
       <span class="since" data-ice="since">since 1.2.0</span>
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber725">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber750">source</a></span></span>
     </span>
   </h3>
 
@@ -3576,7 +3702,7 @@
     <span class="right-info">
       <span class="version" data-ice="version">version 2.0.0</span>
       <span class="since" data-ice="since">since 1.0.0</span>
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber703">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber728">source</a></span></span>
     </span>
   </h3>
 
@@ -3765,7 +3891,7 @@
     <span class="right-info">
       <span class="version" data-ice="version">version 2.0.0</span>
       <span class="since" data-ice="since">since 1.0.0</span>
-      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber760">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/index.js.html#lineNumber785">source</a></span></span>
     </span>
   </h3>
 

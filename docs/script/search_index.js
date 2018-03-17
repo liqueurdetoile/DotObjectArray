@@ -91,6 +91,12 @@ window.esdocSearchIndex = [
   ],
   [
     "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber559",
+    "Data manipulation should create all needed keys",
+    "test"
+  ],
+  [
+    "",
     "test-file/tests/objectarray.spec.js.html#lineNumber581",
     "Data manipulation should create all needed keys",
     "test"
@@ -98,12 +104,6 @@ window.esdocSearchIndex = [
   [
     "",
     "test-file/tests/objectarray.spec.js.html#lineNumber462",
-    "Data manipulation should create all needed keys",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber559",
     "Data manipulation should create all needed keys",
     "test"
   ],
@@ -399,6 +399,30 @@ window.esdocSearchIndex = [
     "",
     "test-file/tests/constructor.spec.js.html#lineNumber43",
     "ObjectArray constructor should preserve ObjectArray data if ObjectArray is given in arguments",
+    "test"
+  ],
+  [
+    "objectarray#define src/index.js~objectarray#define,objectarray#define",
+    "test-file/tests/objectarray.fallback.spec.js.html#lineNumber6",
+    "ObjectArray define function",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.fallback.spec.js.html#lineNumber21",
+    "ObjectArray define function should create a default value for new dotted key",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.fallback.spec.js.html#lineNumber15",
+    "ObjectArray define function should create a default value for new key",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.fallback.spec.js.html#lineNumber27",
+    "ObjectArray define function should not override existent value",
     "test"
   ],
   [
@@ -900,6 +924,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/index.js~objectarray#define",
+    "class/src/index.js~ObjectArray.html#instance-method-define",
+    "src/index.js~ObjectArray#define",
+    "method"
+  ],
+  [
     "src/index.js~objectarray#empty",
     "class/src/index.js~ObjectArray.html#instance-method-empty",
     "src/index.js~ObjectArray#empty",
@@ -1053,6 +1083,12 @@ window.esdocSearchIndex = [
     "tests/constructor.spec.js",
     "test-file/tests/constructor.spec.js.html",
     "tests/constructor.spec.js",
+    "testFile"
+  ],
+  [
+    "tests/objectarray.fallback.spec.js",
+    "test-file/tests/objectarray.fallback.spec.js.html",
+    "tests/objectarray.fallback.spec.js",
     "testFile"
   ],
   [
