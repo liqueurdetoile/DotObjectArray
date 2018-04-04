@@ -12,6 +12,6 @@ module.exports = merge(base, {
   },
   plugins: [
     new CleanWebpackPlugin(['dev'], {root: path.resolve('./')}),
-    new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin()
   ]
 });

@@ -19,7 +19,7 @@ module.exports = {
         loader: 'eslint-loader',
         exclude: /node_modules/,
         options: {
-          fix: true,
+          fix: true
         }
       }
     ]
@@ -27,5 +27,5 @@ module.exports = {
   resolve: {
     modules: [path.resolve('./node_modules'), path.resolve('./src')],
     extensions: ['.json', '.js']
-  },
-}
+  }
+};

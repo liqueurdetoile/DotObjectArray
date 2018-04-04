@@ -24,37 +24,36 @@
 *
 */
 
-/**  
+/**
 *  The function passed as a callback in a {@link forEach} iteration.
-*  
+*
 *  Four arguments will be provided to the callback :
 *  1. `value` {{@link Object}}  : Value stored in the current iteration key
 *  2. `key` {{@link String}}  : Current key in iteration
 *  3. `index` {{@link Object}}  : Current index in iteration
 *  4. `path` {{@link Object}|{@link undefined}}  : Path to the key
 *  It will be `undefined` if the key is at first level
-*  
+*
 *  @typedef {Function} ForEachCallback
 */
 
 /**
 *  The function passed as a callback in a {@link reduce} iteration.
-*  
+*
 *  Four arguments will be provided to the callback :
 *  1. `acc` {{@link Object}}  : Recursive accumulator value
 *  2. `value` {{@link Object}}  : Value stored in the current iteration key
 *  2. `key` {{@link String}}  : Current key in iteration
 *  4. `path` {{@link Object}|{@link undefined}}  : Path to the key
 *  It will be `undefined` if the key is at first level
-*  
+*
 *  @typedef {Function} ReducerCallback
 */
 
 /**
 *  Returned object by getset
-*  
+*
 *  @typedef {Object} GetSetObject
 *  @property {number|string|array|object} get Value returned by the getter
 *  @property  {boolean} set `true` if setter mode or `false`
 */
-
