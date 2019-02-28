@@ -978,45 +978,45 @@ describe(&apos;Camel and dash&apos;, function () {
     e.dashize(&apos;paddingLeft&apos;).should.equal(&apos;padding-left&apos;);
     e.dashize(&apos;PaddingLeft&apos;).should.equal(&apos;padding-left&apos;);
   });
+});
 
-  /**
-   * @test #{ObjectArray#has}
-   * @test #{ObjectArray#_key}
-   * @test #{ObjectArray#pull}
-   * @see https://github.com/liqueurdetoile/DotObjectArray/issues/1
-   */
-  describe(&apos;Should return undefined when _key is called on null object&apos;, function () {
-    it(&apos;should return undefined if key does not exist under an empty object&apos;, function () {
-      let e = new ObjectArray({object: {foo: {}}});
+/**
+ * @test #{ObjectArray#has}
+ * @test #{ObjectArray#_key}
+ * @test #{ObjectArray#pull}
+ * @see https://github.com/liqueurdetoile/DotObjectArray/issues/1
+ */
+describe(&apos;Check subkey existence evaluation on various data types&apos;, function () {
+  it(&apos;should return undefined if key does not exist under an empty object&apos;, function () {
+    let e = new ObjectArray({object: {foo: {}}});
 
-      e.has(&apos;object.foo.bar&apos;).should.be.false;
-      expect(e._key(&apos;object.foo.bar&apos;)).to.be.undefined;
-      expect(e.pull(&apos;object.foo.bar&apos;)).to.be.undefined;
-    });
+    e.has(&apos;object.foo.bar&apos;).should.be.false;
+    expect(e._key(&apos;object.foo.bar&apos;)).to.be.undefined;
+    expect(e.pull(&apos;object.foo.bar&apos;)).to.be.undefined;
+  });
 
-    it(&apos;should return undefined if key does not exist under a boolean value&apos;, function () {
-      let e = new ObjectArray({object: {foo: true}});
+  it(&apos;should return undefined if key does not exist under a boolean value&apos;, function () {
+    let e = new ObjectArray({object: {foo: true}});
 
-      e.has(&apos;object.foo.bar&apos;).should.be.false;
-      expect(e._key(&apos;object.foo.bar&apos;)).to.be.undefined;
-      expect(e.pull(&apos;object.foo.bar&apos;)).to.be.undefined;
-    });
+    e.has(&apos;object.foo.bar&apos;).should.be.false;
+    expect(e._key(&apos;object.foo.bar&apos;)).to.be.undefined;
+    expect(e.pull(&apos;object.foo.bar&apos;)).to.be.undefined;
+  });
 
-    it(&apos;should return undefined if key does not exist under a null value&apos;, function () {
-      let e = new ObjectArray({object: {foo: null}});
+  it(&apos;should return undefined if key does not exist under a null value&apos;, function () {
+    let e = new ObjectArray({object: {foo: null}});
 
-      e.has(&apos;object.foo.bar&apos;).should.be.false;
-      expect(e._key(&apos;object.foo.bar&apos;)).to.be.undefined;
-      expect(e.pull(&apos;object.foo.bar&apos;)).to.be.undefined;
-    });
+    e.has(&apos;object.foo.bar&apos;).should.be.false;
+    expect(e._key(&apos;object.foo.bar&apos;)).to.be.undefined;
+    expect(e.pull(&apos;object.foo.bar&apos;)).to.be.undefined;
+  });
 
-    it(&apos;should return undefined if key does not exist under a string value&apos;, function () {
-      let e = new ObjectArray({object: {foo: &apos;test&apos;}});
+  it(&apos;should return undefined if key does not exist under a string value&apos;, function () {
+    let e = new ObjectArray({object: {foo: &apos;test&apos;}});
 
-      e.has(&apos;object.foo.bar&apos;).should.be.false;
-      expect(e._key(&apos;object.foo.bar&apos;)).to.be.undefined;
-      expect(e.pull(&apos;object.foo.bar&apos;)).to.be.undefined;
-    });
+    e.has(&apos;object.foo.bar&apos;).should.be.false;
+    expect(e._key(&apos;object.foo.bar&apos;)).to.be.undefined;
+    expect(e.pull(&apos;object.foo.bar&apos;)).to.be.undefined;
   });
 });
 </code></pre>

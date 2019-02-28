@@ -12,36 +12,6 @@ window.esdocSearchIndex = [
     "test"
   ],
   [
-    "* * * *,* *,* *,*",
-    "test-file/tests/objectarray.spec.js.html#lineNumber947",
-    "Camel and dash Should return undefined when _key is called on null object",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber956",
-    "Camel and dash Should return undefined when _key is called on null object should return undefined if key does not exist under a boolean value",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber964",
-    "Camel and dash Should return undefined when _key is called on null object should return undefined if key does not exist under a null value",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber972",
-    "Camel and dash Should return undefined when _key is called on null object should return undefined if key does not exist under a string value",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber948",
-    "Camel and dash Should return undefined when _key is called on null object should return undefined if key does not exist under an empty object",
-    "test"
-  ],
-  [
     "",
     "test-file/tests/objectarray.spec.js.html#lineNumber918",
     "Camel and dash should camelize space and dashed strings",
@@ -69,6 +39,36 @@ window.esdocSearchIndex = [
     "",
     "test-file/tests/objectarray.spec.js.html#lineNumber317",
     "Check key/value Strict equality",
+    "test"
+  ],
+  [
+    "* * * *,* *,* *,*",
+    "test-file/tests/objectarray.spec.js.html#lineNumber948",
+    "Check subkey existence evaluation on various data types",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber957",
+    "Check subkey existence evaluation on various data types should return undefined if key does not exist under a boolean value",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber965",
+    "Check subkey existence evaluation on various data types should return undefined if key does not exist under a null value",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber973",
+    "Check subkey existence evaluation on various data types should return undefined if key does not exist under a string value",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber949",
+    "Check subkey existence evaluation on various data types should return undefined if key does not exist under an empty object",
     "test"
   ],
   [
