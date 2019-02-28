@@ -274,7 +274,7 @@ export class ObjectArray {
   *  Check if a given key exists in the ObjectArray
   *
   *  @since 1.0.0
-  *  @version 1.1.1
+  *  @version 1.1.2
   *  @author Liqueur de Toile <contact@liqueurdetoile.com>
   *
   *  @param {dottedKey}  key Key
@@ -291,7 +291,7 @@ export class ObjectArray {
     for (i = 0; i < key.length; i++) {
       k = key[i];
 
-      if (typeof data[k] === 'undefined') return false;
+      if (data === null || typeof data[k] === 'undefined') return false;
       data = data[k];
     }
     return true;
@@ -352,8 +352,8 @@ export class ObjectArray {
       }
       return data;
     }
-    return undefined;
 
+    return undefined;
   }
 
   /**

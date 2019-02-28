@@ -12,6 +12,36 @@ window.esdocSearchIndex = [
     "test"
   ],
   [
+    "* * * *,* *,* *,*",
+    "test-file/tests/objectarray.spec.js.html#lineNumber947",
+    "Camel and dash Should return undefined when _key is called on null object",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber956",
+    "Camel and dash Should return undefined when _key is called on null object should return undefined if key does not exist under a boolean value",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber964",
+    "Camel and dash Should return undefined when _key is called on null object should return undefined if key does not exist under a null value",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber972",
+    "Camel and dash Should return undefined when _key is called on null object should return undefined if key does not exist under a string value",
+    "test"
+  ],
+  [
+    "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber948",
+    "Camel and dash Should return undefined when _key is called on null object should return undefined if key does not exist under an empty object",
+    "test"
+  ],
+  [
     "",
     "test-file/tests/objectarray.spec.js.html#lineNumber918",
     "Camel and dash should camelize space and dashed strings",
@@ -91,6 +121,12 @@ window.esdocSearchIndex = [
   ],
   [
     "",
+    "test-file/tests/objectarray.spec.js.html#lineNumber462",
+    "Data manipulation should create all needed keys",
+    "test"
+  ],
+  [
+    "",
     "test-file/tests/objectarray.spec.js.html#lineNumber559",
     "Data manipulation should create all needed keys",
     "test"
@@ -98,12 +134,6 @@ window.esdocSearchIndex = [
   [
     "",
     "test-file/tests/objectarray.spec.js.html#lineNumber581",
-    "Data manipulation should create all needed keys",
-    "test"
-  ],
-  [
-    "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber462",
     "Data manipulation should create all needed keys",
     "test"
   ],
