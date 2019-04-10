@@ -7,67 +7,67 @@ window.esdocSearchIndex = [
   ],
   [
     "objectarray#camelize objectarray#dashize src/index.js~objectarray#camelize,objectarray#camelize src/index.js~objectarray#dashize,objectarray#dashize",
-    "test-file/tests/objectarray.spec.js.html#lineNumber917",
+    "test-file/tests/objectarray.spec.js.html#lineNumber925",
     "Camel and dash",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber918",
+    "test-file/tests/objectarray.spec.js.html#lineNumber926",
     "Camel and dash should camelize space and dashed strings",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber929",
+    "test-file/tests/objectarray.spec.js.html#lineNumber937",
     "Camel and dash should dashize space and uppercase letter",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber316",
+    "test-file/tests/objectarray.spec.js.html#lineNumber317",
     "Check key/value",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber333",
+    "test-file/tests/objectarray.spec.js.html#lineNumber334",
     "Check key/value Loose equality",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber317",
+    "test-file/tests/objectarray.spec.js.html#lineNumber318",
     "Check key/value Strict equality",
     "test"
   ],
   [
     "* * * *,* *,* *,*",
-    "test-file/tests/objectarray.spec.js.html#lineNumber948",
+    "test-file/tests/objectarray.spec.js.html#lineNumber956",
     "Check subkey existence evaluation on various data types",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber957",
+    "test-file/tests/objectarray.spec.js.html#lineNumber965",
     "Check subkey existence evaluation on various data types should return undefined if key does not exist under a boolean value",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber965",
+    "test-file/tests/objectarray.spec.js.html#lineNumber973",
     "Check subkey existence evaluation on various data types should return undefined if key does not exist under a null value",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber973",
+    "test-file/tests/objectarray.spec.js.html#lineNumber981",
     "Check subkey existence evaluation on various data types should return undefined if key does not exist under a string value",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber949",
+    "test-file/tests/objectarray.spec.js.html#lineNumber957",
     "Check subkey existence evaluation on various data types should return undefined if key does not exist under an empty object",
     "test"
   ],
@@ -115,79 +115,79 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber460",
+    "test-file/tests/objectarray.spec.js.html#lineNumber461",
     "Data manipulation",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber462",
+    "test-file/tests/objectarray.spec.js.html#lineNumber463",
     "Data manipulation should create all needed keys",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber559",
+    "test-file/tests/objectarray.spec.js.html#lineNumber560",
     "Data manipulation should create all needed keys",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber581",
+    "test-file/tests/objectarray.spec.js.html#lineNumber582",
     "Data manipulation should create all needed keys",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber617",
+    "test-file/tests/objectarray.spec.js.html#lineNumber618",
     "Data manipulation should push dotted data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber477",
+    "test-file/tests/objectarray.spec.js.html#lineNumber478",
     "Data manipulation should push or import ObjectArray without losing data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber603",
+    "test-file/tests/objectarray.spec.js.html#lineNumber604",
     "Data manipulation should push simple data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber625",
+    "test-file/tests/objectarray.spec.js.html#lineNumber626",
     "Data manipulation should remove dotted data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber609",
+    "test-file/tests/objectarray.spec.js.html#lineNumber610",
     "Data manipulation should remove simple data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber634",
+    "test-file/tests/objectarray.spec.js.html#lineNumber635",
     "Data manipulation should throw an exception if key not a string",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber640",
+    "test-file/tests/objectarray.spec.js.html#lineNumber641",
     "Data manipulation should throw an exception if parent key is not a string",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber527",
+    "test-file/tests/objectarray.spec.js.html#lineNumber528",
     "Data manipulation should use pull as an alias to dataset",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber547",
+    "test-file/tests/objectarray.spec.js.html#lineNumber548",
     "Data manipulation should use pull as an alias to dataset with parent key",
     "test"
   ],
@@ -199,103 +199,103 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber180",
+    "test-file/tests/objectarray.spec.js.html#lineNumber181",
     "Empty ObjectArray or remove subset should do nothing if key missing",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber166",
+    "test-file/tests/objectarray.spec.js.html#lineNumber167",
     "Empty ObjectArray or remove subset should empty all data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber171",
+    "test-file/tests/objectarray.spec.js.html#lineNumber172",
     "Empty ObjectArray or remove subset should empty subset",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber176",
+    "test-file/tests/objectarray.spec.js.html#lineNumber177",
     "Empty ObjectArray or remove subset should throw an exception if key missing",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber647",
+    "test-file/tests/objectarray.spec.js.html#lineNumber648",
     "Fetch and getset",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber648",
+    "test-file/tests/objectarray.spec.js.html#lineNumber649",
     "Fetch and getset should getset data and throw an exception if inexistent key",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber679",
+    "test-file/tests/objectarray.spec.js.html#lineNumber680",
     "Fetch and getset should pull data and returns undefined if inexistent key",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber350",
+    "test-file/tests/objectarray.spec.js.html#lineNumber351",
     "Flatten ObjectArray",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber358",
+    "test-file/tests/objectarray.spec.js.html#lineNumber359",
     "Flatten ObjectArray should change nothing if data already flattened",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber351",
+    "test-file/tests/objectarray.spec.js.html#lineNumber352",
     "Flatten ObjectArray should change nothing if data empty",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber368",
+    "test-file/tests/objectarray.spec.js.html#lineNumber369",
     "Flatten ObjectArray should flatten dataset",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber394",
+    "test-file/tests/objectarray.spec.js.html#lineNumber395",
     "Flatten ObjectArray should flatten dataset and dot keys",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber381",
+    "test-file/tests/objectarray.spec.js.html#lineNumber382",
     "Flatten ObjectArray should flatten dataset and replace",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber426",
+    "test-file/tests/objectarray.spec.js.html#lineNumber427",
     "Flatten ObjectArray should flatten subdataset",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber442",
+    "test-file/tests/objectarray.spec.js.html#lineNumber443",
     "Flatten ObjectArray should flatten subdataset and dot keys",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber407",
+    "test-file/tests/objectarray.spec.js.html#lineNumber408",
     "Flatten ObjectArray should flatten subdataset and no change",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber420",
+    "test-file/tests/objectarray.spec.js.html#lineNumber421",
     "Flatten ObjectArray should throw an exception if key does not exist",
     "test"
   ],
@@ -319,37 +319,37 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber252",
+    "test-file/tests/objectarray.spec.js.html#lineNumber253",
     "Has key, data fetch and parent data fetch",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber270",
+    "test-file/tests/objectarray.spec.js.html#lineNumber271",
     "Has key, data fetch and parent data fetch should find data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber253",
+    "test-file/tests/objectarray.spec.js.html#lineNumber254",
     "Has key, data fetch and parent data fetch should find key",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber302",
+    "test-file/tests/objectarray.spec.js.html#lineNumber303",
     "Has key, data fetch and parent data fetch should find parent key",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber903",
+    "test-file/tests/objectarray.spec.js.html#lineNumber911",
     "Import JSON and change keys",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber904",
+    "test-file/tests/objectarray.spec.js.html#lineNumber912",
     "Import JSON and change keys should import JSON and change keys",
     "test"
   ],
@@ -379,25 +379,25 @@ window.esdocSearchIndex = [
   ],
   [
     "objectarray#length src/index.js~objectarray#length,objectarray#length",
-    "test-file/tests/objectarray.spec.js.html#lineNumber189",
+    "test-file/tests/objectarray.spec.js.html#lineNumber190",
     "Length",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber204",
+    "test-file/tests/objectarray.spec.js.html#lineNumber205",
     "Length should return undefined if key missing",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber192",
+    "test-file/tests/objectarray.spec.js.html#lineNumber193",
     "Length should returns length",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber200",
+    "test-file/tests/objectarray.spec.js.html#lineNumber201",
     "Length should throw an exception if key missing",
     "test"
   ],
@@ -457,67 +457,67 @@ window.esdocSearchIndex = [
   ],
   [
     "objectarray#foreach objectarray#reduce src/index.js~objectarray#foreach,objectarray#foreach src/index.js~objectarray#reduce,objectarray#reduce",
-    "test-file/tests/objectarray.spec.js.html#lineNumber700",
+    "test-file/tests/objectarray.spec.js.html#lineNumber701",
     "ObjectArray iterations",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber760",
+    "test-file/tests/objectarray.spec.js.html#lineNumber765",
     "ObjectArray iterations should do nothing with forEach and bad key",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber701",
+    "test-file/tests/objectarray.spec.js.html#lineNumber702",
     "ObjectArray iterations should iterate a callback with forEach",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber724",
+    "test-file/tests/objectarray.spec.js.html#lineNumber727",
     "ObjectArray iterations should iterate a callback with forEach on a dotted key",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber777",
+    "test-file/tests/objectarray.spec.js.html#lineNumber782",
     "ObjectArray iterations should reduce the data",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber791",
+    "test-file/tests/objectarray.spec.js.html#lineNumber796",
     "ObjectArray iterations should reduce the data of a subset",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber749",
+    "test-file/tests/objectarray.spec.js.html#lineNumber754",
     "ObjectArray iterations should throw an exception with forEach",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber209",
+    "test-file/tests/objectarray.spec.js.html#lineNumber210",
     "ObjectArray keys and values",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber211",
+    "test-file/tests/objectarray.spec.js.html#lineNumber212",
     "ObjectArray keys and values should returns keys",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber233",
+    "test-file/tests/objectarray.spec.js.html#lineNumber234",
     "ObjectArray keys and values should returns right keys and values for dotted object",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber222",
+    "test-file/tests/objectarray.spec.js.html#lineNumber223",
     "ObjectArray keys and values should returns values",
     "test"
   ],
@@ -535,49 +535,49 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber808",
+    "test-file/tests/objectarray.spec.js.html#lineNumber813",
     "Serializers",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber832",
+    "test-file/tests/objectarray.spec.js.html#lineNumber837",
     "Serializers should import a style type string",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber880",
+    "test-file/tests/objectarray.spec.js.html#lineNumber886",
     "Serializers should return a form url encoded string",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber809",
+    "test-file/tests/objectarray.spec.js.html#lineNumber814",
     "Serializers should return a style type string",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber819",
+    "test-file/tests/objectarray.spec.js.html#lineNumber824",
     "Serializers should return a style type string from subset or undefined",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber869",
+    "test-file/tests/objectarray.spec.js.html#lineNumber874",
     "Serializers should return a url encoded string",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber891",
+    "test-file/tests/objectarray.spec.js.html#lineNumber898",
     "Serializers should return undefined as form url encoded string with unknown key",
     "test"
   ],
   [
     "",
-    "test-file/tests/objectarray.spec.js.html#lineNumber862",
+    "test-file/tests/objectarray.spec.js.html#lineNumber867",
     "Serializers should throw an exception if bad string provided",
     "test"
   ],

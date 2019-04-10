@@ -192,6 +192,7 @@ describe(&apos;Cloning ObjectArray&apos;, function () {
 */
 describe(&apos;Empty ObjectArray or remove subset&apos;, function () {
   let i;
+
   let data = {
     test1: &apos;fixture&apos;,
     test2: {
@@ -741,7 +742,9 @@ describe(&apos;Fetch and getset&apos;, function () {
 describe(&apos;ObjectArray iterations&apos;, function () {
   it(&apos;should iterate a callback with forEach&apos;, function () {
     let i = new ObjectArray();
+
     let ret = {};
+
     let indexes = [];
 
     i.import({
@@ -764,7 +767,9 @@ describe(&apos;ObjectArray iterations&apos;, function () {
 
   it(&apos;should iterate a callback with forEach on a dotted key&apos;, function () {
     let i = new ObjectArray();
+
     let ret = {};
+
     let indexes = [];
 
     i.import({
@@ -913,6 +918,7 @@ describe(&apos;Serializers&apos;, function () {
       glob: &apos;**/*&apos;,
       alias: &apos;test fixture&apos;
     });
+
     let ret = i.urlEncode();
 
     ret.should.equal(&apos;input=test&amp;glob=**%2F*&amp;alias=test%20fixture&apos;);
@@ -924,6 +930,7 @@ describe(&apos;Serializers&apos;, function () {
       glob: &apos;**/*&apos;,
       alias: &apos;test fixture&apos;
     });
+
     let ret = i.formUrlEncode();
 
     ret.should.equal(&apos;input=test&amp;glob=**%2F*&amp;alias=test+fixture&apos;);
@@ -935,6 +942,7 @@ describe(&apos;Serializers&apos;, function () {
       glob: &apos;**/*&apos;,
       alias: &apos;test fixture&apos;
     });
+
     let ret = i.formUrlEncode(&apos;dat.bad.key&apos;, undefined, false);
 
     expect(ret).to.be.undefined;
