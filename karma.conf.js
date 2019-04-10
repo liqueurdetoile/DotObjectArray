@@ -40,11 +40,14 @@ module.exports = function (config) {
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     // reporters: ['progress', 'coverage-istanbul', 'coveralls'],
-    reporters: ['progress', 'coverage-istanbul'],
-    coverageIstanbulReporter: {
-      reports: ['html', 'lcovonly'],
+    reporters: ['progress', 'coverage'],
+    coverageReporter: {
       dir: './coverage',
-      fixWebpackSourcePaths: true
+      reporters: [
+        { type: 'html', subdir: '.'},
+        { type: 'lcov', subdir: '.'},
+        { type: 'text-summary' }
+      ]
     },
 
     // web server port
