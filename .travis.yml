@@ -1,6 +1,8 @@
 language: node_js
 node_js:
   - "node"
+before_deploy:
+- npm run prepub
 deploy:
   - provider: script
     skip_cleanup: true
@@ -8,7 +10,10 @@ deploy:
      - npx semantic-release
   - provider: releases
     api_key: $GITHUB_TOKEN
-    file: "dist/objectarray.min.js"
+    file_glob: true
+    file:
+      - "dist/objectarray.min.js"
+      - "docs/*"
     skip_cleanup: true
     on:
       tags: true
