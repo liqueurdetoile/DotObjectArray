@@ -47,7 +47,7 @@
     "esdoc-inject-script-plugin": "^1.0.0",
     "esdoc-inject-style-plugin": "^1.0.0",
     "esdoc-standard-plugin": "^1.0.0",
-    "eslint": "^5.16.0",
+    "eslint": "^6.3.0",
     "eslint-loader": "^3.0.0",
     "karma": "^4.0.1",
     "karma-babel-preprocessor": "^8.0.0",
