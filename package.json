@@ -36,7 +36,7 @@
     "ajv": "^6.10.0",
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8",
-    "babel-plugin-istanbul": "^5.1.0",
+    "babel-plugin-istanbul": "^6.0.0",
     "chai": "^4.2.0",
     "clean-webpack-plugin": "^3.0.0",
     "color-themes-for-google-code-prettify": "^2.0.4",
