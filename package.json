@@ -23,7 +23,7 @@
     "build": "webpack --config webpack.conf/build.js",
     "test": "cross-env BABEL_ENV=test karma start --single-run --browsers PhantomJS && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "test:dry": "cross-env BABEL_ENV=test karma start --single-run --browsers ChromeHeadless",
-    "test:dev": "cross-env BABEL_ENV=test karma start",
+    "test:watch": "cross-env BABEL_ENV=test karma start --browsers ChromeHeadless",
     "docs": "esdoc",
     "prepub": "npm run test:dry && npm run build && npm run docs"
   },
